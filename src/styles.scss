@@ -1,11 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: #143E7B;
+    font: Roboto;
 }
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+.brand-color-1 {
+    color: #143E7B !important;
+}
+
+.brand-color-2 {
+    color: #0CB3C9!important;
+}
+
+.brand-bg-color-1 {
+    background-color: #143E7B  !important;
+}
+
+.brand-bg-color-2 {
+    background-color: #0CB3C9  !important;
+}
