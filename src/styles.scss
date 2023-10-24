@@ -7,22 +7,27 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #143E7B;
+    // background-color: #091833 !important;
+    color: #0CB3C9 !important;
     font: Roboto;
 }
 
-.brand-color-1 {
-    color: #143E7B !important;
+.yggdrasil-color-1 {
+    color: #EC17DB !important;
 }
 
-.brand-color-2 {
-    color: #0CB3C9!important;
+.yggdrasil-color-2 {
+    color: #0CB3C9 !important;
 }
 
-.brand-bg-color-1 {
+.yggdrasil-color-3 {
+    color: #A848D6 !important;
+}
+
+.yggdrasil-bg-color-1 {
+    background-color: #091833 !important;
+}
+
+.yggdrasil-bg-color-2 {
     background-color: #143E7B  !important;
-}
-
-.brand-bg-color-2 {
-    background-color: #0CB3C9  !important;
 }

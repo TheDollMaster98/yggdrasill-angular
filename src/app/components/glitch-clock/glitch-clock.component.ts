@@ -1,54 +1,78 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { DashboardService } from 'src/app/service/dashboard.service';
 
 @Component({
   selector: 'app-glitch-clock',
   templateUrl: './glitch-clock.component.html',
   styleUrls: ['./glitch-clock.component.scss'],
 })
-export class GlitchClockComponent implements OnInit, OnDestroy {
-  targetDate: Date; // La data a cui fare il conto alla rovescia
-  remainingTime: number = 10; // Il tempo rimanente in secondi
-  timer: any; // Il timer
+export class GlitchClockComponent implements OnInit {
+  @Input() days: number | undefined;
+  countdownTime: string | undefined;
 
-  constructor() {
-    // Imposta la data di destinazione (esempio: 10 minuti dalla data corrente)
-    this.targetDate = new Date();
-    this.targetDate.setMinutes(this.targetDate.getMinutes() + 10);
-  }
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit() {
-    this.startTimer();
+    // Recupera il conto alla rovescia memorizzato in localStorage
+    const storedCountdown = this.dashboardService.getStoredCountdown();
+
+    if (storedCountdown) {
+      // Se è presente un conto alla rovescia memorizzato, utilizzalo
+      this.countdownTime = storedCountdown;
+      this.startCountdown(this.parseCountdown(storedCountdown));
+    } else if (this.days) {
+      // Altrimenti, se hai specificato i giorni, inizia un nuovo conto alla rovescia
+      this.startCountdown(this.days * 24 * 3600);
+    }
   }
 
-  ngOnDestroy() {
-    this.stopTimer();
-  }
+  startCountdown(seconds: number) {
+    let remainingTime = seconds;
+    this.updateCountdown(remainingTime);
 
-  startTimer() {
-    this.timer = setInterval(() => {
-      const currentTime = new Date().getTime();
-      const timeDifference = this.targetDate.getTime() - currentTime;
+    const countdownInterval = setInterval(() => {
+      remainingTime--;
 
-      if (timeDifference <= 0) {
-        this.remainingTime = 0;
-        this.stopTimer();
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+        //GG:HH:MM:SS
+        this.countdownTime = '00:00:00:00';
+        // cose appena terminato
       } else {
-        this.remainingTime = Math.floor(timeDifference / 1000); // Converti in secondi
+        this.updateCountdown(remainingTime);
       }
-    }, 1000); // Aggiorna il timer ogni secondo
+    }, 1000);
   }
 
-  stopTimer() {
-    clearInterval(this.timer);
-  }
-
-  formatTime(seconds: number): string {
+  updateCountdown(seconds: number) {
+    const days = Math.floor(seconds / (24 * 3600));
+    seconds -= days * 24 * 3600;
+    const hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${this.padNumber(minutes)}:${this.padNumber(remainingSeconds)}`;
+    seconds = seconds % 60;
+
+    this.countdownTime = `${this.formatTimeUnit(days)}:${this.formatTimeUnit(
+      hours
+    )}:${this.formatTimeUnit(minutes)}:${this.formatTimeUnit(seconds)}`;
+
+    // Salva il conto alla rovescia in localStorage
+    this.dashboardService.storeCountdown(this.countdownTime);
   }
 
-  padNumber(num: number): string {
-    return num < 10 ? `0${num}` : num.toString();
+  formatTimeUnit(unit: number): string {
+    return unit < 10 ? '0' + unit : unit.toString();
+  }
+
+  parseCountdown(countdown: string): number {
+    const parts = countdown.split(':');
+    if (parts.length !== 4) {
+      return 0;
+    }
+    const days = parseInt(parts[0], 10);
+    const hours = parseInt(parts[1], 10);
+    const minutes = parseInt(parts[2], 10);
+    const seconds = parseInt(parts[3], 10);
+    return days * 24 * 3600 + hours * 3600 + minutes * 60 + seconds;
   }
 }
