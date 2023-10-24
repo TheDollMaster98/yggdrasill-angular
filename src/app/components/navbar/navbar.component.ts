@@ -6,7 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor() {}
+  isClockOff = true;
+  currentTime = '';
 
-  ngOnInit(): void {}
+  constructor() {
+    setTimeout(() => this.secondPassed(), 2000);
+
+    setInterval(() => {
+      const now = new Date();
+      const hours = this.formatTimeUnit(now.getHours());
+      const minutes = this.formatTimeUnit(now.getMinutes());
+      const seconds = this.formatTimeUnit(now.getSeconds());
+      this.currentTime = `${hours} : ${minutes} : ${seconds}`;
+    }, 1000);
+  }
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  secondPassed() {
+    this.isClockOff = false;
+  }
+
+  formatTimeUnit(unit: number) {
+    return unit < 10 ? '0' + unit : unit.toString();
+  }
 }

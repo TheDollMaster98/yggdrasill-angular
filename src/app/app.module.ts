@@ -6,11 +6,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GlitchClockComponent } from './components/glitch-clock/glitch-clock.component';
+import { DashboardComponent } from './components/pages/dashboard/dashboard.page';
+import { DashboardService } from './service/dashboard.service';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, GlitchClockComponent],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    GlitchClockComponent,
+    DashboardComponent,
+  ],
   imports: [BrowserModule, NgbModule],
-  providers: [],
+  providers: [DashboardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
