@@ -4,10 +4,13 @@ import { AppComponent } from './app.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GlitchClockComponent } from './components/glitch-clock/glitch-clock.component';
 import { DashboardComponent } from './components/pages/dashboard/dashboard.page';
 import { DashboardService } from './service/dashboard.service';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -15,8 +18,9 @@ import { DashboardService } from './service/dashboard.service';
     NavbarComponent,
     GlitchClockComponent,
     DashboardComponent,
+    CarouselComponent,
   ],
-  imports: [BrowserModule, NgbModule],
+  imports: [BrowserModule, NgbModule, HttpClientModule],
   providers: [DashboardService],
   bootstrap: [AppComponent],
 })

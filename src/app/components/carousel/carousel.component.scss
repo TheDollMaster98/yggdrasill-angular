@@ -1,0 +1,31 @@
+*{
+  background-color: blueviolet;
+}
+.picsum-img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 500px; /* Imposta l'altezza del carosello */
+}
+
+.carousel-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Centra e ridimensiona l'immagine mantenendo l'aspetto */
+}
+
+/* Stile per la freccia a sinistra */
+.carousel-control-prev {
+  width: 3rem; /* Larghezza desiderata */
+  background-color: transparent; /* Sfondo trasparente */
+  color: #333; /* Colore delle frecce */
+  border: 2px solid #333; /* Bordo delle frecce */
+}
+
+/* Stile per la freccia a destra */
+.carousel-control-next {
+  width: 3rem; /* Larghezza desiderata */
+  background-color: transparent; /* Sfondo trasparente */
+  color: #333; /* Colore delle frecce */
+  border: 2px solid #333; /* Bordo delle frecce */
+}
