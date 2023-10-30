@@ -2,12 +2,15 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+//Orbitron:
+//font-family: 'Orbitron', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Orbitron:400,700');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    // background-color: #091833 !important;
+    background-color: #091833 !important; //da commentare in futuro
     color: #0CB3C9 !important;
     font: Roboto;
 }

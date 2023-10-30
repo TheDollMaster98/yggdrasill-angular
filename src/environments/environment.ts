@@ -11,7 +11,16 @@
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
+const apiUrl = 'http://localhost:3000'; //test locale
+// const apiUrl = 'http://localhost:3000/'; //test remoto
+
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000',
+
+  apiKey: 'your-api-key',
+  thirdPartyConfig: {
+    key: 'value',
+  },
+
+  countdown: apiUrl + '/api/countdown',
 };

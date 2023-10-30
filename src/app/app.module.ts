@@ -11,6 +11,9 @@ import { GlitchClockComponent } from './components/glitch-clock/glitch-clock.com
 import { DashboardComponent } from './components/pages/dashboard/dashboard.page';
 import { DashboardService } from './service/dashboard.service';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { ComingsoonComponent } from './components/pages/comingsoon/comingsoon.component';
+import { SocialLinksComponent } from './components/icon-component/social-links/social-links.component';
+import { WhiteLogoComponent } from './components/icon-component/white-logo/white-logo.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     GlitchClockComponent,
     DashboardComponent,
     CarouselComponent,
+    ComingsoonComponent,
+    SocialLinksComponent,
+    WhiteLogoComponent,
   ],
   imports: [BrowserModule, NgbModule, HttpClientModule],
   providers: [DashboardService],
