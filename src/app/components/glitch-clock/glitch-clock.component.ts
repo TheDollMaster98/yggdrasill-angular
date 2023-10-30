@@ -11,7 +11,6 @@ export class GlitchClockComponent implements OnInit {
   countdownTime: string | undefined;
 
   constructor(private dashboardService: DashboardService) {}
-
   ngOnInit() {
     // Recupera il conto alla rovescia memorizzato in localStorage
     const storedCountdown = this.dashboardService.getStoredCountdown();
