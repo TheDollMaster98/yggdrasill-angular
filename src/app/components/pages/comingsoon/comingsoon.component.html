@@ -1,12 +1,3 @@
-<!-- <div
-  class="container d-flex justify-content-center align-items-center flex-column full-size-window"
->
-  <app-white-logo></app-white-logo>
-  <app-glitch-clock [days]="5"></app-glitch-clock>
-  <div class="coming-soon">{{ text | uppercase }}</div>
-  <app-social-links class="mt-2"></app-social-links>
-</div> -->
-
 <div class="parent full-size-window">
   <div class="logo-container d-flex justify-content-center align-items-center">
     <app-white-logo></app-white-logo>
@@ -15,7 +6,7 @@
     <app-glitch-clock [days]="5"></app-glitch-clock>
   </div>
   <div
-    class="social-container d-flex justify-content-center align-items-center flex-column"
+    class="social-container d-flex justify-content-center align-self-start align-items-center flex-column"
   >
     <div class="coming-soon">{{ text | uppercase }}</div>
     <app-social-links class="mt-2"></app-social-links>
