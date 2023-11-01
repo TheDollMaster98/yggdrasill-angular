@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GlitchClockComponent implements OnInit {
   countdownTime: string | undefined = '99:99:99:99';
-  endDate: Date = new Date('2023-11-11T16:00:00');
+  endDate: Date = new Date('2023-11-11T11:11:11');
   showComingSoonMessage: boolean = false;
 
   ngOnInit() {
