@@ -11,11 +11,11 @@ export class SocialLinksComponent implements OnInit {
   ngOnInit(): void {}
 
   onTiktokClick() {
-    window.open('https://www.tiktok.com/@comingsoon');
+    window.open('https://www.tiktok.com/@yggdrasillproject');
   }
 
   onInstagramClick() {
-    window.open('https://www.instagram.com/comingsoon');
+    window.open('https://www.instagram.com/yggdrasill.project');
   }
 
   onLinkedInClick() {

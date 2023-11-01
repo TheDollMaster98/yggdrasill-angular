@@ -1,3 +1,12 @@
 <div class="countdown-timer">
-  <div class="time led-digital">{{ countdownTime }}</div>
+  <div class="led-digital" *ngIf="!showComingSoonMessage">
+    {{ countdownTime }}
+  </div>
+  <div
+    class="d-flex justify-content-center align-items-center flex-column"
+    *ngIf="showComingSoonMessage"
+  >
+    <span>Il sito sarà presto online! </span><br />
+    <span>seguiteci su IG per ulteriori aggiornamenti.</span>
+  </div>
 </div>
