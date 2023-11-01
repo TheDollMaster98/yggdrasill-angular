@@ -1,0 +1,25 @@
+[debug] [2023-11-01T14:33:51.742Z] ----------------------------------------------------------------------
+[debug] [2023-11-01T14:33:51.744Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Loris Dal Santo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2023-11-01T14:33:51.744Z] CLI Version:   12.8.0
+[debug] [2023-11-01T14:33:51.744Z] Platform:      win32
+[debug] [2023-11-01T14:33:51.745Z] Node Version:  v16.16.0
+[debug] [2023-11-01T14:33:51.746Z] Time:          Wed Nov 01 2023 15:33:51 GMT+0100 (Ora standard dell’Europa centrale)
+[debug] [2023-11-01T14:33:51.746Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-01T14:33:51.840Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-01T14:33:51.841Z] > authorizing via signed-in user (superlolli98@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\Loris Dal Santo\Documents\Projects\Angular\prova\yggdrasill-angular
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
