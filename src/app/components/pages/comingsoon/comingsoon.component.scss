@@ -4,6 +4,14 @@
     color: #f5f5f5 !important;
 }
 
+.div-icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 2.375rem;
+}
+
+
 .full-size-window {
     height: 100vh;
 }

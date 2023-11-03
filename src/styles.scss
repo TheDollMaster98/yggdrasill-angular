@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/bootstrap';
 //Orbitron:
 //font-family: 'Orbitron', sans-serif;
 @import url('https://fonts.googleapis.com/css?family=Orbitron:400,700');
@@ -34,4 +34,46 @@
 
 .yggdrasil-bg-color-2 {
     background-color: #143E7B  !important;
+}
+
+  //icons: 50x50 px = 3.125rem
+.tiktok {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-size: cover;
+    background-image: url('../src/assets/images/tiktok-logo-azzurro.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.instagram {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-size: cover;
+    background-image: url('../src/assets/images/instagram-logo-azzurro.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+
+.linkedin {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-size: cover;
+    background-image: url('../src/assets/images/linkedin-logo-azzurro.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+//200 x 200 px
+.white-logo {
+    width: 12.5rem;
+    height: 12.5rem;
+    background-size: cover;
+    background-image: url('../assets/images/yggdrasil-logo-bianco.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
 }

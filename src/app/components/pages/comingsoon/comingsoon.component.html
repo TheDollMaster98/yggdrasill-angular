@@ -2,7 +2,8 @@
   <div
     class="logo-container d-flex justify-content-center align-items-center vw-100"
   >
-    <app-white-logo></app-white-logo>
+    <!-- <app-white-logo></app-white-logo> -->
+    <div class="white-logo"></div>
   </div>
   <div
     class="clock-container d-flex justify-content-center align-items-center vw-100"
@@ -13,6 +14,11 @@
     class="social-container d-flex justify-content-center align-self-start align-items-center flex-column vw-100"
   >
     <div class="coming-soon">{{ text | uppercase }}</div>
-    <app-social-links class="mt-2"></app-social-links>
+    <!-- <app-social-links class="mt-2"></app-social-links> -->
+    <div class="div-icons mt-2">
+      <app-instagram-link></app-instagram-link>
+      <app-linkedin-link></app-linkedin-link>
+      <app-tiktok-link></app-tiktok-link>
+    </div>
   </div>
 </div>

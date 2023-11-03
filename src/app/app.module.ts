@@ -12,8 +12,11 @@ import { DashboardComponent } from './components/pages/dashboard/dashboard.page'
 import { DashboardService } from './service/dashboard.service';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { ComingsoonComponent } from './components/pages/comingsoon/comingsoon.component';
-import { SocialLinksComponent } from './components/icon-component/social-links/social-links.component';
 import { WhiteLogoComponent } from './components/icon-component/white-logo/white-logo.component';
+import { InstagramLinkComponent } from './components/icon-component/instagram-link/instagram-link.component';
+import { LinkedinLinkComponent } from './components/icon-component/linkedin-link/linkedin-link.component';
+import { TiktokLinkComponent } from './components/icon-component/tiktok-link/tiktok-link.component';
+import { YoutubeLinkComponent } from './components/icon-component/youtube-link/youtube-link.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +26,11 @@ import { WhiteLogoComponent } from './components/icon-component/white-logo/white
     DashboardComponent,
     CarouselComponent,
     ComingsoonComponent,
-    SocialLinksComponent,
     WhiteLogoComponent,
+    InstagramLinkComponent,
+    LinkedinLinkComponent,
+    TiktokLinkComponent,
+    YoutubeLinkComponent,
   ],
   imports: [BrowserModule, NgbModule, HttpClientModule],
   providers: [DashboardService],
