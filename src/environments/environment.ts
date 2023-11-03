@@ -2,6 +2,8 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { config } from 'src/config/config';
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
@@ -16,11 +18,10 @@ const apiUrl = 'http://localhost:3000'; //test locale
 
 export const environment = {
   production: false,
-
-  apiKey: 'your-api-key',
-  thirdPartyConfig: {
-    key: 'value',
-  },
+  /*
+    configurazioni nascoste di firebase: src/config.ts
+  */
+  firebaseConfig: config.firebaseConfig,
 
   countdown: apiUrl + '/api/countdown',
 };
