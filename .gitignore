@@ -7,8 +7,9 @@
 /bazel-out
 
 # firebase config
-/src/config.ts
-
+/src/config/config
+#ads giigke
+/src/js/ads
 # Node
 /node_modules
 npm-debug.log
