@@ -30,6 +30,15 @@
     cursor: pointer;
 }
 
+.youtube16 {
+    width: 1rem;
+    height: 1rem;
+    background-size: cover;
+    background-image: url('../../../assets/images/youtube-logo-azzurro.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
 //50x50 px
 .tiktok50 {
     width: 3.125rem;
@@ -57,6 +66,16 @@
     height: 3.125rem;
     background-size: cover;
     background-image: url('../../../assets/images/linkedin-logo-azzurro.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.youtube50 {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-size: cover;
+    background-image: url('../../../assets/images/youtube-logo-azzurro.svg');
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
