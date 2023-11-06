@@ -7,12 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'yggdrasill-angular';
-  constructor() {}
-
-  ngOnInit() {
-    // Carica il file TXT come script personalizzato
-    const script = document.createElement('script');
-    script.src = 'assets/js/ads.txt';
-    document.body.appendChild(script);
-  }
 }
