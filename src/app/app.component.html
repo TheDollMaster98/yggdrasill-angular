@@ -1,9 +1,31 @@
 <!--app:-->
 <!-- <dashboard-page></dashboard-page> -->
+<!--vecchio-->
 <!--timer:-->
-<div
+<!-- <div
   class="container d-flex justify-content-center align-items-center"
   style="min-height: 100vh"
 >
   <app-comingsoon></app-comingsoon>
+</div> -->
+
+<!--WIP-->
+<div class="app">
+  <div class="app-scroll">
+    <!-- <app-header></app-header> -->
+
+    <!-- <core-app-menu
+      *ngIf="!authService.isLoggedOut"
+      class="nav-menu"
+    ></core-app-menu> -->
+    <app-navbar></app-navbar>
+    <main [ngClass]="[getMainBackgroundColorClass(), 'tms-desktop']">
+      <div [ngClass]="[getRoutesBackgroundColorClass(), 'h-100']">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+    <!-- <app-footer></app-footer> -->
+  </div>
 </div>
+
+<!-- <wgt-spinner [showSpinner]="isLoading()" label="Loading"></wgt-spinner> -->

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './comingsoon.component.html',
   styleUrls: ['./comingsoon.component.scss'],
 })
-export class ComingsoonComponent implements OnInit {
+export class ComingsoonPage implements OnInit {
   constructor() {}
   text: string = 'coming soon';
   ngOnInit(): void {}

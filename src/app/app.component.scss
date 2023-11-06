@@ -1,0 +1,31 @@
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    &-menu {
+        height: 40px;
+    }
+ 
+    &-scroll {
+        flex-grow: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .tms-desktop {
+            flex-grow: 1;
+        }
+    }
+}
+ //WIP
+// .loaderContainer {
+//     left: 0;
+//     top: 0;
+//     right: 0;
+//     bottom: 0;
+//     background: rgba(48, 48, 48, 0.5);
+//     z-index: 999;
+//     position: fixed;
+// }
+ 

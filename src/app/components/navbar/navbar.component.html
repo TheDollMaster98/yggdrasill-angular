@@ -14,25 +14,61 @@
   <div class="d-flex justify-content-between w-100">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">Home</a>
+        <button
+          class="nav-link"
+          mat-menu-item
+          routerLink="/dashboard"
+          routerLinkActive="active text-white"
+        >
+          Home
+        </button>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Blog</a>
+        <button
+          class="nav-link"
+          mat-menu-item
+          routerLink="/dashboard"
+          routerLinkActive="active text-white"
+        >
+          Blog
+        </button>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Podcast</a>
+        <button
+          class="nav-link"
+          mat-menu-item
+          routerLink="/dashboard"
+          routerLinkActive="active text-white"
+        >
+          Podcast
+        </button>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Chi siamo</a>
+        <button
+          class="nav-link"
+          mat-menu-item
+          routerLink="/dashboard"
+          routerLinkActive="active text-white"
+        >
+          Chi siamo
+        </button>
       </li>
     </ul>
 
-    <div class="navbar-brand mx-auto">Yggdrasill</div>
+    <button
+      class="nav-link nav-font-logo"
+      mat-menu-item
+      routerLink=""
+      routerLinkActive="active text-white"
+    >
+      Yggdrasill
+    </button>
 
     <div class="d-flex align-items-center gap-2 custom-margin-social">
-      <div>FB</div>
-      <div>IG</div>
-      <div>TIKTOK</div>
+      <!-- 1.625rem = 26px -->
+      <app-instagram-link [size]="1.625"></app-instagram-link>
+      <app-linkedin-link [size]="1.625"></app-linkedin-link>
+      <app-tiktok-link [size]="1.625"></app-tiktok-link>
     </div>
   </div>
 </nav>
