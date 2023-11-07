@@ -26,6 +26,10 @@ import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
+import { WhoarePage } from './components/pages/whoare/whoare.component';
+import { PlatformLocation } from '@angular/common';
+import { MockPlatformLocation } from '@angular/common/testing';
+// import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
@@ -43,6 +47,7 @@ import { ArticleEditorPage } from './components/editor/article-editor/article-ed
     GdprComponent,
     PrivacyPolicyPage,
     ArticleEditorPage,
+    WhoarePage,
   ],
   imports: [
     BrowserModule,
@@ -51,8 +56,17 @@ import { ArticleEditorPage } from './components/editor/article-editor/article-ed
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
+    // SlickCarouselModule,
   ],
-  providers: [DashboardService],
+  providers: [
+    DashboardService,
+    [
+      {
+        provide: PlatformLocation,
+        useClass: MockPlatformLocation,
+      },
+    ],
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

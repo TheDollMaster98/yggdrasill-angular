@@ -5,6 +5,7 @@ import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-p
 import { ComingsoonPage } from './components/pages/comingsoon/comingsoon.component';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
+import { WhoarePage } from './components/pages/whoare/whoare.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'edit',
     component: ArticleEditorPage,
+  },
+  {
+    path: 'chi-siamo',
+    component: WhoarePage,
   },
 ];
 
