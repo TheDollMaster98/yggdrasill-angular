@@ -29,7 +29,7 @@ import { ArticleEditorPage } from './components/editor/article-editor/article-ed
 import { WhoarePage } from './components/pages/whoare/whoare.component';
 import { PlatformLocation } from '@angular/common';
 import { MockPlatformLocation } from '@angular/common/testing';
-// import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { CarouselSectionComponent } from './components/carousel-section/carousel-section.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +48,7 @@ import { MockPlatformLocation } from '@angular/common/testing';
     PrivacyPolicyPage,
     ArticleEditorPage,
     WhoarePage,
+    CarouselSectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +57,6 @@ import { MockPlatformLocation } from '@angular/common/testing';
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
-    // SlickCarouselModule,
   ],
   providers: [
     DashboardService,
