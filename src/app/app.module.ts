@@ -73,6 +73,8 @@ import { QuillModule } from 'ngx-quill';
           ],
         },
       ],
+      readOnly: false,
+      // scrollingContainer: null,
     }),
   ],
   providers: [

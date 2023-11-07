@@ -20,9 +20,7 @@ export class NavbarComponent implements OnInit {
       this.currentTime = `${hours} : ${minutes} : ${seconds}`;
     }, 1000);
   }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  ngOnInit(): void {}
 
   secondPassed() {
     this.isClockOff = false;
