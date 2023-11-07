@@ -31,6 +31,8 @@ import { PlatformLocation } from '@angular/common';
 import { MockPlatformLocation } from '@angular/common/testing';
 import { CarouselSectionComponent } from './components/carousel-section/carousel-section.component';
 
+import { QuillModule } from 'ngx-quill';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +59,21 @@ import { CarouselSectionComponent } from './components/carousel-section/carousel
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
+    QuillModule.forRoot({
+      customOptions: [
+        {
+          import: 'formats/font',
+          whitelist: [
+            'mirza',
+            'roboto',
+            'aref',
+            'serif',
+            'sansserif',
+            'monospace',
+          ],
+        },
+      ],
+    }),
   ],
   providers: [
     DashboardService,
