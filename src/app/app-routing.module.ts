@@ -4,6 +4,7 @@ import { DashboardPage } from './components/pages/dashboard/dashboard.page';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
 import { ComingsoonPage } from './components/pages/comingsoon/comingsoon.component';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
+import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'gdpr',
     component: GdprComponent,
+  },
+  {
+    path: 'edit',
+    component: ArticleEditorPage,
   },
 ];
 

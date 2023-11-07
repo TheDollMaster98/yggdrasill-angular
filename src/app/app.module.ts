@@ -25,6 +25,7 @@ import { environment } from 'src/environments/environment';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { AppRoutingModule } from './app-routing.module';
     YoutubeLinkComponent,
     GdprComponent,
     PrivacyPolicyPage,
+    ArticleEditorPage,
   ],
   imports: [
     BrowserModule,
