@@ -1,6 +1,18 @@
 <div>
   <h2>Editor di Articoli</h2>
 
+  <div *ngIf="articleForm.get('articleTitle')!.value">
+    <h3>Anteprima Articolo:</h3>
+    <app-article-preview
+      [articleTitle]="articleForm.get('articleTitle')!.value"
+      [publishDate]="articleForm.get('publishDate')!.value"
+      [author]="articleForm.get('author')!.value"
+      [genre]="articleForm.get('genre')!.value"
+      [articleContent]="articleForm.get('articleContent')!.value"
+    ></app-article-preview>
+    <hr />
+  </div>
+
   <form [formGroup]="articleForm" (ngSubmit)="saveArticle()">
     <div class="form-group d-flex">
       <div class="flex-fill">

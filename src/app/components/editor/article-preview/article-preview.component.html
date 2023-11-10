@@ -1,0 +1,7 @@
+<div [style.color]="color">
+  <h3>Titolo: {{ articleTitle }}</h3>
+  <p>Pubblicato il: {{ publishDate }}</p>
+  <p>Autore: {{ author }}</p>
+  <p>Genere: {{ genre }}</p>
+  <div [innerHTML]="sanitizedArticleContent"></div>
+</div>

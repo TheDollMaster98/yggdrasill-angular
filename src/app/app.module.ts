@@ -35,6 +35,7 @@ import { QuillModule } from 'ngx-quill';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPage } from './components/pages/admin/admin.page';
 import { BlogPage } from './components/pages/blog/blog.page';
+import { ArticlePreviewComponent } from './components/editor/article-preview/article-preview.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { BlogPage } from './components/pages/blog/blog.page';
     CarouselSectionComponent,
     AdminPage,
     BlogPage,
+    ArticlePreviewComponent,
   ],
   imports: [
     BrowserModule,
