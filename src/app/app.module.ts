@@ -26,12 +26,14 @@ import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
-import { WhoarePage } from './components/pages/whoare/whoare.component';
+import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { PlatformLocation } from '@angular/common';
 import { MockPlatformLocation } from '@angular/common/testing';
 import { CarouselSectionComponent } from './components/carousel-section/carousel-section.component';
 
 import { QuillModule } from 'ngx-quill';
+import { FormsModule } from '@angular/forms';
+import { AdminPage } from './components/pages/admin/admin.page';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { QuillModule } from 'ngx-quill';
     ArticleEditorPage,
     WhoarePage,
     CarouselSectionComponent,
+    AdminPage,
   ],
   imports: [
     BrowserModule,
@@ -59,23 +62,25 @@ import { QuillModule } from 'ngx-quill';
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
-    QuillModule.forRoot({
-      customOptions: [
-        {
-          import: 'formats/font',
-          whitelist: [
-            'mirza',
-            'roboto',
-            'aref',
-            'serif',
-            'sansserif',
-            'monospace',
-          ],
-        },
-      ],
-      readOnly: false,
-      // scrollingContainer: null,
-    }),
+    FormsModule,
+    QuillModule.forRoot(),
+    // QuillModule.forRoot({
+    //   customOptions: [
+    //     {
+    //       import: 'formats/font',
+    //       whitelist: [
+    //         'mirza',
+    //         'roboto',
+    //         'aref',
+    //         'serif',
+    //         'sansserif',
+    //         'monospace',
+    //       ],
+    //     },
+    // ],
+    // readOnly: false,
+    // scrollingContainer: null,
+    // }),
   ],
   providers: [
     DashboardService,

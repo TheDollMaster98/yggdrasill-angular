@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-whoare',
-  templateUrl: './whoare.component.html',
-  styleUrls: ['./whoare.component.scss'],
+  templateUrl: './whoare.page.html',
+  styleUrls: ['./whoare.page.scss'],
 })
 export class WhoarePage implements OnInit {
   constructor() {}

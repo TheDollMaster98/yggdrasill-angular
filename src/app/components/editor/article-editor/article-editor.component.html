@@ -1,2 +1,50 @@
-<p>article-editor works!</p>
-<quill-editor [styles]="{ height: '200px' }"></quill-editor>
+<div>
+  <h2>Editor di Articoli</h2>
+
+  <div class="form-group d-flex">
+    <div class="flex-fill">
+      <label for="articleTitle">Titolo Articolo:</label>
+      <input
+        type="text"
+        id="articleTitle"
+        class="form-control text-dark"
+        [(ngModel)]="articleTitle"
+        required
+      />
+    </div>
+    <div class="flex-fill ms-2">
+      <label for="publishDate">Data di Pubblicazione:</label>
+      <input
+        type="date"
+        id="publishDate"
+        class="form-control text-dark"
+        [(ngModel)]="publishDate"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="author">Autore</label>
+    <input
+      type="text"
+      id="author"
+      class="form-control text-dark"
+      [(ngModel)]="author"
+      required
+    />
+  </div>
+
+  <div class="h-100">
+    <quill-editor [(ngModel)]="articleContent"></quill-editor>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-2 mx-1">
+    <button class="btn btn-primary" (click)="resetArticle()">
+      Reset Articolo
+    </button>
+    <button class="btn btn-primary" (click)="saveArticle()">
+      Salva Articolo
+    </button>
+  </div>
+</div>

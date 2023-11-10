@@ -5,7 +5,8 @@ import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-p
 import { ComingsoonPage } from './components/pages/comingsoon/comingsoon.component';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
-import { WhoarePage } from './components/pages/whoare/whoare.component';
+import { WhoarePage } from './components/pages/whoare/whoare.page';
+import { AdminPage } from './components/pages/admin/admin.page';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'chi-siamo',
     component: WhoarePage,
+  },
+  {
+    path: 'admin',
+    component: AdminPage,
   },
 ];
 
