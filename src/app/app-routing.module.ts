@@ -7,6 +7,7 @@ import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
 import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { AdminPage } from './components/pages/admin/admin.page';
+import { BlogPage } from './components/pages/blog/blog.page';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardPage,
+  },
+  {
+    path: 'blog',
+    component: BlogPage,
   },
   {
     path: 'comingsoon',

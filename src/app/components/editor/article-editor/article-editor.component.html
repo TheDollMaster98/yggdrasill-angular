@@ -1,50 +1,110 @@
 <div>
   <h2>Editor di Articoli</h2>
 
-  <div class="form-group d-flex">
-    <div class="flex-fill">
-      <label for="articleTitle">Titolo Articolo:</label>
-      <input
-        type="text"
-        id="articleTitle"
-        class="form-control text-dark"
-        [(ngModel)]="articleTitle"
-        required
-      />
+  <form [formGroup]="articleForm" (ngSubmit)="saveArticle()">
+    <div class="form-group d-flex">
+      <div class="flex-fill">
+        <label for="articleTitle">Titolo Articolo:</label>
+        <input
+          type="text"
+          id="articleTitle"
+          class="form-control text-dark"
+          formControlName="articleTitle"
+        />
+        <div
+          *ngIf="
+            articleForm.get('articleTitle')!.hasError('required') &&
+            articleForm.get('articleTitle')!.touched
+          "
+          class="text-danger"
+        >
+          Il titolo è obbligatorio.
+        </div>
+      </div>
+      <div class="flex-fill ms-2">
+        <label for="publishDate">Data di Pubblicazione:</label>
+        <input
+          type="date"
+          id="publishDate"
+          class="form-control text-dark"
+          formControlName="publishDate"
+        />
+        <div
+          *ngIf="
+            articleForm.get('publishDate')!.hasError('required') &&
+            articleForm.get('publishDate')!.touched
+          "
+          class="text-danger"
+        >
+          La data di pubblicazione è obbligatoria.
+        </div>
+      </div>
     </div>
-    <div class="flex-fill ms-2">
-      <label for="publishDate">Data di Pubblicazione:</label>
-      <input
-        type="date"
-        id="publishDate"
-        class="form-control text-dark"
-        [(ngModel)]="publishDate"
-        required
-      />
+
+    <div class="form-group d-flex mb-1">
+      <div class="flex-fill">
+        <label for="author">Autore:</label>
+        <input
+          type="text"
+          id="author"
+          class="form-control text-dark"
+          formControlName="author"
+        />
+        <div
+          *ngIf="
+            articleForm.get('author')!.hasError('required') &&
+            articleForm.get('author')!.touched
+          "
+          class="text-danger"
+        >
+          L'autore è obbligatorio.
+        </div>
+      </div>
+
+      <div class="flex-fill ms-2">
+        <label for="genre">Genere:</label>
+        <input
+          type="text"
+          id="genre"
+          class="form-control text-dark"
+          formControlName="genre"
+        />
+        <div
+          *ngIf="
+            articleForm.get('genre')!.hasError('required') &&
+            articleForm.get('genre')!.touched
+          "
+          class="text-danger"
+        >
+          Il genere è obbligatorio.
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <label for="author">Autore</label>
-    <input
-      type="text"
-      id="author"
-      class="form-control text-dark"
-      [(ngModel)]="author"
-      required
-    />
-  </div>
+    <div class="h-100">
+      <quill-editor formControlName="articleContent"></quill-editor>
+      <div
+        *ngIf="
+          articleForm.get('articleContent')!.hasError('required') &&
+          articleForm.get('articleContent')!.touched
+        "
+        class="text-danger"
+      >
+        Il contenuto dell'articolo è obbligatorio.
+      </div>
+    </div>
 
-  <div class="h-100">
-    <quill-editor [(ngModel)]="articleContent"></quill-editor>
-  </div>
-
-  <div class="d-flex justify-content-between align-items-center mt-2 mx-1">
-    <button class="btn btn-primary" (click)="resetArticle()">
-      Reset Articolo
-    </button>
-    <button class="btn btn-primary" (click)="saveArticle()">
-      Salva Articolo
-    </button>
-  </div>
+    <div class="d-flex justify-content-between align-items-center mt-2 mx-1">
+      <button class="btn btn-primary" type="button" (click)="resetArticle()">
+        Reset Articolo
+      </button>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="articleForm.invalid"
+      >
+        Salva Articolo
+      </button>
+    </div>
+  </form>
 </div>

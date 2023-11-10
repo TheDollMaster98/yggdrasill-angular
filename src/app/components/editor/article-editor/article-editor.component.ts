@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-article-editor',
@@ -7,39 +7,32 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./article-editor.component.scss'],
 })
 export class ArticleEditorPage implements OnInit {
-  constructor() {}
+  articleForm!: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(private formBuilder: FormBuilder) {}
 
-  articleTitle: string = '';
-  publishDate: string = '';
-  author: string = '';
-  articleContent: string = '<br>';
+  ngOnInit(): void {
+    this.articleForm = this.formBuilder.group({
+      articleTitle: ['', Validators.required],
+      publishDate: ['', Validators.required],
+      genre: ['', Validators.required],
+      author: ['', Validators.required],
+      articleContent: ['', Validators.required],
+    });
+  }
 
   resetArticle() {
-    this.articleTitle = '';
-    this.publishDate = '';
-    this.author = '';
-    this.articleContent = '';
+    this.articleForm.reset();
   }
 
   saveArticle() {
-    if (
-      !this.articleTitle ||
-      !this.publishDate ||
-      !this.author ||
-      !this.articleContent
-    ) {
+    if (this.articleForm.valid) {
+      // Qui dovresti inviare il contenuto dell'articolo al tuo backend per il salvataggio.
+      // Esempio di salvataggio fittizio:
+      console.log('Articolo salvato:', this.articleForm.value);
+    } else {
       // Aggiungi la logica per gestire i campi obbligatori vuoti
-      console.log('Tutti i campi sono obbligatori');
-      return;
+      console.log('Compila tutti i campi obbligatori.');
     }
-
-    // Qui dovresti inviare il contenuto dell'articolo al tuo backend per il salvataggio.
-    // Esempio di salvataggio fittizio:
-    console.log('Titolo:', this.articleTitle);
-    console.log('Data di pubblicazione:', this.publishDate);
-    console.log('Autore:', this.author);
-    console.log("Contenuto dell'articolo salvato:", this.articleContent);
   }
 }

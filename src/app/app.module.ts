@@ -32,8 +32,9 @@ import { MockPlatformLocation } from '@angular/common/testing';
 import { CarouselSectionComponent } from './components/carousel-section/carousel-section.component';
 
 import { QuillModule } from 'ngx-quill';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPage } from './components/pages/admin/admin.page';
+import { BlogPage } from './components/pages/blog/blog.page';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { AdminPage } from './components/pages/admin/admin.page';
     WhoarePage,
     CarouselSectionComponent,
     AdminPage,
+    BlogPage,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +65,7 @@ import { AdminPage } from './components/pages/admin/admin.page';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     QuillModule.forRoot(),
     // QuillModule.forRoot({
     //   customOptions: [
