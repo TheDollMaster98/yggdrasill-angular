@@ -36,6 +36,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminPage } from './components/pages/admin/admin.page';
 import { BlogPage } from './components/pages/blog/blog.page';
 import { ArticlePreviewComponent } from './components/editor/article-preview/article-preview.component';
+import { ArticleService } from './service/article.service';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { ArticlePreviewComponent } from './components/editor/article-preview/art
   ],
   providers: [
     DashboardService,
+    ArticleService,
     [
       {
         provide: PlatformLocation,

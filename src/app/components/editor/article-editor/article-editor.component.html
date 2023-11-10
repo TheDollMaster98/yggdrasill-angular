@@ -1,6 +1,6 @@
 <div>
   <h2>Editor di Articoli</h2>
-
+  <!--dirgli di mostrare questohtml-->
   <div *ngIf="articleForm.get('articleTitle')!.value">
     <h3>Anteprima Articolo:</h3>
     <app-article-preview
@@ -110,13 +110,22 @@
       <button class="btn btn-primary" type="button" (click)="resetArticle()">
         Reset Articolo
       </button>
-      <button
-        class="btn btn-primary"
-        type="submit"
-        [disabled]="articleForm.invalid"
-      >
-        Salva Articolo
-      </button>
+      <div>
+        <button
+          class="btn btn-primary me-1"
+          (click)="previewArticle()"
+          [disabled]="articleForm.invalid"
+        >
+          Anteprima
+        </button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="articleForm.invalid"
+        >
+          Salva Articolo
+        </button>
+      </div>
     </div>
   </form>
 </div>
