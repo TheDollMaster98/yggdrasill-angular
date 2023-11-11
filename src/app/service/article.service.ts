@@ -6,16 +6,25 @@ import { Injectable } from '@angular/core';
 })
 export class ArticleService {
   private temporaryArticle: any;
+  private publishedArticles: any[] = [];
 
   setTemporaryArticle(article: any) {
     this.temporaryArticle = article;
   }
 
-  getTemporaryArticle(): any {
+  showTemporaryArticle(): any {
     return this.temporaryArticle;
   }
 
-  // clearTemporaryArticle() {
-  //   this.temporaryArticle = null;
-  // }
+  clearTemporaryArticle() {
+    this.temporaryArticle = null;
+  }
+
+  publishArticle(article: any) {
+    this.publishedArticles.push(article);
+  }
+
+  getPublishedArticles(): any[] {
+    return this.publishedArticles || [];
+  }
 }

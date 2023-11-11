@@ -1,7 +1,16 @@
-<div [style.color]="color">
+<!-- <div [style.color]="color">
   <h3>Titolo: {{ articleTitle }}</h3>
   <p>Pubblicato il: {{ publishDate }}</p>
   <p>Autore: {{ author }}</p>
   <p>Genere: {{ genre }}</p>
   <div [innerHTML]="sanitizedArticleContent"></div>
+</div> -->
+<div [style.color]="color">
+  <!--da fare  + piccolino-->
+  <p>Genere: {{ genre }}</p>
+  <h2 style="text-align: center">{{ articleTitle }}</h2>
+  <p style="text-align: center">
+    Autore: {{ author }} - Pubblicato il: {{ publishDate }}
+  </p>
+  <div class="article-font" [innerHTML]="sanitizedArticleContent"></div>
 </div>

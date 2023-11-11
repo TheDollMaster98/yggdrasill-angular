@@ -1,4 +1,3 @@
-// article-editor.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
@@ -35,8 +34,11 @@ export class ArticleEditorPage implements OnInit {
 
   saveArticle() {
     if (this.articleForm.valid) {
-      // Salvare l'articolo nel tuo backend qui
-      // ...
+      // Salva l'articolo nel servizio solo se non è già stato salvato per l'anteprima
+      this.articleService.publishArticle(this.articleForm.value);
+      if (!this.articleService.showTemporaryArticle()) {
+        this.articleService.setTemporaryArticle(this.articleForm.value);
+      }
 
       // Resetta il form dopo aver salvato l'articolo
       this.resetArticle();

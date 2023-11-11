@@ -32,7 +32,7 @@ export class ArticlePreviewComponent {
 
   ngOnInit(): void {
     // Ottieni i dati temporanei dell'articolo dal servizio
-    const temporaryArticle = this.articleService.getTemporaryArticle();
+    const temporaryArticle = this.articleService.showTemporaryArticle();
     console.log('Temporary Article:', temporaryArticle);
 
     // Imposta i dati temporanei nell'anteprima

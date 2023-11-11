@@ -37,6 +37,7 @@ import { AdminPage } from './components/pages/admin/admin.page';
 import { BlogPage } from './components/pages/blog/blog.page';
 import { ArticlePreviewComponent } from './components/editor/article-preview/article-preview.component';
 import { ArticleService } from './service/article.service';
+import { ArticleListComponent } from './components/editor/article-list/article-list.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ArticleService } from './service/article.service';
     AdminPage,
     BlogPage,
     ArticlePreviewComponent,
+    ArticleListComponent,
   ],
   imports: [
     BrowserModule,
