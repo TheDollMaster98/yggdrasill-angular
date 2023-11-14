@@ -6,6 +6,10 @@ export interface Article {
   id: number;
   publishDate: string;
 }
+
+export interface ArticleList {
+  articols: Record<string, Article>;
+}
 /**
 L'interfaccia `ArticleList` definisce una struttura dati per rappresentare una lista di articoli. Ecco una breve sintesi:
 
@@ -19,6 +23,3 @@ L'interfaccia `ArticleList` definisce una struttura dati per rappresentare una l
 
 In conclusione, `ArticleList` è un modo di rappresentare una lista di articoli, ciascuno con una struttura definita da `Article`. 
 */
-export interface ArticleList {
-  articols: Record<string, Article>;
-}
