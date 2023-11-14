@@ -14,9 +14,9 @@ import { config } from 'src/config/config';
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
 // const apiUrl = 'http://localhost:3000'; //test locale
-const https = 'https://';
-const apiUrl = '-e4twkpykxa-uc.a.run.app'; //test remoto
-
+// const https = 'https://';
+// const apiUrl = '-e4twkpykxa-uc.a.run.app'; //test remoto
+const apiUrl = 'https://us-central1-yggdrasill-project.cloudfunctions.net/';
 export const environment = {
   production: false,
   /*
@@ -24,5 +24,5 @@ export const environment = {
   */
   firebaseConfig: config.firebaseConfig,
 
-  articles: https + 'articles' + apiUrl,
+  articles: apiUrl + 'articles',
 };

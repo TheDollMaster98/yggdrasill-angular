@@ -10,6 +10,9 @@ import { firstValueFrom } from 'rxjs';
 export class ArticleService {
   private temporaryArticle: any;
   private publishedArticles: any[] = [];
+  // private link: string = 'https://articles-e4twkpykxa-uc.a.run.app';
+  private link: string =
+    'https://us-central1-yggdrasill-project.cloudfunctions.net/articles';
 
   constructor(private api: ApiService) {}
 
@@ -37,9 +40,7 @@ export class ArticleService {
   async updateArticlesAsync(): Promise<void> {
     try {
       // Chiamata HTTP per ottenere gli articoli dal backend
-      const response = await firstValueFrom(
-        this.api.callGet<any[]>(environment.articles)
-      );
+      const response = await firstValueFrom(this.api.callGet<any[]>(this.link));
       // Aggiorna la lista degli articoli con la risposta ricevuta dal backend
       this.publishedArticles = response || [];
     } catch (error) {
@@ -53,9 +54,7 @@ export class ArticleService {
   async storageArticle(article: any): Promise<void> {
     try {
       // Chiamata HTTP per salvare l'articolo nel backend
-      await firstValueFrom(
-        this.api.callPost<void>(environment.articles, article)
-      );
+      await firstValueFrom(this.api.callPost<void>(this.link, article));
     } catch (error) {
       // Gestisce gli errori durante il salvataggio dell'articolo
       console.error("Errore durante il salvataggio dell'articolo:", error);

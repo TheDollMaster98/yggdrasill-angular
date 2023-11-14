@@ -1,9 +1,11 @@
+* {
+  color:#0CB3C9;
+}
 nav {
-    background-color: #ffffff;
+    background-color: #0CB3C9;
     color: #000000;
     font-family: sans-serif;
     font-size: 16px;
-    margin-bottom: 1.25rem;
   }
   
   .navbar-brand {
@@ -17,7 +19,7 @@ nav {
   }
   
   .navbar-nav li a.active {
-    color: #0000ff;
+    color: #143E7B;
   }
 
   .custom-margin-social {

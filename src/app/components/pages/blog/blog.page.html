@@ -1,1 +1,13 @@
 <app-article-list></app-article-list>
+<!-- <!-- blog.page.html -->
+<div>
+  <h2>Blog</h2>
+  <div *ngFor="let article of articles">
+    <h3>{{ article.articleTitle }}</h3>
+    <p><strong>Author:</strong> {{ article.author }}</p>
+    <p><strong>Genre:</strong> {{ article.genre }}</p>
+    <p><strong>Publish Date:</strong> {{ article.publishDate }}</p>
+    <div>{{ article.articleContent }}</div>
+    <hr />
+  </div>
+</div>

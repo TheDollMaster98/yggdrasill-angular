@@ -1,4 +1,6 @@
+// blog.page.ts
 import { Component, OnInit } from '@angular/core';
+import { ArticleService } from 'src/app/service/article.service';
 
 @Component({
   selector: 'app-blog.page',
@@ -6,7 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./blog.page.scss'],
 })
 export class BlogPage implements OnInit {
-  constructor() {}
+  articles: any[] = []; // Lista degli articoli
 
-  ngOnInit(): void {}
+  constructor(private articleService: ArticleService) {}
+
+  ngOnInit(): void {
+    // Carica gli articoli dal servizio quando la pagina si inizializza
+    this.loadArticles();
+  }
+
+  loadArticles() {
+    // Chiama il metodo del servizio per ottenere gli articoli
+    this.articleService.updateArticlesAsync().then(() => {
+      // Aggiorna la lista degli articoli nella pagina
+      this.articles = this.articleService.getPublishedArticles();
+    });
+  }
 }
