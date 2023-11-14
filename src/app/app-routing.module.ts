@@ -8,6 +8,7 @@ import { ArticleEditorPage } from './components/editor/article-editor/article-ed
 import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { AdminPage } from './components/pages/admin/admin.page';
 import { BlogPage } from './components/pages/blog/blog.page';
+import { PodcastPage } from './components/pages/podcast/podcast.page';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminPage,
+  },
+  {
+    path: 'podcast',
+    component: PodcastPage,
   },
 ];
 

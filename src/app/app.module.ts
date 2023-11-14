@@ -38,6 +38,7 @@ import { BlogPage } from './components/pages/blog/blog.page';
 import { ArticlePreviewComponent } from './components/editor/article-preview/article-preview.component';
 import { ArticleService } from './service/article.service';
 import { ArticleListComponent } from './components/editor/article-list/article-list.component';
+import { PodcastPage } from './components/pages/podcast/podcast.page';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ArticleListComponent } from './components/editor/article-list/article-l
     BlogPage,
     ArticlePreviewComponent,
     ArticleListComponent,
+    PodcastPage,
   ],
   imports: [
     BrowserModule,
