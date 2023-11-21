@@ -26,6 +26,15 @@ export class FirebaseDatabaseService {
   getAll(): AngularFirestoreCollection<Article> {
     return this.articleCollection;
   }
+  //WIP per il contatore +1
+  // private async initializeCount(): Promise<void> {
+  //   const countDoc = await this.db.doc('counters/articles').get().toPromise();
+
+  //   if (!countDoc.exists) {
+  //     // Se il documento non esiste, inizializza il conteggio a 0
+  //     await this.db.doc('counters/articles').set({ count: 0 });
+  //   }
+  // }
 
   async create(data: Article): Promise<any> {
     // Verifica dei dati
