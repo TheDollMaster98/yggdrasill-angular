@@ -23,6 +23,6 @@ export const environment = {
     configurazioni nascoste di firebase: src/config.ts
   */
   firebaseConfig: config.firebaseConfig,
-
+  databaseURL: config.firebaseConfig.databaseURL,
   articles: apiUrl + 'articles',
 };

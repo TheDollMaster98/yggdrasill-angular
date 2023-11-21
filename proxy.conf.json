@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "https://us-central1-yggdrasill-project.cloudfunctions.net",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/firebasedata": {
+    "target": "https://yggdrasill-project-default-rtdb.europe-west1.firebasedatabase.app/",
+    "secure": true,
+    "changeOrigin": true
+  }
+}

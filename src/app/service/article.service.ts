@@ -2,89 +2,47 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
-import { firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map, finalize } from 'rxjs/operators';
+import { Article, ArticleList } from '../models/article.model';
+import { FirebaseDatabaseService } from './firebase-database.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
-  private temporaryArticle: any;
-  private publishedArticles: any[] = [];
-  // private link: string = 'https://articles-e4twkpykxa-uc.a.run.app';
-  private link: string =
-    'https://us-central1-yggdrasill-project.cloudfunctions.net/articles';
+  private temporaryArticle: Article | undefined;
+  article: Article = new Article();
+  submitted: boolean = false;
 
-  constructor(private api: ApiService) {}
+  constructor(private firebaseDbService: FirebaseDatabaseService) {}
 
-  setTemporaryArticle(article: any) {
+  setTemporaryArticle(article: Article) {
     this.temporaryArticle = article;
   }
 
-  showTemporaryArticle(): any {
+  showTemporaryArticle(): Article | undefined {
     return this.temporaryArticle;
   }
 
-  clearTemporaryArticle() {
-    this.temporaryArticle = null;
+  saveArticle(): void {
+    this.firebaseDbService
+      .create(this.article)
+      .then((docRef) => {
+        console.log(
+          'Created new article successfully! Document ID:',
+          docRef.id
+        );
+        this.submitted = true;
+      })
+      .catch((error) => {
+        console.error('Error creating new article:', error);
+        // Gestisci l'errore come necessario, ad esempio mostrando un messaggio all'utente
+      });
   }
 
-  publishArticle(article: any) {
-    this.publishedArticles.push(article);
-  }
-
-  getPublishedArticles(): any[] {
-    return this.publishedArticles || [];
-  }
-
-  // Metodo asincrono per l'aggiornamento degli articoli
-  async updateArticlesAsync(): Promise<void> {
-    try {
-      // Chiamata HTTP per ottenere gli articoli dal backend
-      const response = await firstValueFrom(this.api.callGet<any[]>(this.link));
-      // Aggiorna la lista degli articoli con la risposta ricevuta dal backend
-      this.publishedArticles = response || [];
-    } catch (error) {
-      // Gestisce gli errori durante l'aggiornamento degli articoli
-      console.error("Errore durante l'aggiornamento degli articoli:", error);
-      throw error;
-    }
-  }
-
-  // Metodo asincrono per salvare un articolo nel backend
-  async storageArticle(article: any): Promise<void> {
-    try {
-      // Chiamata HTTP per salvare l'articolo nel backend
-      await firstValueFrom(this.api.callPost<void>(this.link, article));
-    } catch (error) {
-      // Gestisce gli errori durante il salvataggio dell'articolo
-      console.error("Errore durante il salvataggio dell'articolo:", error);
-      throw error;
-    }
+  newTutorial(): void {
+    this.submitted = false;
+    this.article = new Article();
   }
 }
-
-/**
-updateArticlesAsync(): void {
-    this.api.callGet<any[]>(environment.articles).subscribe({
-      next: (response) => {
-        this.publishedArticles = response || [];
-      },
-      error: (error) => {
-        console.error("Errore durante l'aggiornamento degli articoli:", error);
-        // Puoi gestire l'errore qui o propagarlo ai livelli superiori
-      },
-    });
-  }
-
-  storageArticle(article: any): void {
-    this.api.callPost<void>(environment.articles, article).subscribe({
-      next: () => {
-        // La chiamata è completata con successo
-      },
-      error: (error) => {
-        console.error("Errore durante il salvataggio dell'articolo:", error);
-        // Puoi gestire l'errore qui o propagarlo ai livelli superiori
-      },
-    });
-  }
-*/

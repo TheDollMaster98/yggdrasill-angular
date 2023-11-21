@@ -1,11 +1,9 @@
 <h2>Articoli:</h2>
+<!-- article-list.component.html -->
 <div *ngFor="let article of articles">
-  <app-article-preview
-    [articleTitle]="article.articleTitle"
-    [publishDate]="article.publishDate"
-    [author]="article.author"
-    [genre]="article.genre"
-    [articleContent]="article.articleContent"
-  ></app-article-preview>
-  <hr />
+  <h3>{{ article.articleTitle ?? "N/A" }}</h3>
+  <p>Data di pubblicazione: {{ article.publishDate ?? "N/A" }}</p>
+  <p>Autore: {{ article.author ?? "N/A" }}</p>
+  <p>Genere: {{ article.genre ?? "N/A" }}</p>
+  <p>Contenuto: {{ article.articleContent ?? "N/A" }}</p>
 </div>

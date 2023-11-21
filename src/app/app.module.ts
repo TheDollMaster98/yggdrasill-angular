@@ -9,6 +9,20 @@ import { HttpClientModule } from '@angular/common/http';
 // angular firebase
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { Database, connectDatabaseEmulator } from '@angular/fire/database';
+// import { AngularFireModule } from '@angular/fire/compat';
+// import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+// import {
+//   provideFirebaseApp,
+//   getApp,
+//   initializeApp,
+//   FirebaseAppModule,
+// } from '@angular/fire/app';
+// import {
+//   FirestoreModule,
+//   getFirestore,
+//   provideFirestore,
+// } from '@angular/fire/firestore';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GlitchClockComponent } from './components/glitch-clock/glitch-clock.component';
@@ -39,6 +53,7 @@ import { ArticlePreviewComponent } from './components/editor/article-preview/art
 import { ArticleService } from './service/article.service';
 import { ArticleListComponent } from './components/editor/article-list/article-list.component';
 import { PodcastPage } from './components/pages/podcast/podcast.page';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   declarations: [
@@ -68,6 +83,11 @@ import { PodcastPage } from './components/pages/podcast/podcast.page';
     BrowserModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    AngularFirestoreModule, // for firestore
+    // connectDatabaseEmulator,
+    // AngularFireDatabaseModule,
+    // FirestoreModule,
+    // FirebaseAppModule,
     NgbModule,
     HttpClientModule,
     AppRoutingModule,

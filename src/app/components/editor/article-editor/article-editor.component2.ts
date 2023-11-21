@@ -36,7 +36,13 @@ export class ArticleEditorPage implements OnInit {
 
   saveArticle() {
     if (this.articleForm.valid) {
-      this.articleService.saveArticle();
+      // Salva l'articolo nel servizio solo se non è già stato salvato per l'anteprima
+      this.articleService.publishArticle(this.articleForm.value);
+
+      // Rimuovi la condizione per mostrare temporaneamente l'articolo
+      this.articleService.setTemporaryArticle(this.articleForm.value);
+
+      // Resetta il form dopo aver salvato l'articolo
       this.resetArticle();
     }
   }

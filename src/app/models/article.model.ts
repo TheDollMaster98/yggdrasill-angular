@@ -1,10 +1,11 @@
-export interface Article {
-  articleContent: string;
-  articleTitle: string;
-  author: string;
-  genre: string;
-  id: number;
-  publishDate: string;
+// article.model.ts
+export class Article {
+  articleContent?: string;
+  articleTitle?: string;
+  author?: string;
+  genre?: string;
+  id?: string | number;
+  publishDate?: string;
 }
 
 export interface ArticleList {
