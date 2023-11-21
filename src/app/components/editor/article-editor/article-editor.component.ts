@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
+import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -17,7 +18,8 @@ export class ArticleEditorPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    public articleService: ArticleService
+    public articleService: ArticleService,
+    private firebaseDBService: FirebaseDatabaseService
   ) {}
 
   ngOnInit(): void {
@@ -36,8 +38,17 @@ export class ArticleEditorPage implements OnInit {
 
   saveArticle() {
     if (this.articleForm.valid) {
-      this.articleService.saveArticle();
-      this.resetArticle();
+      this.firebaseDBService
+        .create(this.articleForm.value)
+        .then(() => {
+          console.log('Article saved successfully');
+          this.resetArticle();
+        })
+        .catch((error) => {
+          console.error('Error saving article:', error);
+        });
+    } else {
+      console.error('Article form is not valid');
     }
   }
 

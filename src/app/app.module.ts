@@ -54,6 +54,7 @@ import { ArticleService } from './service/article.service';
 import { ArticleListComponent } from './components/editor/article-list/article-list.component';
 import { PodcastPage } from './components/pages/podcast/podcast.page';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
     BrowserModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    //WIP
     AngularFirestoreModule, // for firestore
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFireDatabaseModule,
     // connectDatabaseEmulator,
     // AngularFireDatabaseModule,
     // FirestoreModule,

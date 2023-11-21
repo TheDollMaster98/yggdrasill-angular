@@ -25,23 +25,7 @@ export class ArticleService {
     return this.temporaryArticle;
   }
 
-  saveArticle(): void {
-    this.firebaseDbService
-      .create(this.article)
-      .then((docRef) => {
-        console.log(
-          'Created new article successfully! Document ID:',
-          docRef.id
-        );
-        this.submitted = true;
-      })
-      .catch((error) => {
-        console.error('Error creating new article:', error);
-        // Gestisci l'errore come necessario, ad esempio mostrando un messaggio all'utente
-      });
-  }
-
-  newTutorial(): void {
+  newArticle(): void {
     this.submitted = false;
     this.article = new Article();
   }

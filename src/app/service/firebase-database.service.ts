@@ -27,24 +27,37 @@ export class FirebaseDatabaseService {
     return this.articleCollection;
   }
 
-  create(data: Article): Promise<any> {
-    return this.articleCollection
-      .add({ ...data })
-      .then((docRef) => {
-        console.log('Document written with ID:', docRef.id);
-        return docRef; // Restituisci il riferimento al documento creato
-      })
-      .catch((error) => {
-        console.error('Error adding document:', error);
-        throw error; // Rilancia l'errore per gestirlo nel chiamante, se necessario
-      });
+  async create(data: Article): Promise<any> {
+    // Verifica dei dati
+    if (!data) {
+      throw new Error('Data is required');
+    }
+
+    try {
+      const docRef = await this.articleCollection.add({ ...data });
+      console.log('Document written with ID:', docRef.id);
+      return docRef;
+    } catch (error) {
+      console.error('Error adding document:', error);
+      throw error; // Rilancia l'errore per gestirlo nel chiamante, se necessario
+    }
   }
 
   update(id: string, data: any): Promise<void> {
+    // Verifica dei dati
+    if (!id || !data) {
+      throw new Error('ID and data are required');
+    }
+
     return this.articleCollection.doc(id).update(data);
   }
 
   delete(key: string): Promise<void> {
+    // Verifica dei dati
+    if (!key) {
+      throw new Error('Key is required');
+    }
+
     return this.articleCollection.doc(key).delete();
   }
 }
