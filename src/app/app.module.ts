@@ -8,7 +8,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 // angular firebase
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import {
+  getFirestore,
+  provideFirestore,
+  FirestoreSettings,
+} from '@angular/fire/firestore';
 import {
   getDatabase,
   provideDatabase,
@@ -131,6 +135,18 @@ import { AngularFireModule } from '@angular/fire/compat';
         useClass: MockPlatformLocation,
       },
     ],
+    // // Inizializza l'app Firebase con la configurazione giusta.
+    // {
+    //   provide: 'FirebaseApp',
+    //   useValue: initializeApp(environment.firebaseConfig),
+    // },
+    // // Restituisce un'istanza di Firestore
+    // {
+    //   provide: 'Firestore',
+    //   useFactory: (firebaseApp: any, firestoreSettings: any) =>
+    //     getFirestore(firebaseApp, firestoreSettings),
+    //   deps: ['FirebaseApp', 'FirestoreSettingsToken'],
+    // },
   ],
   bootstrap: [AppComponent],
 })
