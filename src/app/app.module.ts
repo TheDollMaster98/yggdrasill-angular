@@ -9,7 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 // angular firebase
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { Database, connectDatabaseEmulator } from '@angular/fire/database';
+import {
+  getDatabase,
+  provideDatabase,
+  Database,
+  connectDatabaseEmulator,
+} from '@angular/fire/database';
+
 // import { AngularFireModule } from '@angular/fire/compat';
 // import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 // import {
@@ -82,10 +88,10 @@ import { AngularFireModule } from '@angular/fire/compat';
   ],
   imports: [
     BrowserModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore()),
-    //WIP
-    AngularFirestoreModule, // for firestore
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // Inizializza l'app Firebase con la configurazione giusta.
+    provideFirestore(() => getFirestore()), //  Restituisce un'istanza di Firestore, che è il servizio di database di Firebase basato su documenti.
+    provideDatabase(() => getDatabase()), // Fornisce l'accesso al Realtime Database.
+    AngularFirestoreModule, // Per firestore
     AngularFireModule.initializeApp(environment.firebaseConfig),
     // AngularFireDatabaseModule,
     // connectDatabaseEmulator,
