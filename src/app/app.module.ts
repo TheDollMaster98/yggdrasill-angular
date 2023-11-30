@@ -65,6 +65,7 @@ import { ArticleListComponent } from './components/editor/article-list/article-l
 import { PodcastPage } from './components/pages/podcast/podcast.page';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { EditorModule } from './components/editor/editor/editor.module';
 
 @NgModule({
   declarations: [
@@ -81,13 +82,13 @@ import { AngularFireModule } from '@angular/fire/compat';
     YoutubeLinkComponent,
     GdprComponent,
     PrivacyPolicyPage,
-    ArticleEditorPage,
+    // ArticleEditorPage,
     WhoarePage,
     CarouselSectionComponent,
     AdminPage,
     BlogPage,
-    ArticlePreviewComponent,
-    ArticleListComponent,
+    // ArticlePreviewComponent,
+    // ArticleListComponent,
     PodcastPage,
   ],
   imports: [
@@ -102,6 +103,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     // AngularFireDatabaseModule,
     // FirestoreModule,
     // FirebaseAppModule,
+    EditorModule,
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
