@@ -1,3 +1,4 @@
+// article-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/models/article.model';
@@ -30,7 +31,6 @@ export class ArticleListComponent implements OnInit {
       next: (data) => {
         console.log('Dati ricevuti:', data);
 
-        // Controlla se data è definito
         if (data) {
           this.articles = Object.values(data);
           console.log('Articoli dopo il caricamento:', this.articles);

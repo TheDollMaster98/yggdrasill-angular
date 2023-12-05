@@ -57,7 +57,7 @@ export class ArticleService {
 
   createArticle(article: Article): Observable<Article> {
     console.log('Creating article:', article);
-    return this.api.callPost<Article>(environment.articles, article).pipe(
+    return this.api.callPost<Article>(environment.createArticle, article).pipe(
       map((response: Article) => {
         console.log('Article created:', response);
         return response;

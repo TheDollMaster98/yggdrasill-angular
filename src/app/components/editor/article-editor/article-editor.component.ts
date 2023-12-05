@@ -62,16 +62,18 @@ export class ArticleEditorPage implements OnInit {
     const confirmSave = confirm("Sei sicuro di voler salvare l'articolo?");
     if (confirmSave) {
       // Esegui la chiamata di salvataggio (implementazione della CRUD)
-      this.articleService.createArticle(this.articleForm.value).subscribe(
-        (response) => {
+      this.articleService.createArticle(this.articleForm.value).subscribe({
+        next: (response) => {
           // Gestisci la risposta dal server (se necessario)
           console.log('Articolo salvato con successo:', response);
         },
-        (error) => {
+        error: (error) => {
           // Gestisci gli errori (se necessario)
           console.error("Errore durante il salvataggio dell'articolo:", error);
-        }
-      );
+          // Aggiungi questa riga per ottenere maggiori dettagli sull'errore
+          console.error("Dettagli dell'errore:", error.error);
+        },
+      });
     }
   }
 

@@ -9,3 +9,20 @@
   ></app-article-preview>
   <hr />
 </div>
+
+<!--
+<div *ngIf="articles.length > 0; else noArticles">
+  <div *ngFor="let article of articles; let i = index" class="article-item">
+    <app-article-preview
+      [article]="article"
+      [isEditorPreview]="false"
+      (click)="setActiveArticle(article, i)"
+    ></app-article-preview>
+  </div>
+</div>
+
+<ng-template #noArticles>
+  <p>No articles available.</p>
+</ng-template>
+
+-->
