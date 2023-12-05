@@ -1,11 +1,11 @@
-<h2>Articoli:</h2>
-<div
-  *ngFor="let article of articles; let i = index"
-  (click)="setActiveArticle(article, i)"
->
-  <h3>{{ article.articleTitle ?? "N/A" }}</h3>
-  <p>Data di pubblicazione: {{ article.publishDate ?? "N/A" }}</p>
-  <p>Autore: {{ article.author ?? "N/A" }}</p>
-  <p>Genere: {{ article.genre ?? "N/A" }}</p>
-  <p>Contenuto: {{ article.articleContent ?? "N/A" }}</p>
+<!-- <h2>Articoli:</h2> -->
+<div *ngFor="let article of articles">
+  <app-article-preview
+    [articleTitle]="article.articleTitle ?? 'N/A'"
+    [publishDate]="article.publishDate ?? 'N/A'"
+    [author]="article.author ?? 'N/A'"
+    [genre]="article.genre ?? 'N/A'"
+    [articleContent]="article.articleContent ?? 'N/A'"
+  ></app-article-preview>
+  <hr />
 </div>

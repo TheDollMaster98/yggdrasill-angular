@@ -30,9 +30,13 @@ export class ArticleListComponent implements OnInit {
       next: (data) => {
         console.log('Dati ricevuti:', data);
 
-        // Assegna direttamente l'array ricevuto
-        this.articles = Object.values(data);
-        console.log('Articoli dopo il caricamento:', this.articles);
+        // Controlla se data è definito
+        if (data) {
+          this.articles = Object.values(data);
+          console.log('Articoli dopo il caricamento:', this.articles);
+        } else {
+          console.error('La risposta dal server è vuota o non definita.');
+        }
       },
       error: (error) => {
         console.error('Errore durante il recupero degli articoli:', error);
