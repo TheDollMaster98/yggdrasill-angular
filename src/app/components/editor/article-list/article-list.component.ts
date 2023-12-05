@@ -1,9 +1,6 @@
-// article-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/models/article.model';
-import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
-import { map } from 'rxjs';
 
 @Component({
   selector: 'app-article-list',
@@ -11,15 +8,11 @@ import { map } from 'rxjs';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
-  articles?: Article[];
+  articles: Article[] = [];
   currentArticle?: Article;
   currentIndex = -1;
-  title = '';
 
-  constructor(
-    private articleService: ArticleService,
-    private firebaseDbSevice: FirebaseDatabaseService
-  ) {}
+  constructor(private articleService: ArticleService) {}
 
   ngOnInit(): void {
     this.loadArticles();
@@ -32,23 +25,22 @@ export class ArticleListComponent implements OnInit {
   }
 
   loadArticles(): void {
-    this.firebaseDbSevice
-      .getAll()
-      .snapshotChanges()
-      .pipe(
-        map((changes) =>
-          changes.map((c) => ({
-            id: c.payload.doc.id,
-            ...c.payload.doc.data(),
-          }))
-        )
-      )
-      .subscribe((data) => {
-        this.articles = data;
-      });
+    console.log('Inizio caricamento degli articoli');
+    this.articleService.getArticles().subscribe({
+      next: (data) => {
+        console.log('Dati ricevuti:', data);
+
+        // Assegna direttamente l'array ricevuto
+        this.articles = Object.values(data);
+        console.log('Articoli dopo il caricamento:', this.articles);
+      },
+      error: (error) => {
+        console.error('Errore durante il recupero degli articoli:', error);
+      },
+    });
   }
 
-  setActiveArticles(article: Article, index: number): void {
+  setActiveArticle(article: Article, index: number): void {
     this.currentArticle = article;
     this.currentIndex = index;
   }

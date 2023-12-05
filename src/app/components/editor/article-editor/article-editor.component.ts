@@ -1,4 +1,3 @@
-// article-editor.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,8 +17,7 @@ export class ArticleEditorPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    public articleService: ArticleService,
-    private firebaseDBService: FirebaseDatabaseService
+    public articleService: ArticleService
   ) {}
 
   ngOnInit(): void {
@@ -34,22 +32,6 @@ export class ArticleEditorPage implements OnInit {
 
   resetArticle() {
     this.articleForm.reset();
-  }
-
-  saveArticle() {
-    if (this.articleForm.valid) {
-      this.firebaseDBService
-        .create(this.articleForm.value)
-        .then(() => {
-          console.log('Article saved successfully');
-          this.resetArticle();
-        })
-        .catch((error) => {
-          console.error('Error saving article:', error);
-        });
-    } else {
-      console.error('Article form is not valid');
-    }
   }
 
   previewArticle() {
@@ -72,6 +54,33 @@ export class ArticleEditorPage implements OnInit {
       modalRef.componentInstance.genre = this.articleForm.get('genre')!.value;
       modalRef.componentInstance.articleContent =
         this.articleForm.get('articleContent')!.value;
+    }
+  }
+
+  saveArticle() {
+    // Mostra la conferma prima di salvare
+    const confirmSave = confirm("Sei sicuro di voler salvare l'articolo?");
+    if (confirmSave) {
+      // Esegui la chiamata di salvataggio (implementazione della CRUD)
+      this.articleService.createArticle(this.articleForm.value).subscribe(
+        (response) => {
+          // Gestisci la risposta dal server (se necessario)
+          console.log('Articolo salvato con successo:', response);
+        },
+        (error) => {
+          // Gestisci gli errori (se necessario)
+          console.error("Errore durante il salvataggio dell'articolo:", error);
+        }
+      );
+    }
+  }
+
+  confirmExitWithoutSaving() {
+    const confirmExit = confirm(
+      'Sei sicuro di voler uscire senza salvare? I dati verranno persi.'
+    );
+    if (confirmExit) {
+      // Puoi navigare via o eseguire altre azioni necessarie
     }
   }
 }

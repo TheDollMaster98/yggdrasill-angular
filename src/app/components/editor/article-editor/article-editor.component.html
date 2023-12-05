@@ -120,7 +120,15 @@
         </button>
         <button
           class="btn btn-primary"
-          type="submit"
+          type="button"
+          (click)="confirmExitWithoutSaving()"
+        >
+          Esci senza Salvare
+        </button>
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="saveArticle()"
           [disabled]="articleForm.invalid"
         >
           Pubblica

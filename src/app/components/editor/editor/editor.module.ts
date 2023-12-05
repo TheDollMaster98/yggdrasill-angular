@@ -6,9 +6,9 @@ import { ArticlePreviewComponent } from '../article-preview/article-preview.comp
 
 @NgModule({
   declarations: [
-    ArticleEditorPage,
-    ArticlePreviewComponent,
-    ArticleListComponent,
+    // ArticleEditorPage,
+    // ArticlePreviewComponent,
+    // ArticleListComponent,
   ],
   imports: [CommonModule],
 })

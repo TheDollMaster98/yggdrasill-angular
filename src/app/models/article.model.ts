@@ -1,10 +1,10 @@
 // article.model.ts
 export class Article {
-  articleContent?: string;
-  articleTitle?: string;
+  id?: string | number;
   author?: string;
   genre?: string;
-  id?: string | number;
+  articleTitle?: string;
+  articleContent?: string;
   publishDate?: string;
 }
 

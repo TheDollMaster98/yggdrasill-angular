@@ -1,6 +1,8 @@
 <h2>Articoli:</h2>
-<!-- article-list.component.html -->
-<div *ngFor="let article of articles">
+<div
+  *ngFor="let article of articles; let i = index"
+  (click)="setActiveArticle(article, i)"
+>
   <h3>{{ article.articleTitle ?? "N/A" }}</h3>
   <p>Data di pubblicazione: {{ article.publishDate ?? "N/A" }}</p>
   <p>Autore: {{ article.author ?? "N/A" }}</p>
