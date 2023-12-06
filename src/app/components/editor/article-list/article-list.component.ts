@@ -1,7 +1,7 @@
 // article-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
-import { Article } from 'src/app/models/article.model';
+import { Article, ArticleList } from 'src/app/models/article.model';
 
 @Component({
   selector: 'app-article-list',

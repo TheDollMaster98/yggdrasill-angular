@@ -1,10 +1,13 @@
 <div [style.color]="color">
   <p>Genere: {{ genre }}</p>
-  <h2 style="text-align: center">{{ articleTitle }}</h2>
-  <p style="text-align: center">
+  <h2 class="text-center">{{ articleTitle }}</h2>
+  <p class="text-center">
     Autore: {{ author }} - Pubblicato il: {{ publishDate }}
   </p>
-  <div class="article-font" [innerHTML]="sanitizedArticleContent"></div>
+  <div
+    class="article-font d-flex justify-content-center align-items-center"
+    [innerHTML]="sanitizedArticleContent"
+  ></div>
 </div>
 
 <!--

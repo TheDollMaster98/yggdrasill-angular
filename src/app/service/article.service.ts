@@ -32,7 +32,6 @@ export class ArticleService {
   }
 
   // CRUD Operations
-
   getArticles(): Observable<ArticleList> {
     console.log('Getting articles');
     return this.api.callGet<ArticleList>(environment.articles).pipe(
