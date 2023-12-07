@@ -1,5 +1,6 @@
 <!-- <h2>Articoli:</h2> -->
 <div *ngFor="let article of articles">
+  <hr />
   <app-article-preview
     [articleTitle]="article.articleTitle ?? 'N/A'"
     [publishDate]="article.publishDate ?? 'N/A'"
@@ -7,7 +8,6 @@
     [genre]="article.genre ?? 'N/A'"
     [articleContent]="article.articleContent ?? 'N/A'"
   ></app-article-preview>
-  <hr />
 </div>
 
 <!--

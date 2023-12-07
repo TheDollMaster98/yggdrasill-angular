@@ -1,4 +1,55 @@
-<div [style.color]="color">
+<div class="article-page">
+  <!--div pubblicità-->
+  <div class="article-author w-100"></div>
+  <!--articolo-->
+  <div>
+    <header class="article-header text-center">
+      <h1>{{ articleTitle }}</h1>
+      <div
+        class="header-details d-flex justify-content-center align-items-center"
+      >
+        <h6 class="me-2">{{ genre }}&nbsp;|&nbsp;</h6>
+        <h6>Pubblicato il:&nbsp;{{ publishDate | date : "dd/MM/yyyy" }}</h6>
+      </div>
+    </header>
+
+    <main class="article-main">
+      <div class="article-content mx-1">
+        <div
+          [style.color]="articlePageStyle"
+          class="article-font d-flex justify-content-center align-items-center"
+          [innerHTML]="sanitizedArticleContent"
+        ></div>
+      </div>
+    </main>
+  </div>
+  <!--info autore e cagate-->
+  <div
+    class="article-author w-100 d-flex justify-content-center align-items-start"
+  >
+    <div class="align-self-start mb-4 flex-column">
+      <div
+        class="profile-picture-container d-flex justify-content-center align-items-start mt-3"
+      >
+        <!-- Inserisci la tua foto del profilo qui -->
+      </div>
+      <div class="ms-2 mt-2">
+        {{ author }}
+      </div>
+    </div>
+
+    <!-- <div class="article-tags">
+    <p>Tag:</p>
+    <ul>
+      <li *ngFor="let tag of tags">
+        {{ tag }}
+      </li>
+    </ul>
+  </div> -->
+  </div>
+</div>
+
+<!-- <div [style.color]="articlePageStyle">
   <p>Genere: {{ genre }}</p>
   <h2 class="text-center">{{ articleTitle }}</h2>
   <p class="text-center">
@@ -8,7 +59,7 @@
     class="article-font d-flex justify-content-center align-items-center"
     [innerHTML]="sanitizedArticleContent"
   ></div>
-</div>
+</div> -->
 
 <!--
   <div [style.color]="articleColorClass">

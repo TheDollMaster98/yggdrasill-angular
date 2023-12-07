@@ -1,6 +1,6 @@
 // article.model.ts
 export class Article {
-  id?: string | number;
+  // id?: string | number;
   author?: string;
   genre?: string;
   articleTitle?: string;

@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
-import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { Article } from 'src/app/models/article.model';
 
 @Component({
@@ -59,8 +58,9 @@ export class ArticleEditorPage implements OnInit {
 
   saveArticle() {
     // Mostra la conferma prima di salvare
-    const confirmSave = confirm("Sei sicuro di voler salvare l'articolo?");
-    if (confirmSave) {
+    // const confirmSave = confirm("Sei sicuro di voler salvare l'articolo?");
+    // if (confirmSave) {
+    if (this.articleForm.valid) {
       // Esegui la chiamata di salvataggio (implementazione della CRUD)
       this.articleService.createArticle(this.articleForm.value).subscribe({
         next: (response) => {
