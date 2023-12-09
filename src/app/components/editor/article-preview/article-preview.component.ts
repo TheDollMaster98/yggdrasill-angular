@@ -33,7 +33,9 @@ export class ArticlePreviewComponent implements OnChanges {
       );
 
       // Calcola il tempo di lettura quando il contenuto cambia
-      this.calculateReadingTime(this.articleContent);
+      this.readingTime = this.articleService.calculateReadingTime(
+        this.articleContent
+      );
     }
   }
 
@@ -51,29 +53,14 @@ export class ArticlePreviewComponent implements OnChanges {
     const article = this.articleService.getArticles();
 
     if (temporaryArticle) {
-      this.sanitizeAndSetArticleContent(temporaryArticle.articleContent ?? '');
+      this.articleService.sanitizeAndSetArticleContent(
+        temporaryArticle.articleContent ?? ''
+      );
       // Calcola il tempo di lettura quando i dati temporanei cambiano
-      this.calculateReadingTime(temporaryArticle.articleContent ?? '');
+      this.readingTime = this.articleService.calculateReadingTime(
+        temporaryArticle.articleContent ?? ''
+      );
       // Altri dati dell'articolo...
     }
-  }
-
-  private sanitizeAndSetArticleContent(content: string): SafeHtml {
-    return (this.sanitizedArticleContent =
-      this.sanitizer.bypassSecurityTrustHtml(content));
-  }
-  private removeHtmlTags(content: string): string {
-    // Rimuovi le etichette HTML (non è la soluzione più precisa)
-    return content.replace(/<[^>]*>/g, '');
-  }
-
-  calculateReadingTime(content: string): number {
-    // assumiamo che 1 persona legga 200 parole/min:
-    const wordsPerMinute = 200;
-    const cleanContent = this.removeHtmlTags(content);
-    const words = cleanContent.split(/\s+/).length;
-    //calcolo:
-    this.readingTime = Math.ceil(words / wordsPerMinute);
-    return this.readingTime;
   }
 }

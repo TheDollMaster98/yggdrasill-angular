@@ -4,17 +4,23 @@ import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { Article, ArticleList } from '../models/article.model';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
   private temporaryArticle: Article | undefined;
+  private viewArticle: Article | undefined;
+
+  readingTime: number = 0;
+  sanitizedArticleContent: SafeHtml = '';
+
   article: Article = new Article();
   submitted: boolean = false;
 
-  constructor(private api: ApiService) {}
-
+  constructor(private api: ApiService, private sanitizer: DomSanitizer) {}
+  // preview articolo:
   setTemporaryArticle(article: Article) {
     console.log('Temporary article set:', article);
     this.temporaryArticle = article;
@@ -24,11 +30,31 @@ export class ArticleService {
     console.log('Showing temporary article:', this.temporaryArticle);
     return this.temporaryArticle;
   }
-
+  // WIP
   newArticle(): void {
     console.log('Creating a new article');
     this.submitted = false;
     this.article = new Article();
+  }
+  // pulizia HTML:
+  // WIP da rendere privata
+  sanitizeAndSetArticleContent(content: string): SafeHtml {
+    return (this.sanitizedArticleContent =
+      this.sanitizer.bypassSecurityTrustHtml(content));
+  }
+  private removeHtmlTags(content: string): string {
+    // Rimuovi le etichette HTML (non è la soluzione più precisa)
+    return content.replace(/<[^>]*>/g, '');
+  }
+  // calcolo tempo di lettura
+  calculateReadingTime(content: string): number {
+    // assumiamo che 1 persona legga 200 parole/min:
+    const wordsPerMinute = 200;
+    const cleanContent = this.removeHtmlTags(content);
+    const words = cleanContent.split(/\s+/).length;
+    //calcolo:
+    this.readingTime = Math.ceil(words / wordsPerMinute);
+    return this.readingTime;
   }
 
   // CRUD Operations
