@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { environment } from 'src/environments/environment';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { Article, ArticleList } from '../models/article.model';
 
 @Injectable({
@@ -64,16 +64,39 @@ export class ArticleService {
       catchError(this.handleError)
     );
   }
+  //VECCHIO
+  // updateArticle(id: string | number, article: Article): Observable<Article> {
+  //   console.log(`Updating article with ID ${id}:`, article);
+  //   return this.api
+  //     .callPut<Article>(`${environment.articles}/${id}`, article)
+  //     .pipe(
+  //       map((response: Article) => {
+  //         console.log('Article updated:', response);
+  //         return response;
+  //       }),
+  //       catchError(this.handleError)
+  //     );
+  // }
+
+  getUpdatedArticle(id: string | number): Observable<Article> {
+    console.log(`Getting updated article by ID: ${id}`);
+    return this.api.callGet<Article>(`${environment.articles}/${id}`).pipe(
+      map((response: Article) => {
+        console.log('Received updated article:', response);
+        return response;
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  // ... altre operazioni CRUD ...
 
   updateArticle(id: string | number, article: Article): Observable<Article> {
     console.log(`Updating article with ID ${id}:`, article);
     return this.api
       .callPut<Article>(`${environment.articles}/${id}`, article)
       .pipe(
-        map((response: Article) => {
-          console.log('Article updated:', response);
-          return response;
-        }),
+        switchMap(() => this.getUpdatedArticle(id)), // Chiamata per ottenere l'articolo aggiornato
         catchError(this.handleError)
       );
   }

@@ -66,6 +66,7 @@ import { PodcastPage } from './components/pages/podcast/podcast.page';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { EditorModule } from './components/editor/editor/editor.module';
+import { ArticleViewComponent } from './components/editor/article-view/article-view.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { EditorModule } from './components/editor/editor/editor.module';
     ArticlePreviewComponent,
     ArticleListComponent,
     PodcastPage,
+    ArticleViewComponent,
   ],
   providers: [
     DashboardService,

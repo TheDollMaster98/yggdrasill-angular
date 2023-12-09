@@ -24,5 +24,6 @@ export const environment = {
   firebaseConfig: config.firebaseConfig,
   databaseURL: config.firebaseConfig.databaseURL,
   articles: apiUrl + 'api/articles',
-  createArticle: apiUrl + 'api/createArticles', // Aggiunto l'URL per la creazione degli articoli
+  createArticle: apiUrl + 'api/createArticles',
+  newArticles: apiUrl + 'api/newArticles',
 };
