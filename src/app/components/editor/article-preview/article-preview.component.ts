@@ -16,10 +16,10 @@ export class ArticlePreviewComponent implements OnChanges {
   @Input() articlePageStyle: string = '';
   // @Input() color: string = '';
   @Input() articleContent: string = '';
+  @Input() article: Article = new Article();
+
   readingTime: number = 0;
   sanitizedArticleContent: SafeHtml = '';
-
-  article: Article = new Article();
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -37,27 +37,41 @@ export class ArticlePreviewComponent implements OnChanges {
     }
   }
 
+  //test nuovo articolo:
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['article']) {
+  //     const newArticle = changes['article'].currentValue as Article;
+  //     this.sanitizeAndSetArticleContent(newArticle.articleContent || 'N/A');
+  //     this.calculateReadingTime(newArticle.articleContent || 'N/A');
+  //   }
+  // }
+
   ngOnInit(): void {
-    // Ottieni i dati temporanei dell'articolo dal servizio
     const temporaryArticle = this.articleService.showTemporaryArticle();
-    console.log('Temporary Article:', temporaryArticle);
+    const article = this.articleService.getArticles();
 
-    // Imposta i dati temporanei nell'anteprima
     if (temporaryArticle) {
-      this.sanitizedArticleContent = this.sanitizer.bypassSecurityTrustHtml(
-        temporaryArticle.articleContent ?? ''
-      );
-
+      this.sanitizeAndSetArticleContent(temporaryArticle.articleContent ?? '');
       // Calcola il tempo di lettura quando i dati temporanei cambiano
       this.calculateReadingTime(temporaryArticle.articleContent ?? '');
       // Altri dati dell'articolo...
     }
   }
 
+  private sanitizeAndSetArticleContent(content: string): SafeHtml {
+    return (this.sanitizedArticleContent =
+      this.sanitizer.bypassSecurityTrustHtml(content));
+  }
+  private removeHtmlTags(content: string): string {
+    // Rimuovi le etichette HTML (non è la soluzione più precisa)
+    return content.replace(/<[^>]*>/g, '');
+  }
+
   calculateReadingTime(content: string): number {
     // assumiamo che 1 persona legga 200 parole/min:
     const wordsPerMinute = 200;
-    const words = content.split(/\s+/).length;
+    const cleanContent = this.removeHtmlTags(content);
+    const words = cleanContent.split(/\s+/).length;
     //calcolo:
     this.readingTime = Math.ceil(words / wordsPerMinute);
     return this.readingTime;
