@@ -6,10 +6,18 @@
     <header class="article-header text-center">
       <h1>{{ articleTitle }}</h1>
       <div
-        class="header-details d-flex justify-content-center align-items-center"
+        class="header-details d-flex justify-content-center align-items-center flex-column"
       >
-        <h6 class="me-2">{{ genre }}&nbsp;|&nbsp;</h6>
-        <h6>Pubblicato il:&nbsp;{{ publishDate | date : "dd/MM/yyyy" }}</h6>
+        <div>
+          <h6 class="me-2">
+            {{ genre }}&nbsp;|&nbsp;Pubblicato il:&nbsp;{{
+              publishDate | date : "dd/MM/yyyy"
+            }}
+          </h6>
+        </div>
+        <div>
+          <h6>{{ calculateReadingTime(articleContent) }} minuti</h6>
+        </div>
       </div>
     </header>
 
@@ -27,15 +35,19 @@
   <div
     class="article-author w-100 d-flex justify-content-center align-items-start"
   >
-    <div class="align-self-start mb-4 flex-column">
+    <div
+      class="d-flex justify-content-center align-items-center align-self-start mb-4 flex-column"
+    >
+      <!--cerchio-->
       <div
         class="profile-picture-container d-flex justify-content-center align-items-start mt-3"
       >
         <!-- Inserisci la tua foto del profilo qui -->
       </div>
-      <div class="ms-2 mt-2">
+      <div class="ms-2 my-2">
         {{ author }}
       </div>
+      <div class="article-tags">#prova #cose #ciao</div>
     </div>
 
     <!-- <div class="article-tags">

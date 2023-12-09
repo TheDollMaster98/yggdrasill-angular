@@ -1,4 +1,3 @@
-// article-preview.component.ts
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ArticleService } from 'src/app/service/article.service';
@@ -17,6 +16,7 @@ export class ArticlePreviewComponent implements OnChanges {
   @Input() articlePageStyle: string = '';
   // @Input() color: string = '';
   @Input() articleContent: string = '';
+  readingTime: number = 0;
   sanitizedArticleContent: SafeHtml = '';
 
   article: Article = new Article();
@@ -31,6 +31,9 @@ export class ArticlePreviewComponent implements OnChanges {
       this.sanitizedArticleContent = this.sanitizer.bypassSecurityTrustHtml(
         this.articleContent
       );
+
+      // Calcola il tempo di lettura quando il contenuto cambia
+      this.calculateReadingTime(this.articleContent);
     }
   }
 
@@ -44,7 +47,19 @@ export class ArticlePreviewComponent implements OnChanges {
       this.sanitizedArticleContent = this.sanitizer.bypassSecurityTrustHtml(
         temporaryArticle.articleContent ?? ''
       );
+
+      // Calcola il tempo di lettura quando i dati temporanei cambiano
+      this.calculateReadingTime(temporaryArticle.articleContent ?? '');
       // Altri dati dell'articolo...
     }
+  }
+
+  calculateReadingTime(content: string): number {
+    // assumiamo che 1 persona legga 200 parole/min:
+    const wordsPerMinute = 200;
+    const words = content.split(/\s+/).length;
+    //calcolo:
+    this.readingTime = Math.ceil(words / wordsPerMinute);
+    return this.readingTime;
   }
 }
