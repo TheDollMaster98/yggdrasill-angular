@@ -4,19 +4,20 @@
   <!--articolo-->
   <div>
     <header class="article-header text-center">
-      <h1>{{ articleTitle }}</h1>
+      <h1 class="m-0 mb-2">{{ articleTitle }}</h1>
       <div
         class="header-details d-flex justify-content-center align-items-center flex-column"
       >
         <div>
-          <h6 class="me-2">
+          <h6 class="m-0 mb-2">
             {{ genre }}&nbsp;|&nbsp;Pubblicato il:&nbsp;{{
               publishDate | date : "dd/MM/yyyy"
             }}
           </h6>
         </div>
-        <div>
-          <h6>{{ calculateReadingTime(articleContent) }} minuti</h6>
+        <div class="d-flex justify-content-center align-items-center">
+          <h6 class="m-0">{{ readingTime }} minuti</h6>
+          <app-instagram-link [size]="1.625"></app-instagram-link>
         </div>
       </div>
     </header>
