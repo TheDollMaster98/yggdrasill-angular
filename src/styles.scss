@@ -1,5 +1,9 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
 //Orbitron:
 //font-family: 'Orbitron', sans-serif;
 @import url('https://fonts.googleapis.com/css?family=Orbitron:400,700');
