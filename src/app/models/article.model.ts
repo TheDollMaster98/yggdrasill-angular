@@ -1,6 +1,5 @@
 // article.model.ts
-export class Article {
-  // id?: string | number;
+export interface Article {
   author?: string;
   genre?: string;
   articleTitle?: string;

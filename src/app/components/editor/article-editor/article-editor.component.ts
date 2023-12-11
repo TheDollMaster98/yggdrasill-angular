@@ -13,6 +13,26 @@ import { Article } from 'src/app/models/article.model';
 export class ArticleEditorPage implements OnInit {
   articleForm!: FormGroup;
 
+  get articleTitleControl() {
+    return this.articleForm.get('articleTitle')!;
+  }
+
+  get publishDateControl() {
+    return this.articleForm.get('publishDate')!;
+  }
+
+  get authorControl() {
+    return this.articleForm.get('author')!;
+  }
+
+  get genreControl() {
+    return this.articleForm.get('genre')!;
+  }
+
+  get articleContentControl() {
+    return this.articleForm.get('articleContent')!;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
@@ -34,48 +54,21 @@ export class ArticleEditorPage implements OnInit {
   }
 
   previewArticle() {
-    // Verifica se il form è valido prima di aprire l'anteprima
     if (this.articleForm.valid) {
-      // Salva temporaneamente l'articolo nel servizio
       this.articleService.setTemporaryArticle(this.articleForm.value);
 
-      // Apri l'anteprima
       const modalRef = this.modalService.open(ArticlePreviewComponent, {
         size: 'lg',
       });
 
-      // Passa i dati all'anteprima
-      modalRef.componentInstance.articleTitle =
-        this.articleForm.get('articleTitle')!.value;
-      modalRef.componentInstance.publishDate =
-        this.articleForm.get('publishDate')!.value;
-      modalRef.componentInstance.author = this.articleForm.get('author')!.value;
-      modalRef.componentInstance.genre = this.articleForm.get('genre')!.value;
+      modalRef.componentInstance.articleTitle = this.articleTitleControl.value;
+      modalRef.componentInstance.publishDate = this.publishDateControl.value;
+      modalRef.componentInstance.author = this.authorControl.value;
+      modalRef.componentInstance.genre = this.genreControl.value;
       modalRef.componentInstance.articleContent =
-        this.articleForm.get('articleContent')!.value;
+        this.articleContentControl.value;
     }
   }
-  //VECCHIO
-  // saveArticle() {
-  //   // Mostra la conferma prima di salvare
-  //   // const confirmSave = confirm("Sei sicuro di voler salvare l'articolo?");
-  //   // if (confirmSave) {
-  //   if (this.articleForm.valid) {
-  //     // Esegui la chiamata di salvataggio (implementazione della CRUD)
-  //     this.articleService.createArticle(this.articleForm.value).subscribe({
-  //       next: (response) => {
-  //         // Gestisci la risposta dal server (se necessario)
-  //         console.log('Articolo salvato con successo:', response);
-  //       },
-  //       error: (error) => {
-  //         // Gestisci gli errori (se necessario)
-  //         console.error("Errore durante il salvataggio dell'articolo:", error);
-  //         // Aggiungi questa riga per ottenere maggiori dettagli sull'errore
-  //         console.error("Dettagli dell'errore:", error.error);
-  //       },
-  //     });
-  //   }
-  // }
 
   saveArticle() {
     if (this.articleForm.valid) {

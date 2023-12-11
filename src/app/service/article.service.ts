@@ -16,48 +16,56 @@ export class ArticleService {
   readingTime: number = 0;
   sanitizedArticleContent: SafeHtml = '';
 
-  article: Article = new Article();
+  // article: Article = new Article();
   submitted: boolean = false;
 
+  private createArticleUrl =
+    'https://yggdrasill-server-4c5d50388301.herokuapp.com/api/createArticle';
+
   constructor(private api: ApiService, private sanitizer: DomSanitizer) {}
-  // preview articolo:
+
+  // Metodo per impostare temporaneamente un articolo
   setTemporaryArticle(article: Article) {
     console.log('Temporary article set:', article);
     this.temporaryArticle = article;
   }
 
+  // Metodo per mostrare temporaneamente un articolo
   showTemporaryArticle(): Article | undefined {
     console.log('Showing temporary article:', this.temporaryArticle);
     return this.temporaryArticle;
   }
-  // WIP
+
+  // Metodo per creare un nuovo articolo
   newArticle(): void {
     console.log('Creating a new article');
     this.submitted = false;
-    this.article = new Article();
+    // this.article = new Article();
   }
-  // pulizia HTML:
-  // WIP da rendere privata
+
+  // Metodo per pulire l'HTML e impostare il contenuto dell'articolo in formato sicuro
   sanitizeAndSetArticleContent(content: string): SafeHtml {
     return (this.sanitizedArticleContent =
       this.sanitizer.bypassSecurityTrustHtml(content));
   }
+
+  // Metodo privato per rimuovere i tag HTML dal contenuto
   private removeHtmlTags(content: string): string {
-    // Rimuovi le etichette HTML (non è la soluzione più precisa)
     return content.replace(/<[^>]*>/g, '');
   }
-  // calcolo tempo di lettura
+
+  // Metodo per calcolare il tempo di lettura
   calculateReadingTime(content: string): number {
-    // assumiamo che 1 persona legga 200 parole/min:
     const wordsPerMinute = 200;
     const cleanContent = this.removeHtmlTags(content);
     const words = cleanContent.split(/\s+/).length;
-    //calcolo:
     this.readingTime = Math.ceil(words / wordsPerMinute);
     return this.readingTime;
   }
 
-  // CRUD Operations
+  /**----------------------------------------------------------------------- */
+  // CRUD Operations:
+  // Metodo per ottenere la lista degli articoli
   getArticles(): Observable<ArticleList> {
     console.log('Getting articles');
     return this.api.callGet<ArticleList>(environment.articles).pipe(
@@ -69,9 +77,12 @@ export class ArticleService {
     );
   }
 
+  // Metodo per ottenere un singolo articolo per ID
   getArticleById(id: string | number): Observable<Article> {
     console.log(`Getting article by ID: ${id}`);
-    return this.api.callGet<Article>(`${environment.articles}/${id}`).pipe(
+    let url = `${environment.article}/${id}`;
+
+    return this.api.callGet<Article>(url).pipe(
       map((response: Article) => {
         console.log('Received article:', response);
         return response;
@@ -80,60 +91,41 @@ export class ArticleService {
     );
   }
 
+  // Metodo per creare un nuovo articolo
   createArticle(article: Article): Observable<Article> {
     console.log('Creating article:', article);
-    return this.api.callPost<Article>(environment.createArticle, article).pipe(
+    return this.api.callPost<Article>(this.createArticleUrl, article).pipe(
       map((response: Article) => {
         console.log('Article created:', response);
         return response;
       }),
-      catchError(this.handleError)
-    );
-  }
-  //VECCHIO
-  // updateArticle(id: string | number, article: Article): Observable<Article> {
-  //   console.log(`Updating article with ID ${id}:`, article);
-  //   return this.api
-  //     .callPut<Article>(`${environment.articles}/${id}`, article)
-  //     .pipe(
-  //       map((response: Article) => {
-  //         console.log('Article updated:', response);
-  //         return response;
-  //       }),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  getUpdatedArticle(id: string | number): Observable<Article> {
-    console.log(`Getting updated article by ID: ${id}`);
-    return this.api.callGet<Article>(`${environment.articles}/${id}`).pipe(
-      map((response: Article) => {
-        console.log('Received updated article:', response);
-        return response;
-      }),
-      catchError(this.handleError)
+      catchError((error) => {
+        console.error('Error creating article:', error);
+        throw error;
+      })
     );
   }
 
-  // ... altre operazioni CRUD ...
-
+  // Metodo per aggiornare un articolo
   updateArticle(id: string | number, article: Article): Observable<Article> {
     console.log(`Updating article with ID ${id}:`, article);
-    return this.api
-      .callPut<Article>(`${environment.articles}/${id}`, article)
-      .pipe(
-        switchMap(() => this.getUpdatedArticle(id)), // Chiamata per ottenere l'articolo aggiornato
-        catchError(this.handleError)
-      );
+    let url = `${environment.articles}/${id}`;
+
+    return this.api.callPut<Article>(url, article).pipe(
+      switchMap(() => this.getArticleById(id)),
+      catchError(this.handleError)
+    );
   }
 
+  // Metodo per eliminare un articolo
   deleteArticle(id: string | number): Observable<void> {
     console.log(`Deleting article with ID ${id}`);
-    return this.api
-      .callDelete<void>(`${environment.articles}/${id}`)
-      .pipe(catchError(this.handleError));
+    let url = `${environment.articles}/${id}`;
+
+    return this.api.callDelete<void>(url).pipe(catchError(this.handleError));
   }
 
+  // Gestione degli errori generica
   private handleError(error: any) {
     console.error('An error occurred:', error);
     return throwError(() => error);

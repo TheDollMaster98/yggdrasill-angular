@@ -16,7 +16,8 @@ export class ArticlePreviewComponent implements OnChanges {
   @Input() articlePageStyle: string = '';
   // @Input() color: string = '';
   @Input() articleContent: string = '';
-  @Input() article: Article = new Article();
+  // @Input() article: Article = new Article();
+  @Input() isTemporary: boolean = false;
 
   readingTime: number = 0;
   sanitizedArticleContent: SafeHtml = '';

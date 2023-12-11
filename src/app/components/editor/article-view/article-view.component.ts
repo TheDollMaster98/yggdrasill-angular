@@ -15,7 +15,7 @@ export class ArticleViewComponent implements OnChanges {
   @Input() articlePageStyle: string = '';
   // @Input() color: string = '';
   @Input() articleContent: string = '';
-  @Input() article: Article = new Article();
+  // @Input() article: Article = new Article();
 
   readingTime: number = 0;
   sanitizedArticleContent: SafeHtml = '';
@@ -47,19 +47,5 @@ export class ArticleViewComponent implements OnChanges {
   //   }
   // }
 
-  ngOnInit(): void {
-    const temporaryArticle = this.articleService.showTemporaryArticle();
-    const article = this.articleService.getArticles();
-
-    if (temporaryArticle) {
-      this.articleService.sanitizeAndSetArticleContent(
-        temporaryArticle.articleContent ?? ''
-      );
-      // Calcola il tempo di lettura quando i dati temporanei cambiano
-      this.readingTime = this.articleService.calculateReadingTime(
-        temporaryArticle.articleContent ?? ''
-      );
-      // Altri dati dell'articolo...
-    }
-  }
+  ngOnInit(): void {}
 }

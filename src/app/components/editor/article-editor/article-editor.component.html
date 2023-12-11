@@ -1,14 +1,15 @@
 <div>
   <h2>Editor di Articoli</h2>
-  <!--dirgli di mostrare questohtml-->
-  <div *ngIf="articleForm.get('articleTitle')!.value">
+
+  <div *ngIf="articleTitleControl.value">
     <h3>Anteprima Articolo:</h3>
     <app-article-preview
-      [articleTitle]="articleForm.get('articleTitle')!.value"
-      [publishDate]="articleForm.get('publishDate')!.value"
-      [author]="articleForm.get('author')!.value"
-      [genre]="articleForm.get('genre')!.value"
-      [articleContent]="articleForm.get('articleContent')!.value"
+      [isTemporary]="false"
+      [articleTitle]="articleTitleControl.value"
+      [publishDate]="publishDateControl.value"
+      [author]="authorControl.value"
+      [genre]="genreControl.value"
+      [articleContent]="articleContentControl.value"
     ></app-article-preview>
     <hr />
   </div>
@@ -25,14 +26,15 @@
         />
         <div
           *ngIf="
-            articleForm.get('articleTitle')!.hasError('required') &&
-            articleForm.get('articleTitle')!.touched
+            articleTitleControl.hasError('required') &&
+            articleTitleControl.touched
           "
           class="text-danger"
         >
           Il titolo è obbligatorio.
         </div>
       </div>
+
       <div class="flex-fill ms-2">
         <label for="publishDate">Data di Pubblicazione:</label>
         <input
@@ -43,8 +45,8 @@
         />
         <div
           *ngIf="
-            articleForm.get('publishDate')!.hasError('required') &&
-            articleForm.get('publishDate')!.touched
+            publishDateControl.hasError('required') &&
+            publishDateControl.touched
           "
           class="text-danger"
         >
@@ -63,10 +65,7 @@
           formControlName="author"
         />
         <div
-          *ngIf="
-            articleForm.get('author')!.hasError('required') &&
-            articleForm.get('author')!.touched
-          "
+          *ngIf="authorControl.hasError('required') && authorControl.touched"
           class="text-danger"
         >
           L'autore è obbligatorio.
@@ -82,10 +81,7 @@
           formControlName="genre"
         />
         <div
-          *ngIf="
-            articleForm.get('genre')!.hasError('required') &&
-            articleForm.get('genre')!.touched
-          "
+          *ngIf="genreControl.hasError('required') && genreControl.touched"
           class="text-danger"
         >
           Il genere è obbligatorio.
@@ -97,8 +93,8 @@
       <quill-editor formControlName="articleContent"></quill-editor>
       <div
         *ngIf="
-          articleForm.get('articleContent')!.hasError('required') &&
-          articleForm.get('articleContent')!.touched
+          articleContentControl.hasError('required') &&
+          articleContentControl.touched
         "
         class="text-danger"
       >
@@ -110,6 +106,7 @@
       <button class="btn btn-primary" type="button" (click)="resetArticle()">
         Reset Articolo
       </button>
+
       <div>
         <button
           class="btn btn-primary me-1"
@@ -118,6 +115,7 @@
         >
           Anteprima
         </button>
+
         <button
           class="btn btn-primary"
           type="button"
@@ -126,6 +124,7 @@
         >
           Pubblica
         </button>
+
         <button class="btn btn-primary" type="button" (click)="saveArticle()">
           Salva Articolo
         </button>
