@@ -65,7 +65,7 @@ import { ArticleListComponent } from './components/editor/article-list/article-l
 import { PodcastPage } from './components/pages/podcast/podcast.page';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
-import { EditorModule } from './components/editor/editor/editor.module';
+import { EditorModule } from './components/editor/editor.module';
 import { ArticleViewComponent } from './components/editor/article-view/article-view.component';
 
 @NgModule({
