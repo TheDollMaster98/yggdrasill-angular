@@ -1,13 +1,14 @@
 <!-- <h2>Articoli:</h2> -->
 <div *ngFor="let article of articles">
   <hr />
-  <app-article-view
+  <app-article-preview
+    [isTemporary]="false"
     [articleTitle]="article.articleTitle ?? 'N/A'"
     [publishDate]="article.publishDate ?? 'N/A'"
     [author]="article.author ?? 'N/A'"
     [genre]="article.genre ?? 'N/A'"
     [articleContent]="article.articleContent ?? 'N/A'"
-  ></app-article-view>
+  ></app-article-preview>
 </div>
 
 <!--

@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/models/article.model';
+import { catchError, tap, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-article-editor',
@@ -67,20 +68,29 @@ export class ArticleEditorPage implements OnInit {
       modalRef.componentInstance.genre = this.genreControl.value;
       modalRef.componentInstance.articleContent =
         this.articleContentControl.value;
+      modalRef.componentInstance.isTemporary = true;
     }
   }
 
-  saveArticle() {
+  publishArticle() {
     if (this.articleForm.valid) {
-      this.articleService.createArticle(this.articleForm.value).subscribe({
-        next: (response) => {
-          console.log('Articolo salvato con successo:', response);
-        },
-        error: (error) => {
-          console.error("Errore durante il salvataggio dell'articolo:", error);
-          console.error("Dettagli dell'errore:", error.error);
-        },
-      });
+      this.articleService
+        .createArticle(this.articleForm.value)
+        .pipe(
+          tap((response) => {
+            console.log('Articolo salvato con successo:', response);
+            this.resetArticle();
+          }),
+          catchError((error) => {
+            console.error(
+              "Errore durante il salvataggio dell'articolo:",
+              error
+            );
+            console.error("Dettagli dell'errore:", error.error);
+            return throwError(() => error);
+          })
+        )
+        .subscribe();
     }
   }
 

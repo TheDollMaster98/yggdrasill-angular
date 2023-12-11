@@ -1,10 +1,10 @@
 <div>
   <h2>Editor di Articoli</h2>
 
-  <div *ngIf="articleTitleControl.value">
+  <!-- <div *ngIf="articleTitleControl.value">
     <h3>Anteprima Articolo:</h3>
     <app-article-preview
-      [isTemporary]="false"
+      [isTemporary]="true"
       [articleTitle]="articleTitleControl.value"
       [publishDate]="publishDateControl.value"
       [author]="authorControl.value"
@@ -12,9 +12,9 @@
       [articleContent]="articleContentControl.value"
     ></app-article-preview>
     <hr />
-  </div>
+  </div> -->
 
-  <form [formGroup]="articleForm" (ngSubmit)="saveArticle()">
+  <form [formGroup]="articleForm">
     <div class="form-group d-flex">
       <div class="flex-fill">
         <label for="articleTitle">Titolo Articolo:</label>
@@ -119,15 +119,15 @@
         <button
           class="btn btn-primary"
           type="button"
-          (click)="saveArticle()"
+          (click)="publishArticle()"
           [disabled]="articleForm.invalid"
         >
           Pubblica
         </button>
 
-        <button class="btn btn-primary" type="button" (click)="saveArticle()">
+        <!-- <button class="btn btn-primary" type="button" (click)="saveArticle()">
           Salva Articolo
-        </button>
+        </button> -->
       </div>
     </div>
   </form>
