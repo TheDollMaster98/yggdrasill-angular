@@ -1,12 +1,16 @@
 <div class="countdown-timer">
-  <div class="led-digital" *ngIf="!showComingSoonMessage">
-    {{ countdownTime }}
+  <div
+    *ngIf="!showComingSoonMessage"
+    class="d-flex justify-content-center align-items-center vw-100 flex-column"
+  >
+    <div class="end-coming-soon">Lavori in corso, termineranno fra:</div>
+    <div class="led-digital">{{ countdownTime }}</div>
   </div>
   <div
-    class="d-flex justify-content-center align-items-center flex-column"
+    class="end-coming-soon d-flex justify-content-center align-items-center flex-column"
     *ngIf="showComingSoonMessage"
   >
-    <span>Il sito sarà presto online! </span><br />
-    <span>seguiteci su IG per ulteriori aggiornamenti.</span>
+    <div>Il sito sarà presto online!</div>
+    <div>seguiteci su IG per ulteriori aggiornamenti.</div>
   </div>
 </div>
