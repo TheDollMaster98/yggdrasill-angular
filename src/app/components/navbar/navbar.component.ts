@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
   isClockOff = true;
   currentTime = '';
+  isMenuOpen: boolean = false;
 
   constructor() {
     setTimeout(() => this.secondPassed(), 2000);
@@ -20,9 +21,7 @@ export class NavbarComponent implements OnInit {
       this.currentTime = `${hours} : ${minutes} : ${seconds}`;
     }, 1000);
   }
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  ngOnInit(): void {}
 
   secondPassed() {
     this.isClockOff = false;
@@ -30,5 +29,9 @@ export class NavbarComponent implements OnInit {
 
   formatTimeUnit(unit: number) {
     return unit < 10 ? '0' + unit : unit.toString();
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

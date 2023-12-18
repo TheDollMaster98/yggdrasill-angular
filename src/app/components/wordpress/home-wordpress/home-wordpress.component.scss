@@ -1,0 +1,24 @@
+.cover-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: url('https://s0.wp.com/wp-content/themes/pub/bute/assets/images/StockSnap_D49XR0MX5L.jpg') center/cover no-repeat;
+    color: #ffffff; // Cambia il colore del testo in base al tuo stile
+  }
+  
+  .cover-content {
+    text-align: center;
+  }
+  
+  .discover-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 2px solid #ffffff; // Cambia il colore del bordo in base al tuo stile
+    color: #ffffff; // Cambia il colore del testo in base al tuo stile
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  

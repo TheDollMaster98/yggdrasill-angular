@@ -1,0 +1,45 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .article-font {
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .article-page {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+  
+  .article-author-section {
+    background-color: #202124;
+  }
+  
+  .article-author {
+    background-color: #b5cae7;
+  }
+  
+  .profile-picture-container {
+    background-color: #202124;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+  
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+  
+  .article-tags {
+    color: #000000; /* Colore nero */
+    font-weight: bold; /* Stile normale, puoi cambiare in 'bold' se desideri grassetto */
+    font-style: bold; /* Stile normale, puoi cambiare in 'italic' se desideri corsivo */
+  }

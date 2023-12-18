@@ -21,6 +21,6 @@ export class CarouselComponent implements OnInit {
     config.pauseOnHover = false;
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
   }
 }

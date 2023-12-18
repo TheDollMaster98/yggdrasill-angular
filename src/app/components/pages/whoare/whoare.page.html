@@ -1,0 +1,73 @@
+<!-- whoare.page.html -->
+<div class="container mt-4">
+  <!-- Sezione Yggdrasill -->
+  <div class="mb-4">
+    <h2 class="fw-bold">Chi siamo</h2>
+    <p>
+      Nella mitologia norrena, Yggdrasill è l'albero cosmico che collega tra
+      loro i nove regni.
+    </p>
+    <p>
+      Allo stesso modo, noi vogliamo essere ciò che lega tra loro le persone,
+      creando un nuovo spazio dove tutti possano sentirsi a casa, imparare,
+      condividere le proprie emozioni e sentirsi compresi.
+    </p>
+  </div>
+
+  <!-- Sezione Il nostro team -->
+  <div class="team-section mb-4">
+    <h2 class="fw-bold text-center mb-3">Il nostro team</h2>
+
+    <!-- Sezione Leadership & Management -->
+    <div class="ceo-role mb-4">
+      <!-- <h3 class="fw-bold mb-3">Leadership & Management</h3> -->
+      <div class="d-flex justify-content-around align-items-center flex-wrap">
+        <div
+          class="creative-member col-12 col-md-4 col-lg-3"
+          *ngFor="let member of keyTeamMembers"
+        >
+          <div class="text-center">
+            <img
+              [src]="member.image"
+              alt="{{ member.name }}"
+              class="rounded-image leader-image mb-3"
+            />
+
+            <div class="text-center ms-1 mb-4">
+              <h2 class="name">{{ member.name }}</h2>
+              <h4 class="role">{{ member.role }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione Team Creativo -->
+    <div class="team-role member-role mt-4">
+      <!-- <h3 class="fw-bold mb-3">Leadership & Management</h3> -->
+      <div
+        class="d-flex justify-content-around align-items-center flex-wrap gap-4"
+      >
+        <div
+          class="creative-member col-12 col-md-4 col-lg-2"
+          *ngFor="let member of teamMembers"
+        >
+          <div class="text-center">
+            <img
+              [src]="member.image"
+              alt="{{ member.name }}"
+              class="rounded-image mb-3"
+            />
+
+            <div class="text-center ms-1">
+              <h2 class="name">{{ member.name }}</h2>
+              <h4 class="role">{{ member.role }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Altre Sezioni per altri ruoli ... -->
+  </div>
+</div>

@@ -1,0 +1,11 @@
+scrivere regole gdpr:
+<div class="gdpr-notification" *ngIf="showNotification">
+  <p>
+    Il nostro sito web raccoglie e utilizza dati personali per offrire
+    un'esperienza personalizzata. Per saperne di più e modificare le tue
+    preferenze, consulta la nostra
+    <a href="/privacy-policy">politica sulla privacy</a>.
+  </p>
+  <button (click)="acceptCookies()">Accetta</button>
+  <button (click)="rejectCookies()">Rifiuta</button>
+</div>

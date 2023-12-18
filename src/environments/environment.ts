@@ -13,15 +13,18 @@ import { config } from 'src/config/config';
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
-const apiUrl = 'http://localhost:3000'; //test locale
-// const apiUrl = 'http://localhost:3000/'; //test remoto
-
+// const apiUrl = 'http://localhost:3000/'; // test locale
+// const apiUrl = 'https://us-central1-yggdrasill-project.cloudfunctions.net/'; // firebase
+const apiUrl = 'https://yggdrasill-server-4c5d50388301.herokuapp.com/';
 export const environment = {
   production: false,
   /*
     configurazioni nascoste di firebase: src/config.ts
   */
   firebaseConfig: config.firebaseConfig,
-
-  countdown: apiUrl + '/api/countdown',
+  databaseURL: config.firebaseConfig.databaseURL,
+  article: apiUrl + 'api/article',
+  articles: apiUrl + 'api/articles',
+  createArticle: apiUrl + 'api/createArticle',
+  getArticle: apiUrl + 'api/article',
 };

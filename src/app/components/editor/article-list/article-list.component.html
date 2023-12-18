@@ -1,0 +1,29 @@
+<!-- <h2>Articoli:</h2> -->
+<div *ngFor="let article of articles">
+  <hr />
+  <app-article-preview
+    [isTemporary]="false"
+    [articleTitle]="article.articleTitle ?? 'N/A'"
+    [publishDate]="article.publishDate ?? 'N/A'"
+    [author]="article.author ?? 'N/A'"
+    [genre]="article.genre ?? 'N/A'"
+    [articleContent]="article.articleContent ?? 'N/A'"
+  ></app-article-preview>
+</div>
+
+<!--
+<div *ngIf="articles.length > 0; else noArticles">
+  <div *ngFor="let article of articles; let i = index" class="article-item">
+    <app-article-preview
+      [article]="article"
+      [isEditorPreview]="false"
+      (click)="setActiveArticle(article, i)"
+    ></app-article-preview>
+  </div>
+</div>
+
+<ng-template #noArticles>
+  <p>No articles available.</p>
+</ng-template>
+
+-->

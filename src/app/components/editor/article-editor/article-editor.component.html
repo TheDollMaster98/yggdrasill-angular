@@ -1,0 +1,134 @@
+<div>
+  <h2>Editor di Articoli</h2>
+
+  <!-- <div *ngIf="articleTitleControl.value">
+    <h3>Anteprima Articolo:</h3>
+    <app-article-preview
+      [isTemporary]="true"
+      [articleTitle]="articleTitleControl.value"
+      [publishDate]="publishDateControl.value"
+      [author]="authorControl.value"
+      [genre]="genreControl.value"
+      [articleContent]="articleContentControl.value"
+    ></app-article-preview>
+    <hr />
+  </div> -->
+
+  <form [formGroup]="articleForm">
+    <div class="form-group d-flex">
+      <div class="flex-fill">
+        <label for="articleTitle">Titolo Articolo:</label>
+        <input
+          type="text"
+          id="articleTitle"
+          class="form-control text-dark"
+          formControlName="articleTitle"
+        />
+        <div
+          *ngIf="
+            articleTitleControl.hasError('required') &&
+            articleTitleControl.touched
+          "
+          class="text-danger"
+        >
+          Il titolo è obbligatorio.
+        </div>
+      </div>
+
+      <div class="flex-fill ms-2">
+        <label for="publishDate">Data di Pubblicazione:</label>
+        <input
+          type="date"
+          id="publishDate"
+          class="form-control text-dark"
+          formControlName="publishDate"
+        />
+        <div
+          *ngIf="
+            publishDateControl.hasError('required') &&
+            publishDateControl.touched
+          "
+          class="text-danger"
+        >
+          La data di pubblicazione è obbligatoria.
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group d-flex mb-1">
+      <div class="flex-fill">
+        <label for="author">Autore:</label>
+        <input
+          type="text"
+          id="author"
+          class="form-control text-dark"
+          formControlName="author"
+        />
+        <div
+          *ngIf="authorControl.hasError('required') && authorControl.touched"
+          class="text-danger"
+        >
+          L'autore è obbligatorio.
+        </div>
+      </div>
+
+      <div class="flex-fill ms-2">
+        <label for="genre">Genere:</label>
+        <input
+          type="text"
+          id="genre"
+          class="form-control text-dark"
+          formControlName="genre"
+        />
+        <div
+          *ngIf="genreControl.hasError('required') && genreControl.touched"
+          class="text-danger"
+        >
+          Il genere è obbligatorio.
+        </div>
+      </div>
+    </div>
+
+    <div class="h-100">
+      <quill-editor formControlName="articleContent"></quill-editor>
+      <div
+        *ngIf="
+          articleContentControl.hasError('required') &&
+          articleContentControl.touched
+        "
+        class="text-danger"
+      >
+        Il contenuto dell'articolo è obbligatorio.
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-2 mx-1">
+      <button class="btn btn-primary" type="button" (click)="resetArticle()">
+        Reset Articolo
+      </button>
+
+      <div>
+        <button
+          class="btn btn-primary me-1"
+          (click)="previewArticle()"
+          [disabled]="articleForm.invalid"
+        >
+          Anteprima
+        </button>
+
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="publishArticle()"
+          [disabled]="articleForm.invalid"
+        >
+          Pubblica
+        </button>
+
+        <!-- <button class="btn btn-primary" type="button" (click)="saveArticle()">
+          Salva Articolo
+        </button> -->
+      </div>
+    </div>
+  </form>
+</div>

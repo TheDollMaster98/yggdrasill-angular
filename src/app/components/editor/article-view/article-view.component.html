@@ -1,0 +1,86 @@
+<div class="article-page">
+  <!--div pubblicità-->
+  <div class="article-author w-100"></div>
+  <!--articolo-->
+  <div>
+    <header class="article-header text-center">
+      <h1 class="m-0 mb-2">{{ articleTitle }}</h1>
+      <div
+        class="header-details d-flex justify-content-center align-items-center flex-column"
+      >
+        <div>
+          <h6 class="m-0 mb-2">
+            {{ genre }}&nbsp;|&nbsp;Pubblicato il:&nbsp;{{
+              publishDate | date : "dd/MM/yyyy"
+            }}
+          </h6>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <h6 class="m-0">{{ readingTime }} minuti</h6>
+          <app-instagram-link [size]="1.625"></app-instagram-link>
+        </div>
+      </div>
+    </header>
+
+    <main class="article-main">
+      <div class="article-content mx-1">
+        <div
+          [style.color]="articlePageStyle"
+          class="article-font d-flex justify-content-center align-items-center"
+          [innerHTML]="sanitizedArticleContent"
+        ></div>
+      </div>
+    </main>
+  </div>
+  <!--info autore e cagate-->
+  <div
+    class="article-author w-100 d-flex justify-content-center align-items-start"
+  >
+    <div
+      class="d-flex justify-content-center align-items-center align-self-start mb-4 flex-column"
+    >
+      <!--cerchio-->
+      <div
+        class="profile-picture-container d-flex justify-content-center align-items-start mt-3"
+      >
+        <!-- Inserisci la tua foto del profilo qui -->
+      </div>
+      <div class="ms-2 my-2">
+        {{ author }}
+      </div>
+      <div class="article-tags">#prova #cose #ciao</div>
+    </div>
+
+    <!-- <div class="article-tags">
+      <p>Tag:</p>
+      <ul>
+        <li *ngFor="let tag of tags">
+          {{ tag }}
+        </li>
+      </ul>
+    </div> -->
+  </div>
+</div>
+
+<!-- <div [style.color]="articlePageStyle">
+    <p>Genere: {{ genre }}</p>
+    <h2 class="text-center">{{ articleTitle }}</h2>
+    <p class="text-center">
+      Autore: {{ author }} - Pubblicato il: {{ publishDate }}
+    </p>
+    <div
+      class="article-font d-flex justify-content-center align-items-center"
+      [innerHTML]="sanitizedArticleContent"
+    ></div>
+  </div> -->
+
+<!--
+    <div [style.color]="articleColorClass">
+    <h2>{{ article?.articleTitle }}</h2>
+    <p class="author">Autore: {{ article?.author }}</p>
+    <p class="genre">Genere: {{ article?.genre }}</p>
+    <p class="publish-date">Data di pubblicazione: {{ article?.publishDate }}</p>
+    <div [innerHtml]="sanitizedArticleContent"></div>
+  </div>
+  
+  -->

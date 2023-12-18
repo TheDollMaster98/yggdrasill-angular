@@ -1,21 +1,54 @@
-/* You can add global styles to this file, and also import other style files */
-
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
 //Orbitron:
 //font-family: 'Orbitron', sans-serif;
 @import url('https://fonts.googleapis.com/css?family=Orbitron:400,700');
+// Montserrat:
+//font per gli articoli
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+//custom css
+@import "./assets/css/social-icons/social-icons.scss";
 
+/**
+
+:root {
+    // Dimensioni globali e box model 
+    --margin: 0;
+    --padding: 0;
+    --box-sizing: border-box;
+
+    // Colori globali 
+    --background-color: #091833;
+    --text-color: #f5f5f5;
+    --font-size: 16px;
+    --font-family: 'Montserrat', sans-serif;
+}
+*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #091833 !important; //da commentare in futuro
-    color: #f5f5f5 !important;
+    // background-color: #091833; //da commentare in futuro
+    // background-color: #202124 !important;
+    // color: #f5f5f5 !important;
     // font-size: 16px;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+  
+
+.dark-mode-color {
+    // background-color: #202124 !important;
+}
 .yggdrasil-color-1 {
     color: #EC17DB !important;
 }
@@ -36,41 +69,20 @@
     background-color: #143E7B  !important;
 }
 
-  //icons: 50x50 px = 3.125rem
-.tiktok {
-    width: 3.125rem;
-    height: 3.125rem;
-    background-size: cover;
-    background-image: url('../src/assets/images/tiktok-logo-azzurro.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-}
-
-.instagram {
-    width: 3.125rem;
-    height: 3.125rem;
-    background-size: cover;
-    background-image: url('../src/assets/images/instagram-logo-azzurro.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-}
-
-
-.linkedin {
-    width: 3.125rem;
-    height: 3.125rem;
-    background-size: cover;
-    background-image: url('../src/assets/images/linkedin-logo-azzurro.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-}
 //200 x 200 px
 .white-logo {
     width: 12.5rem;
     height: 12.5rem;
+    background-size: cover;
+    background-image: url('../src/assets/images/yggdrasil-logo-bianco.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.white-logo-mini {
+    width: 2rem;
+    height: 2rem;
     background-size: cover;
     background-image: url('../src/assets/images/yggdrasil-logo-bianco.png');
     background-repeat: no-repeat;
