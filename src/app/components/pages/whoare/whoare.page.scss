@@ -1,0 +1,49 @@
+/* whoare.page.scss */
+.rounded-image {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    &:hover {
+        transform: scale(1.1); // Aumenta le dimensioni del 10% durante l'hover
+      }
+}
+
+.leader-image {
+    width: 200px;
+    height: 200px;
+}
+
+.name {
+    font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    line-height: 1.4rem;
+}
+
+.role {
+    font-weight: 200;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+// // Aggiungi questo al tuo file SCSS
+// .team-role {
+//     display: flex;
+//     flex-wrap: wrap;
+//     justify-content: space-between; // Aggiunto per garantire 4 elementi per riga
+//     gap: 1rem; // Regola questa dimensione in base alle tue esigenze
+  
+//     .creative-member {
+//       flex-basis: calc(25% - 1rem); // 25% per ottenere 4 elementi per riga, sottrai la dimensione della gap
+  
+//       @media (max-width: 1199.98px) {
+//         flex-basis: calc(33.33% - 1rem); // 33.33% per ottenere 3 elementi per riga su schermi medi
+//       }
+  
+//       @media (max-width: 767.98px) {
+//         flex-basis: calc(50% - 1rem); // 50% per ottenere 2 elementi per riga su schermi piccoli
+//       }
+//     }
+//   }
+  

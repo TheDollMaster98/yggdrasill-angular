@@ -1,31 +1,56 @@
 * {
-  color:#0CB3C9;
+  color: #0CB3C9 !important;
 }
+
 nav {
-    background-color: #0CB3C9;
-    color: #000000;
-    font-family: sans-serif;
-    font-size: 16px;
-  }
-  
-  .navbar-brand {
-    font-size: 24px;
-    margin-left: 20px;
-  }
-  
-  .navbar-nav li a {
-    text-decoration: none;
-    color: #000000;
-  }
-  
-  .navbar-nav li a.active {
-    color: #143E7B;
-  }
+  background-color: #0CB3C9;
+  color: #000000;
+  font-family: sans-serif;
+  font-size: 16px;
+}
 
-  .custom-margin-social {
-    margin-left: 9.875rem;
-  }
+nav.fixed-top {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
 
-  .nav-font-logo {
-    font-size: 1.5rem;
-  }
+
+.navbar-brand {
+  font-size: 24px;
+  margin-left: 20px;
+}
+
+.navbar-nav li a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.navbar-nav li a.active {
+  color: #143E7B !important;
+}
+
+.custom-margin-social {
+  margin-left: 9.875rem;
+}
+
+.nav-font-logo {
+  font-size: 1.5rem;
+  color: #f5f5f5 !important;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 50px; // O l'altezza desiderata dal top
+  left: 0;
+  background-color: #fff; // Colore di sfondo del menu
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Aggiungi ombra se necessario
+  padding: 10px; // Aggiungi spaziatura interna al menu
+  z-index: 1000; // Assicurati che il menu sia sopra gli altri elementi
+}
+
+.full-screen-cell {
+  width: 100vw; 
+  height: 100vh;
+}

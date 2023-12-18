@@ -1,20 +1,58 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light yggdrasil-bg-color-1">
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light yggdrasil-bg-color-1 fixed-top"
+>
   <div class="d-flex justify-content-between w-100">
     <ul class="navbar-nav">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <!-- Tendina -->
+      <div class="dropdown">
+        <button
+          class="btn white-logo-mini ms-1 d-lg-none d-sm-block"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        ></button>
+        <!-- Menu della tendina -->
+        <ul class="dropdown-menu yggdrasil-bg-color-1 full-screen-cell">
+          <li>
+            <a class="dropdown-item nav-link fw-bold" routerLink="/dashboard"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item nav-link fw-bold" routerLink="/blog"
+              >Blog</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item nav-link fw-bold" routerLink="/podcast"
+              >Podcast</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item nav-link fw-bold" routerLink="/chi-siamo"
+              >Chi siamo</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item nav-link fw-bold" routerLink="/updates"
+              >Aggiornamenti</a
+            >
+          </li>
+          <li>
+            <div class="d-flex align-items-center gap-2 me-2">
+              <!-- 1.625rem = 26px -->
+              <app-instagram-link [size]="1.625"></app-instagram-link>
+              <app-linkedin-link [size]="1.625"></app-linkedin-link>
+              <app-tiktok-link [size]="1.625"></app-tiktok-link>
+              <app-youtube-link [size]="2"></app-youtube-link>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--fine-->
       <li class="nav-item">
         <button
-          class="nav-link fw-bold d-none d-md-block"
+          class="nav-link fw-bold d-none d-lg-block"
           mat-menu-item
           routerLink="/dashboard"
           routerLinkActive="active text-white"
@@ -24,7 +62,7 @@
       </li>
       <li class="nav-item">
         <button
-          class="nav-link fw-bold d-none d-md-block"
+          class="nav-link fw-bold d-none d-lg-block"
           mat-menu-item
           routerLink="/blog"
           routerLinkActive="active text-white"
@@ -34,7 +72,7 @@
       </li>
       <li class="nav-item">
         <button
-          class="nav-link fw-bold d-none d-md-block"
+          class="nav-link fw-bold d-none d-lg-block"
           mat-menu-item
           routerLink="/podcast"
           routerLinkActive="active text-white"
@@ -44,7 +82,7 @@
       </li>
       <li class="nav-item">
         <button
-          class="nav-link fw-bold d-none d-md-block"
+          class="nav-link fw-bold d-none d-lg-block"
           mat-menu-item
           routerLink="/chi-siamo"
           routerLinkActive="active text-white"
@@ -52,20 +90,30 @@
           Chi siamo
         </button>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <button
-          class="nav-link fw-bold d-none d-md-block"
+          class="nav-link fw-bold d-md-none d-lg-block"
           mat-menu-item
           routerLink="/admin"
           routerLinkActive="active text-white"
         >
           Admin
         </button>
+      </li> -->
+      <li class="nav-item">
+        <button
+          class="nav-link fw-bold d-sm-none d-none d-lg-block"
+          mat-menu-item
+          routerLink="/updates"
+          routerLinkActive="active text-white"
+        >
+          Aggiornamenti
+        </button>
       </li>
     </ul>
 
     <button
-      class="nav-link nav-font-logo fw-bold d-flex align-items-center mx-auto"
+      class="nav-link nav-font-logo fw-smld d-flex align-items-center mx-auto d-none d-lg-block"
       mat-menu-item
       routerLink=""
       routerLinkActive="active text-white"
@@ -73,7 +121,9 @@
       Yggdrasill
     </button>
 
-    <div class="d-flex align-items-center gap-2 custom-margin-social me-2">
+    <div
+      class="d-flex align-items-center gap-2 custom-margin-social me-2 d-none d-lg-block"
+    >
       <!-- 1.625rem = 26px -->
       <app-instagram-link [size]="1.625"></app-instagram-link>
       <app-linkedin-link [size]="1.625"></app-linkedin-link>

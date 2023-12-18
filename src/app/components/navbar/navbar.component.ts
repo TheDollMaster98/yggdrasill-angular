@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NavbarComponent implements OnInit {
   isClockOff = true;
   currentTime = '';
+  isMenuOpen: boolean = false;
 
   constructor() {
     setTimeout(() => this.secondPassed(), 2000);
@@ -28,5 +29,9 @@ export class NavbarComponent implements OnInit {
 
   formatTimeUnit(unit: number) {
     return unit < 10 ? '0' + unit : unit.toString();
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

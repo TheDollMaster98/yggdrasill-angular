@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'dashboard-page',
-  templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss'],
+  selector: 'app-home-wordpress',
+  templateUrl: './home-wordpress.component.html',
+  styleUrls: ['./home-wordpress.component.scss'],
 })
-export class DashboardPage implements OnInit {
+export class HomeWordpressComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {}

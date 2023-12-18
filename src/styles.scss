@@ -13,6 +13,21 @@
 //custom css
 @import "./assets/css/social-icons/social-icons.scss";
 
+/**
+
+:root {
+    // Dimensioni globali e box model 
+    --margin: 0;
+    --padding: 0;
+    --box-sizing: border-box;
+
+    // Colori globali 
+    --background-color: #091833;
+    --text-color: #f5f5f5;
+    --font-size: 16px;
+    --font-family: 'Montserrat', sans-serif;
+}
+*/
 * {
     margin: 0;
     padding: 0;
@@ -20,9 +35,16 @@
     // background-color: #091833; //da commentare in futuro
     // background-color: #202124 !important;
     // color: #f5f5f5 !important;
-    font-size: 16px;
+    // font-size: 16px;
     font-family: 'Montserrat', sans-serif;
 }
+
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+  
 
 .dark-mode-color {
     // background-color: #202124 !important;
@@ -51,6 +73,16 @@
 .white-logo {
     width: 12.5rem;
     height: 12.5rem;
+    background-size: cover;
+    background-image: url('../src/assets/images/yggdrasil-logo-bianco.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+
+.white-logo-mini {
+    width: 2rem;
+    height: 2rem;
     background-size: cover;
     background-image: url('../src/assets/images/yggdrasil-logo-bianco.png');
     background-repeat: no-repeat;

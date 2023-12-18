@@ -48,7 +48,7 @@ import { YoutubeLinkComponent } from './components/icon-component/youtube-link/y
 import { environment } from 'src/environments/environment';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
-import { AppRoutingModule } from './app-routing.module';
+// import { AppRoutingModule } from './app-routing.module';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
 import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { PlatformLocation } from '@angular/common';
@@ -67,6 +67,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { EditorModule } from './components/editor/editor.module';
 import { ArticleViewComponent } from './components/editor/article-view/article-view.component';
+import { UpdatesComponent } from './components/pages/updates/updates.component';
+import { DashboardWordpressComponent } from './components/wordpress/blog-wordpress/blog-wordpress.component';
+import { AppRoutingModule } from './routing-wordpress.module';
+import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +83,7 @@ import { ArticleViewComponent } from './components/editor/article-view/article-v
     WhiteLogoComponent,
     InstagramLinkComponent,
     LinkedinLinkComponent,
+    HamButtonComponent,
     TiktokLinkComponent,
     YoutubeLinkComponent,
     GdprComponent,
@@ -92,6 +97,8 @@ import { ArticleViewComponent } from './components/editor/article-view/article-v
     ArticleListComponent,
     PodcastPage,
     ArticleViewComponent,
+    UpdatesComponent,
+    DashboardWordpressComponent,
   ],
   providers: [
     DashboardService,
@@ -131,7 +138,8 @@ import { ArticleViewComponent } from './components/editor/article-view/article-v
     EditorModule,
     NgbModule,
     HttpClientModule,
-    AppRoutingModule,
+    // AppRoutingModule, //ufficiale
+    AppRoutingModule, //provvisorio
     FormsModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),

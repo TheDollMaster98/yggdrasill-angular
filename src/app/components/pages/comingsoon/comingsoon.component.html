@@ -1,23 +1,19 @@
-<div class="parent vh-100">
-  <div
-    class="logo-container d-flex justify-content-center align-items-center vw-100"
-  >
-    <div class="white-logo"></div>
-  </div>
-  <div
-    class="clock-container d-flex justify-content-center align-items-center vw-100 flex-column"
-  >
-    <div class="coming-soon">Lavori in corso, termineranno fra:</div>
-    <app-glitch-clock></app-glitch-clock>
-  </div>
+<div
+  class="parent vh-100 d-flex justify-content-center align-items-center flex-column"
+>
+  <div class="white-logo"></div>
   <div
     class="social-container d-flex justify-content-center align-self-start align-items-center flex-column vw-100"
   >
-    <div class="coming-soon">{{ text | uppercase }}</div>
+    <div class="coming-soon fw-bold">{{ text | uppercase }}</div>
+    <div class="updates coming-soon">
+      Seguici sui nostri social per vedere cosa stiamo facendo!
+    </div>
     <div class="div-icons mt-2">
       <app-instagram-link></app-instagram-link>
       <app-linkedin-link></app-linkedin-link>
       <app-tiktok-link></app-tiktok-link>
+      <app-youtube-link [size]="4"></app-youtube-link>
     </div>
   </div>
 </div>

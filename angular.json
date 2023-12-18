@@ -34,7 +34,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "src/js/env.js"
+              "src/js/env.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           },
           "configurations": {
