@@ -6,33 +6,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HttpClientModule } from '@angular/common/http';
 
-// angular firebase
 import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
-import {
-  getFirestore,
-  provideFirestore,
-  FirestoreSettings,
-} from '@angular/fire/firestore';
-import {
-  getDatabase,
-  provideDatabase,
-  Database,
-  connectDatabaseEmulator,
-} from '@angular/fire/database';
-
-// import { AngularFireModule } from '@angular/fire/compat';
-// import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-// import {
-//   provideFirebaseApp,
-//   getApp,
-//   initializeApp,
-//   FirebaseAppModule,
-// } from '@angular/fire/app';
-// import {
-//   FirestoreModule,
-//   getFirestore,
-//   provideFirestore,
-// } from '@angular/fire/firestore';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getDatabase, provideDatabase } from '@angular/fire/database';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { GlitchClockComponent } from './components/glitch-clock/glitch-clock.component';
@@ -48,7 +24,6 @@ import { YoutubeLinkComponent } from './components/icon-component/youtube-link/y
 import { environment } from 'src/environments/environment';
 import { GdprComponent } from './components/privacy/gdpr/gdpr.component';
 import { PrivacyPolicyPage } from './components/privacy/privacy-policy/privacy-policy.component';
-// import { AppRoutingModule } from './app-routing.module';
 import { ArticleEditorPage } from './components/editor/article-editor/article-editor.component';
 import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { PlatformLocation } from '@angular/common';
@@ -110,18 +85,6 @@ import { AppRoutingModule } from './app-routing.module';
         useClass: MockPlatformLocation,
       },
     ],
-    // // Inizializza l'app Firebase con la configurazione giusta.
-    // {
-    //   provide: 'FirebaseApp',
-    //   useValue: initializeApp(environment.firebaseConfig),
-    // },
-    // // Restituisce un'istanza di Firestore
-    // {
-    //   provide: 'Firestore',
-    //   useFactory: (firebaseApp: any, firestoreSettings: any) =>
-    //     getFirestore(firebaseApp, firestoreSettings),
-    //   deps: ['FirebaseApp', 'FirestoreSettingsToken'],
-    // },
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -131,11 +94,6 @@ import { AppRoutingModule } from './app-routing.module';
     provideDatabase(() => getDatabase()),
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFireDatabaseModule,
-    // connectDatabaseEmulator,
-    // AngularFireDatabaseModule,
-    // FirestoreModule,
-    // FirebaseAppModule,
     EditorModule,
     NgbModule,
     HttpClientModule,

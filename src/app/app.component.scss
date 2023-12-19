@@ -4,16 +4,16 @@
     height: 100vh;
   
     &-scroll {
-      flex-grow: 0.5; // Change this to a value less than 1 to disable scrolling
+      flex-grow: 0.5;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
       width: 100%;
   
       main {
-        margin-top: 56px; // Header height, adjust as needed
+        margin-top: 56px;
         .tms-desktop {
-          flex-grow: 1; // Flex grow for the child component's content
+          flex-grow: 1;
         }
       }
     }

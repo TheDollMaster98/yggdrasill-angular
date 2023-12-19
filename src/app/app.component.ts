@@ -30,10 +30,6 @@ export class AppComponent {
     return this.apiService;
   }
 
-  // isLoading() {
-  //   return this.apiService.loading;
-  // }
-
   getMainBackgroundColorClass() {
     return mainBgRoutes.includes(this.router.url)
       ? 'page-body'
