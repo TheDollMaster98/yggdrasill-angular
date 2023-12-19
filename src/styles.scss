@@ -40,6 +40,16 @@ body, html {
     background-color: #143E7B  !important;
 }
 
+.yggdrasill-header {
+    z-index: 1;
+}
+
+.nav-menu {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 102;
+}
 .white-logo {
     width: 12.5rem;
     height: 12.5rem;
