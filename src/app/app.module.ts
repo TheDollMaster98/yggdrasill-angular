@@ -69,8 +69,9 @@ import { EditorModule } from './components/editor/editor.module';
 import { ArticleViewComponent } from './components/editor/article-view/article-view.component';
 import { UpdatesComponent } from './components/pages/updates/updates.component';
 import { DashboardWordpressComponent } from './components/wordpress/blog-wordpress/blog-wordpress.component';
-import { AppRoutingModule } from './routing-wordpress.module';
+
 import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -138,8 +139,7 @@ import { HamButtonComponent } from './components/icon-component/ham-button/ham-b
     EditorModule,
     NgbModule,
     HttpClientModule,
-    // AppRoutingModule, //ufficiale
-    AppRoutingModule, //provvisorio
+    AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),

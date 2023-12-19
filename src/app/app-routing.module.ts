@@ -9,6 +9,10 @@ import { WhoarePage } from './components/pages/whoare/whoare.page';
 import { AdminPage } from './components/pages/admin/admin.page';
 import { BlogPage } from './components/pages/blog/blog.page';
 import { PodcastPage } from './components/pages/podcast/podcast.page';
+import { UpdatesComponent } from './components/pages/updates/updates.component';
+import { DashboardWordpressComponent } from './components/wordpress/blog-wordpress/blog-wordpress.component';
+import { HomeWordpressComponent } from './components/wordpress/home-wordpress/home-wordpress.component';
+import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
 
 const routes: Routes = [
   {
@@ -22,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'blog',
-    component: BlogPage,
+    component: DashboardWordpressComponent,
   },
   {
     path: 'comingsoon',
@@ -50,7 +54,11 @@ const routes: Routes = [
   },
   {
     path: 'podcast',
-    component: PodcastPage,
+    component: ComingsoonPage,
+  },
+  {
+    path: 'updates',
+    component: UpdatesComponent,
   },
 ];
 
