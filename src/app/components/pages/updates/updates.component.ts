@@ -25,6 +25,12 @@ export class UpdatesComponent implements OnInit {
 
     this.futureUpdates = [
       {
+        title: 'Risoluzione bugfix navbar',
+        content:
+          'Stiamo lavorando alla risoluzioni di un bug presente sulla navbar',
+        date: 'Prossimamente',
+      },
+      {
         title: 'Risoluzione bugfix grafici',
         content:
           'Stiamo lavorando alla risoluzioni di possibili bug di UX/UI lato mobile e desktop.',

@@ -1,21 +1,30 @@
+// Stile per il componente .app
 .app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  // Stile per il componente .app-scroll
+  &-scroll {
+    flex-grow: 0.5;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-  
-    &-scroll {
-      flex-grow: 0.5;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-  
-      main {
-        margin-top: 56px;
-        .tms-desktop {
-          flex-grow: 1;
-        }
+    width: 100%;
+
+    // Stile per il componente main
+    main {
+      .tms-desktop {
+        flex-grow: 1;
       }
     }
+
+    // Stile per la navbar
+    .navbar {
+      // Rendi la navbar fissa in cima alla pagina durante lo scroll
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
   }
-  
+}
