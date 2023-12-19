@@ -31,6 +31,12 @@ export class UpdatesComponent implements OnInit {
         date: 'Prossimamente',
       },
       {
+        title: 'Miglioramento esperienza utenza',
+        content:
+          "Il sito è ancora in beta, pertanto il design e l'usabilità non sono ancora al 100% complete. Stiamo lavorando per rendere gradevole la navigazione sul sito",
+        date: 'Prossimamente',
+      },
+      {
         title: 'Prossimo Grande Aggiornamento.',
         content:
           'Integrazione progressiva delle varie pagine presenti dal sito provvisorio a quello completo.\nPer farlo stiamo lavorando continuamente per migliorare la sicurezza del sito.',
