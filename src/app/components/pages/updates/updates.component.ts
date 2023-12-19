@@ -21,13 +21,19 @@ export class UpdatesComponent implements OnInit {
         content: 'Lanciato sito provvisorio su WordPress ed integrato qui.\n',
         date: '14/12/2023',
       },
+      {
+        title: 'Risoluzione bug vari',
+        content:
+          'Risolti problemi grafici inerenti alla navbar ed al contenuto del sito.',
+        date: '19/12/2023',
+      },
     ];
 
     this.futureUpdates = [
       {
         title: 'Risoluzione bugfix navbar',
         content:
-          'Stiamo lavorando alla risoluzioni di un bug presente sulla navbar',
+          'Stiamo lavorando alla risoluzioni di un bug presente sulla navbar,',
         date: 'Prossimamente',
       },
       {
