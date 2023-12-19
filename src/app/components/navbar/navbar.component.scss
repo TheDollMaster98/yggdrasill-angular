@@ -1,5 +1,6 @@
-* {
-  color: #0CB3C9 !important;
+.active {
+  color: #f5f5f5 !important; /* Sostituisci con il colore desiderato per il testo attivo */
+  /* Altri stili se necessario */
 }
 
 nav {
@@ -24,7 +25,6 @@ nav.fixed-top {
 
 .navbar-nav li a {
   text-decoration: none;
-  color: #000000;
 }
 
 .navbar-nav li a.active {
@@ -44,7 +44,7 @@ nav.fixed-top {
   position: absolute;
   top: 50px; // O l'altezza desiderata dal top
   left: 0;
-  background-color: #fff; // Colore di sfondo del menu
+  background-color: #f5f5f5; // Colore di sfondo del menu
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Aggiungi ombra se necessario
   padding: 10px; // Aggiungi spaziatura interna al menu
   z-index: 1000; // Assicurati che il menu sia sopra gli altri elementi

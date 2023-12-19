@@ -7,6 +7,22 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 @import "./assets/css/social-icons/social-icons.scss";
 
+/**
+
+:root {
+    // Dimensioni globali e box model 
+    --margin: 0;
+    --padding: 0;
+    --box-sizing: border-box;
+
+    // Colori globali 
+    --background-color: #091833;
+    --text-color: #f5f5f5;
+    --font-size: 16px;
+    --font-family: 'Montserrat', sans-serif;
+}
+*/
+
 * {
     margin: 0;
     padding: 0;
@@ -38,6 +54,10 @@ body, html {
 
 .yggdrasil-bg-color-2 {
     background-color: #143E7B  !important;
+}
+
+.yggdrasil-dark {
+    background-color: #202124 !important;
 }
 
 .yggdrasill-header {
