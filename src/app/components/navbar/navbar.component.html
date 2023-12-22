@@ -2,64 +2,22 @@
   <nav
     class="navbar navbar-expand-lg navbar-light bg-light yggdrasil-bg-color-1"
   >
+    <!--WIP, da chiedere aiuto a chatgpt se riesce a sistemarlo-->
+    <!-- mobile -->
+    <div
+      class="w-100 d-flex justify-content-between align-items-center d-lg-none d-sm-block"
+    >
+      <div
+        class="d-flex align-items-center justify-content-center mx-auto d-lg-none"
+      >
+        <div class="white-logo-mini me-2"></div>
+        <div class="nav-font-logo fw-bold">Yggdrasill</div>
+      </div>
+      <div class="d-lg-none">Ciao 2</div>
+    </div>
+    <!-- fine mobile -->
     <div class="d-flex justify-content-between w-100">
       <ul class="navbar-nav">
-        <!-- Tendina -->
-        <div class="dropdown">
-          <button
-            class="btn white-logo-mini ms-1 d-lg-none d-sm-block"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          ></button>
-          <!-- Menu della tendina -->
-          <ul class="dropdown-menu yggdrasil-bg-color-1 full-screen-cell">
-            <li>
-              <a
-                class="dropdown-item nav-link yggdrasil-color-2 fw-bold"
-                routerLink="/dashboard"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item nav-link yggdrasil-color-2 fw-bold"
-                routerLink="/blog"
-                >Blog</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item nav-link yggdrasil-color-2 fw-bold"
-                routerLink="/podcast"
-                >Podcast</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item nav-link yggdrasil-color-2 fw-bold"
-                routerLink="/chi-siamo"
-                >Chi siamo</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item nav-link yggdrasil-color-2 fw-bold"
-                routerLink="/updates"
-                >Aggiornamenti</a
-              >
-            </li>
-            <li>
-              <div class="d-flex align-items-center gap-2 me-2">
-                <app-instagram-link [size]="1.625"></app-instagram-link>
-                <app-linkedin-link [size]="1.625"></app-linkedin-link>
-                <app-tiktok-link [size]="1.625"></app-tiktok-link>
-                <app-youtube-link [size]="2"></app-youtube-link>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <!--fine-->
         <li class="nav-item">
           <button
             class="nav-link yggdrasil-color-2 fw-bold d-none d-lg-block"

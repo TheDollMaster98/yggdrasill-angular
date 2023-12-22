@@ -8,6 +8,7 @@ nav {
   color: #000000;
   font-family: sans-serif;
   font-size: 16px;
+  height: 56px;
 }
 
 nav.fixed-top {
@@ -16,7 +17,6 @@ nav.fixed-top {
   top: 0;
   z-index: 1000;
 }
-
 
 .navbar-brand {
   font-size: 24px;
@@ -41,17 +41,25 @@ nav.fixed-top {
   color: #f5f5f5 !important;
 }
 
+// Aggiungi questi stili per gestire il menu mobile
 .mobile-menu {
-  position: absolute;
-  top: 50px; // O l'altezza desiderata dal top
+  display: none; // Nascondi inizialmente il menu mobile
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
-  background-color: #f5f5f5; // Colore di sfondo del menu
+  background-color: #fff; // Cambia colore di sfondo se necessario
+  z-index: 1000;
+  padding: 20px; // Aggiungi spaziatura interna al menu
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); // Aggiungi ombra se necessario
-  padding: 10px; // Aggiungi spaziatura interna al menu
-  z-index: 1000; // Assicurati che il menu sia sopra gli altri elementi
+}
+
+.mobile-menu.active {
+  display: block; // Mostra il menu mobile quando attivo
 }
 
 .full-screen-cell {
-  width: 100vw; 
+  width: 100vw;
   height: 100vh;
 }
