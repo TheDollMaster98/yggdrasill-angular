@@ -47,6 +47,7 @@ import { DashboardWordpressComponent } from './components/wordpress/blog-wordpre
 
 import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
 import { AppRoutingModule } from './app-routing.module';
+import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { AppRoutingModule } from './app-routing.module';
     ArticleViewComponent,
     UpdatesComponent,
     DashboardWordpressComponent,
+    MobileNavbarComponent,
   ],
   providers: [
     DashboardService,

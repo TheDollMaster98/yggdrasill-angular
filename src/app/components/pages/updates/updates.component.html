@@ -1,5 +1,5 @@
 <!-- updates.component.html -->
-<div class="updates-container">
+<div class="updates-container padding-navbar-responsive">
   <div class="updates-header">
     <h2 class="yggdrasil-color-2">Storico:</h2>
     <p>Resta aggiornato sulle ultime novità e miglioramenti!</p>
@@ -7,7 +7,7 @@
 
   <!-- Sezione Aggiornamenti Correnti -->
   <div *ngIf="currentUpdates.length > 0" class="current-updates">
-    <h3>Aggiornamenti Correnti:</h3>
+    <h3 class="mb-2">Aggiornamenti Correnti:</h3>
     <div *ngFor="let update of currentUpdates" class="update-card">
       <h3 class="yggdrasil-color-2 mb-1">{{ update.title }}</h3>
       <p>{{ update.content }}</p>
@@ -17,7 +17,7 @@
 
   <!-- Sezione Aggiornamenti Futuri -->
   <div *ngIf="futureUpdates.length > 0" class="future-updates">
-    <h3>Aggiornamenti Futuri:</h3>
+    <h3 class="mb-2">Aggiornamenti Futuri:</h3>
     <div *ngFor="let update of futureUpdates" class="update-card">
       <h3 class="yggdrasil-color-2 mb-1">{{ update.title }}</h3>
       <p>{{ update.content }}</p>

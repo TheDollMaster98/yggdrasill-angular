@@ -28,12 +28,18 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+    scrollbar-color: #0CB3C9 #050e1f;
 }
 
 body, html {
     height: 100%;
     margin: 0;
     overflow: hidden;
+}
+// TODO: da fixare
+.padding-navbar-responsive {
+  padding-top: 56px !important;
+  padding-bottom: 50px !important;
 }
 
 .yggdrasil-color-1 {
@@ -70,6 +76,13 @@ body, html {
     top: 0;
     z-index: 102;
 }
+
+.nav-menu-mobile {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    z-index: 102;
+}
 .white-logo {
     width: 12.5rem;
     height: 12.5rem;
@@ -89,3 +102,21 @@ body, html {
     background-position: center;
     cursor: pointer;
 }
+
+// scrollbar chromiums/safari
+*::-webkit-scrollbar {
+    width: 12px;
+    /* width of the entire scrollbar */
+  }
+  
+  *::-webkit-scrollbar-track {
+    background: #050e1f !important;
+    /* color of the tracking area */
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background-color: #0CB3C9;
+    /* color of the scroll thumb */
+    border-radius: 20px;
+    /* roundness of the scroll thumb */
+  }

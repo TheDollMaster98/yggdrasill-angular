@@ -4,10 +4,6 @@
   height: 100vh;
   overflow: hidden;
 
-  &.min-height {
-    min-height: 100vh;
-  }
-
   &-scroll {
     flex-grow: 1;
     overflow-y: auto;
@@ -18,20 +14,43 @@
 
     .tms-desktop {
       flex-grow: 1;
+      overflow-y: auto; /* Aggiunto per abilitare la scrollbar all'interno di main */
+      padding-bottom: 16px; /* Aggiunto padding inferiore per evitare che la scrollbar copra il contenuto */
     }
   }
 
-  &.day-mode {
-    // Stili per il tema giorno
-    background-color: #f5f5f5 !important;
-    color: #000000;
-    // Altri stili...
+  &.nav-menu {
+    margin-top: 56px; /* Aggiunto margin-top per spostare il contenuto sotto la navbar */
   }
 
-  &.night-mode {
-    // Stili per il tema notte
-    background-color: #202124 !important;
-    color: #ffffff;
-    // Altri stili...
+// TODO: cambiare logica day e night mode
+&.day-mode {
+  // Stili per il tema giorno
+  background-color: #f5f5f5 !important;
+  // color: #000000;
+  // Altri stili...
+}
+
+// &.night-mode {
+//   // Stili per il tema notte
+//   background-color: #202124 !important;
+//   color: #f5f5f5;
+//   // Altri stili...
+// }
+
+  .nav-menu,
+  .nav-menu-mobile {
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+    flex-shrink: 0; /* Non ridurre le dimensioni se lo spazio è limitato */
+    z-index: 1; /* Imposta la z-index per sovrapporre sopra i contenuti */
+  }
+
+  .nav-menu {
+    position: fixed; /* Rende la navbar fissa in alto */
+  }
+
+  .nav-menu-mobile {
+    position: fixed; /* Rende la navbar mobile fissa in basso */
+    bottom: 0;
   }
 }

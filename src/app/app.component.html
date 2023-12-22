@@ -14,12 +14,13 @@
       class="nav-menu"
     ></core-app-menu> -->
     <app-navbar class="nav-menu"></app-navbar>
-    <main [ngClass]="[getMainBackgroundColorClass(), 'tms-desktop']">
+    <main [ngClass]="[getMainBackgroundColorClass(), 'ygg-desktop']">
       <div [ngClass]="[getRoutesBackgroundColorClass(), 'h-100']">
         <router-outlet class="mt-4"></router-outlet>
       </div>
     </main>
     <!-- <app-footer></app-footer> -->
+    <mobile-navbar class="nav-menu-mobile d-md-block d-lg-none"></mobile-navbar>
   </div>
 </div>
 
