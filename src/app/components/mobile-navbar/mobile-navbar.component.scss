@@ -4,17 +4,9 @@
   
   nav {
     background-color: #0CB3C9;
-    color: #000000;
     font-family: sans-serif;
     font-size: 16px;
     height: 56px;
-  }
-  
-  nav.fixed-top {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
   }
   
   .navbar-brand {
@@ -24,11 +16,7 @@
   
   .navbar-nav {
     list-style: none;
-    gap: 2.5rem;
-  }
-  
-  .navbar-nav li {
-    margin-bottom: 10px;
+    gap: 2.5rem; 
   }
   
   .navbar-nav li a {
@@ -71,3 +59,16 @@
     height: 100vh;
   }
   
+  .mobile-home-button {
+    background-color: #091833;
+    border-radius: 50%;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+    width: 40px;
+    margin-top: -25px;
+  }
+
+  ul {
+    margin-bottom: 10px !important;
+  }
