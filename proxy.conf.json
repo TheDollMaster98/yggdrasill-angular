@@ -6,7 +6,7 @@
   },
   "/firebasedata": {
     "target": "https://yggdrasill-project-default-rtdb.europe-west1.firebasedatabase.app/",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true
   }
 }

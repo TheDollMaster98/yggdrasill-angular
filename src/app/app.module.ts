@@ -48,6 +48,8 @@ import { DashboardWordpressComponent } from './components/wordpress/blog-wordpre
 import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.component';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { LoginPage } from './components/pages/login/login.page';
 
 @NgModule({
   declarations: [
@@ -77,13 +79,14 @@ import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.
     UpdatesComponent,
     DashboardWordpressComponent,
     MobileNavbarComponent,
+    LoginPage,
   ],
   providers: [
     DashboardService,
     ArticleService,
     [
       {
-        provide: PlatformLocation,
+        // provide: PlatformLocation,
         useClass: MockPlatformLocation,
       },
     ],
@@ -91,11 +94,14 @@ import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
+    // connet to firebase.
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    // auth firebase.
+    AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()),
     AngularFirestoreModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
     EditorModule,
     NgbModule,
     HttpClientModule,

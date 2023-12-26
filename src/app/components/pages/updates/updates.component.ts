@@ -17,15 +17,15 @@ export class UpdatesComponent implements OnInit {
     // Simulazione di dati dal backend o da altre fonti
     this.currentUpdates = [
       {
-        title: 'Lancio sito',
-        content: 'Lanciato sito provvisorio su WordPress ed integrato qui.\n',
-        date: '14/12/2023',
-      },
-      {
         title: 'Risoluzione bug vari',
         content:
           'Risolti problemi grafici inerenti alla navbar ed al contenuto del sito.',
         date: '19/12/2023',
+      },
+      {
+        title: 'Lancio sito',
+        content: 'Lanciato sito provvisorio su WordPress ed integrato qui.\n',
+        date: '14/12/2023',
       },
     ];
 

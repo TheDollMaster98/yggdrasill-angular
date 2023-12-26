@@ -13,6 +13,8 @@ import { UpdatesComponent } from './components/pages/updates/updates.component';
 import { DashboardWordpressComponent } from './components/wordpress/blog-wordpress/blog-wordpress.component';
 import { HomeWordpressComponent } from './components/wordpress/home-wordpress/home-wordpress.component';
 import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
+import { LoginPage } from './components/pages/login/login.page';
+import { AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -51,6 +53,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminPage,
+    canActivate: [AuthGuard],
   },
   {
     path: 'podcast',
@@ -59,6 +62,10 @@ const routes: Routes = [
   {
     path: 'updates',
     component: UpdatesComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPage,
   },
 ];
 

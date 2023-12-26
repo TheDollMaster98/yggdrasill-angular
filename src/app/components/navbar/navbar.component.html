@@ -1,6 +1,6 @@
 <header class="yggdrasill-header">
   <nav
-    class="navbar navbar-expand-lg navbar-light bg-light yggdrasil-bg-color-1"
+    class="navbar navbar-expand-lg navbar-light bg-light yggdrasil-bg-color-1 w-100"
   >
     <!--WIP, da chiedere aiuto a chatgpt se riesce a sistemarlo-->
     <!-- mobile -->
@@ -85,6 +85,17 @@
       </div>
 
       <div class="d-flex align-items-center gap-2 custom-margin-social me-2">
+        <div class="nav-item" *ngIf="isLoggedIn">
+          <button
+            class="nav-link yggdrasil-color-2 fw-bold d-none d-lg-block"
+            mat-menu-item
+            routerLink="/admin"
+            routerLinkActive="active"
+          >
+            Admin
+          </button>
+        </div>
+
         <!-- 1.625rem = 26px -->
         <app-instagram-link
           [size]="1.625"

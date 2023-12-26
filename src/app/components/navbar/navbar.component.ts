@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,15 @@ export class NavbarComponent implements OnInit {
   currentTime = '';
   isMenuOpen: boolean = false;
 
-  constructor() {
+  //login:
+  private authSubscription: Subscription;
+  isLoggedIn = this.authService.isLoggedIn();
+
+  constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.authSubscription = this.isLoggedIn.subscribe((loggedIn: any) => {
+      this.isLoggedIn = loggedIn;
+    });
     setTimeout(() => this.secondPassed(), 2000);
 
     setInterval(() => {
@@ -33,5 +43,9 @@ export class NavbarComponent implements OnInit {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+  ngOnDestroy(): void {
+    // Unsubscribe per evitare memory leaks
+    this.authSubscription.unsubscribe();
   }
 }

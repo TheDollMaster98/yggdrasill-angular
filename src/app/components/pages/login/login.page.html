@@ -1,0 +1,43 @@
+<div class="container" #container>
+  <div class="form-container sign-up">
+    <form>
+      <h1>Crea Account</h1>
+      <span>usa la tua mail per registrarti</span>
+      <input type="text" placeholder="Nome" />
+      <input type="email" placeholder="Email" />
+      <input type="password" placeholder="Password" />
+      <button (click)="register()">Registrati</button>
+    </form>
+  </div>
+
+  <div class="form-container sign-in">
+    <form [formGroup]="loginForm">
+      <h1>Accedi</h1>
+      <span>usa il tuo account</span>
+      <input type="email" placeholder="Email" formControlName="email" />
+      <input
+        type="password"
+        placeholder="Password"
+        formControlName="password"
+      />
+      <a href="#" (click)="forgotPassword()">Hai dimenticato la password?</a>
+      <button (click)="login()">Accedi</button>
+    </form>
+  </div>
+
+  <div class="overlay-container">
+    <div class="overlay">
+      <div class="overlay-panel overlay-left">
+        <h1>Bentornato!</h1>
+        <p>Per rimanere collegato con noi, per favore usa le tue credenziali</p>
+        <button #signIn>Accedi</button>
+      </div>
+
+      <div class="overlay-panel overlay-right">
+        <h1>Sei nuovo?</h1>
+        <p>Registrati e scopri il nostro mondo!</p>
+        <button #signUp>Registrati</button>
+      </div>
+    </div>
+  </div>
+</div>
