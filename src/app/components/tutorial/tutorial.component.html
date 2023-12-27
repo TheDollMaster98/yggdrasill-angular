@@ -1,0 +1,67 @@
+<!-- tutorial.component.html -->
+
+<div class="container mt-5">
+  <h1 class="mb-4">Tutorial Component</h1>
+  <form (submit)="writeUserData()" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="author" class="form-label">Author:</label>
+      <input
+        type="text"
+        id="author"
+        [(ngModel)]="firebaseDatabaseService.getCurrentArticle().author"
+        name="author"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="genre" class="form-label">Genre:</label>
+      <input
+        type="text"
+        id="genre"
+        [(ngModel)]="firebaseDatabaseService.getCurrentArticle().genre"
+        name="genre"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="articleTitle" class="form-label">Article Title:</label>
+      <input
+        type="text"
+        id="articleTitle"
+        [(ngModel)]="firebaseDatabaseService.getCurrentArticle().articleTitle"
+        name="articleTitle"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="articleContent" class="form-label">Article Content:</label>
+      <textarea
+        id="articleContent"
+        [(ngModel)]="firebaseDatabaseService.getCurrentArticle().articleContent"
+        name="articleContent"
+        class="form-control"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="publishDate" class="form-label">Publish Date:</label>
+      <input
+        type="text"
+        id="publishDate"
+        [(ngModel)]="firebaseDatabaseService.getCurrentArticle().publishDate"
+        name="publishDate"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

@@ -1,30 +1,47 @@
+// tutorial.service.ts
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { getDatabase, ref, set } from 'firebase/database';
+import { Article } from '../models/article.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TutorialService {
-  // Crea un riferimento al nodo 'articles' nel database
-  private articlesRef;
+  private articlePath = 'articles/';
 
-  constructor(private db: AngularFireDatabase) {
-    // Ottieni una referenza al nodo 'articles'
-    this.articlesRef = db.list('/articles');
+  // Stato dell'articolo
+  private currentArticle: Article = {
+    id: '',
+    author: '',
+    genre: '',
+    articleTitle: '',
+    articleContent: '',
+    publishDate: '',
+  };
+
+  getCurrentArticle(): Article {
+    return this.currentArticle;
   }
 
-  // Metodo per impostare i dati dell'articolo
-  setArticleData(articleData: any) {
-    this.articlesRef.push(articleData);
+  setCurrentArticle(article: Article): void {
+    this.currentArticle = article;
   }
 
-  // Metodo per aggiornare i dati dell'articolo
-  updateArticleData(key: string, articleData: any) {
-    this.articlesRef.update(key, articleData);
+  generateUniqueId(): string {
+    const timestamp = new Date().getTime().toString();
+    const randomPart = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, '0');
+    return timestamp + randomPart;
   }
 
-  // Metodo per ottenere i dati degli articoli
-  getArticlesData() {
-    return this.articlesRef.valueChanges();
+  writeUserData(): Promise<void> {
+    // Aggiungi logica di validazione qui se necessario
+
+    this.currentArticle.id = this.generateUniqueId();
+    const db = getDatabase();
+    return set(ref(db, `${this.articlePath}/${this.currentArticle.id}`), {
+      ...this.currentArticle,
+    });
   }
 }

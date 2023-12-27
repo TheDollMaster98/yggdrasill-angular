@@ -50,6 +50,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.component';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginPage } from './components/pages/login/login.page';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { LoginPage } from './components/pages/login/login.page';
     DashboardWordpressComponent,
     MobileNavbarComponent,
     LoginPage,
+    TutorialComponent,
   ],
   providers: [
     DashboardService,
@@ -100,6 +102,7 @@ import { LoginPage } from './components/pages/login/login.page';
     AngularFireAuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    // realtime database:
     provideDatabase(() => getDatabase()),
     AngularFirestoreModule,
     EditorModule,

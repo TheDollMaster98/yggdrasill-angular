@@ -1,72 +1,47 @@
-// firebase-database.service.ts
+// tutorial.service.ts
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-  AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { getDatabase, ref, set, onValue } from 'firebase/database';
 import { Article } from '../models/article.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseDatabaseService {
-  private articlePath = '/articles';
-  private articleCollection: AngularFirestoreCollection<Article>;
+  private articlePath = 'articles/';
 
-  constructor(private db: AngularFirestore) {
-    this.articleCollection = db.collection(this.articlePath);
-    console.log(this.articleCollection);
+  // Stato dell'articolo
+  private currentArticle: Article = {
+    id: '',
+    author: '',
+    genre: '',
+    articleTitle: '',
+    articleContent: '',
+    publishDate: '',
+  };
 
-    // Configurazione dell'emulatore Firebase:
-    // this.db.firestore.settings({ host: 'localhost:8080', ssl: false });
+  getCurrentArticle(): Article {
+    return this.currentArticle;
   }
 
-  getAll(): AngularFirestoreCollection<Article> {
-    return this.articleCollection;
-  }
-  //WIP per il contatore +1
-  // private async initializeCount(): Promise<void> {
-  //   const countDoc = await this.db.doc('counters/articles').get().toPromise();
-
-  //   if (!countDoc.exists) {
-  //     // Se il documento non esiste, inizializza il conteggio a 0
-  //     await this.db.doc('counters/articles').set({ count: 0 });
-  //   }
-  // }
-
-  async create(data: Article): Promise<any> {
-    // Verifica dei dati
-    if (!data) {
-      throw new Error('Data is required');
-    }
-
-    try {
-      const docRef = await this.articleCollection.add({ ...data });
-      console.log('Document written with ID:', docRef.id);
-      return docRef;
-    } catch (error) {
-      console.error('Error adding document:', error);
-      throw error; // Rilancia l'errore per gestirlo nel chiamante, se necessario
-    }
+  setCurrentArticle(article: Article): void {
+    this.currentArticle = article;
   }
 
-  update(id: string, data: any): Promise<void> {
-    // Verifica dei dati
-    if (!id || !data) {
-      throw new Error('ID and data are required');
-    }
-
-    return this.articleCollection.doc(id).update(data);
+  generateUniqueId(): string {
+    const timestamp = new Date().getTime().toString();
+    const randomPart = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, '0');
+    return timestamp + randomPart;
   }
 
-  delete(key: string): Promise<void> {
-    // Verifica dei dati
-    if (!key) {
-      throw new Error('Key is required');
-    }
+  updateArticle(): Promise<void> {
+    // Aggiungi logica di validazione qui se necessario
 
-    return this.articleCollection.doc(key).delete();
+    this.currentArticle.id = this.generateUniqueId();
+    const db = getDatabase();
+    return set(ref(db, `${this.articlePath}/${this.currentArticle.id}`), {
+      ...this.currentArticle,
+    });
   }
 }
