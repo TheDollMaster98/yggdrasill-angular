@@ -44,4 +44,29 @@ export class FirebaseDatabaseService {
       ...this.currentArticle,
     });
   }
+
+  getAllArticles(): Promise<Article[]> {
+    return new Promise((resolve, reject) => {
+      const db = getDatabase();
+      const articleRef = ref(db, this.articlePath);
+
+      onValue(
+        articleRef,
+        (snapshot) => {
+          const data = snapshot.val();
+          // Puoi gestire gli aggiornamenti degli articoli qui
+          console.log('Cambiamenti negli articoli:', data);
+
+          // Converti gli articoli in un array (se necessario)
+          const articles: Article[] = data ? Object.values(data) : [];
+
+          resolve(articles);
+        },
+        (error) => {
+          console.error('Errore durante il recupero degli articoli:', error);
+          reject(error);
+        }
+      );
+    });
+  }
 }

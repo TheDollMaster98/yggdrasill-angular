@@ -31,6 +31,10 @@ const routes: Routes = [
     component: DashboardWordpressComponent,
   },
   {
+    path: 'wpgg',
+    component: BlogPage,
+  },
+  {
     path: 'comingsoon',
     component: ComingsoonPage,
   },

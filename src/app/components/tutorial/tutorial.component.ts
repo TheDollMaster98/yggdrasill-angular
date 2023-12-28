@@ -2,7 +2,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
-import { TutorialService } from 'src/app/service/tutorial.service';
 
 @Component({
   selector: 'app-tutorial',
@@ -19,7 +18,9 @@ export class TutorialComponent implements OnInit {
 
   constructor(public firebaseDatabaseService: FirebaseDatabaseService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.firebaseDatabaseService.getAllArticles();
+  }
 
   writeUserData() {
     const currentArticle = this.firebaseDatabaseService.getCurrentArticle();
