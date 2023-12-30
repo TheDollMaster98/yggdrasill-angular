@@ -26,7 +26,7 @@ export class TutorialComponent implements OnInit {
     const currentArticle = this.firebaseDatabaseService.getCurrentArticle();
 
     this.firebaseDatabaseService
-      .updateArticle()
+      .updateArticle2()
       .then(() => {
         console.log('Articolo salvato con successo.');
         // Aggiungi logica aggiuntiva o aggiorna la vista se necessario

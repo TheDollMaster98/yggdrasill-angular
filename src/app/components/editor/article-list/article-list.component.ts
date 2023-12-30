@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article, ArticleList } from 'src/app/models/article.model';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-article-list',
@@ -33,17 +34,17 @@ export class ArticleListComponent implements OnInit {
     console.log('Inizio caricamento degli articoli');
 
     // Utilizza il nuovo metodo del servizio Firebase
-    this.firebaseDatabaseService
-      .getAllArticles()
-      .then((articles) => {
+    this.firebaseDatabaseService.getAllArticles().subscribe({
+      next: (articles) => {
         console.log('Articoli dopo il caricamento:', articles);
 
         // Assegna gli articoli alla proprietà articles
         this.articles = articles;
-      })
-      .catch((error) => {
+      },
+      error: (error) => {
         console.error('Errore durante il recupero degli articoli:', error);
-      });
+      },
+    });
   }
 
   setActiveArticle(article: Article, index: number): void {

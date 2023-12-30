@@ -14,7 +14,7 @@
     <hr />
   </div> -->
 
-  <form [formGroup]="articleForm">
+  <form [formGroup]="articleForm" (submit)="publishArticle()">
     <div class="form-group d-flex">
       <div class="flex-fill">
         <label for="articleTitle">Titolo Articolo:</label>

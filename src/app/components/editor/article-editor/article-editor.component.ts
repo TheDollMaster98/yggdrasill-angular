@@ -5,6 +5,7 @@ import { ArticlePreviewComponent } from '../article-preview/article-preview.comp
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/models/article.model';
 import { catchError, tap, throwError } from 'rxjs';
+import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -37,7 +38,8 @@ export class ArticleEditorPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    public articleService: ArticleService
+    public articleService: ArticleService,
+    public firebaseDatabaseService: FirebaseDatabaseService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +50,8 @@ export class ArticleEditorPage implements OnInit {
       author: ['', Validators.required],
       articleContent: ['', Validators.required],
     });
+    //aggiornamento articoli
+    this.firebaseDatabaseService.getAllArticles();
   }
 
   resetArticle() {
@@ -72,7 +76,7 @@ export class ArticleEditorPage implements OnInit {
     }
   }
 
-  publishArticle() {
+  publishArticle1() {
     if (this.articleForm.valid) {
       this.articleService
         .createArticle(this.articleForm.value)
@@ -92,6 +96,20 @@ export class ArticleEditorPage implements OnInit {
         )
         .subscribe();
     }
+  }
+
+  publishArticle() {
+    this.firebaseDatabaseService
+      .updateArticle(this.articleForm.value)
+      .subscribe({
+        complete: () => {
+          console.info('Articolo salvato con successo! publishArticle');
+          this.resetArticle();
+        },
+        error: (error) => {
+          console.error("Errore durante il salvataggio dell'articolo:", error);
+        },
+      });
   }
 
   confirmExitWithoutSaving() {

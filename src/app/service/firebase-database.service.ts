@@ -1,15 +1,14 @@
-// tutorial.service.ts
+// firebase-database.service.ts
 import { Injectable } from '@angular/core';
 import { getDatabase, ref, set, onValue } from 'firebase/database';
 import { Article } from '../models/article.model';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseDatabaseService {
   private articlePath = 'articles/';
-
-  // Stato dell'articolo
   private currentArticle: Article = {
     id: '',
     author: '',
@@ -35,7 +34,7 @@ export class FirebaseDatabaseService {
     return timestamp + randomPart;
   }
 
-  updateArticle(): Promise<void> {
+  updateArticle2(): Promise<void> {
     // Aggiungi logica di validazione qui se necessario
 
     this.currentArticle.id = this.generateUniqueId();
@@ -45,8 +44,23 @@ export class FirebaseDatabaseService {
     });
   }
 
-  getAllArticles(): Promise<Article[]> {
-    return new Promise((resolve, reject) => {
+  updateArticle(newArticle: Article): Observable<void> {
+    return from(this.updateArticleAsync(newArticle));
+  }
+
+  private async updateArticleAsync(newArticle: Article): Promise<void> {
+    // Aggiungi logica di validazione qui se necessario
+    newArticle.id = this.generateUniqueId();
+    this.currentArticle = newArticle;
+
+    const db = getDatabase();
+    await set(ref(db, `${this.articlePath}/${this.currentArticle.id}`), {
+      ...this.currentArticle,
+    });
+  }
+
+  getAllArticles(): Observable<Article[]> {
+    return new Observable((observer) => {
       const db = getDatabase();
       const articleRef = ref(db, this.articlePath);
 
@@ -54,17 +68,12 @@ export class FirebaseDatabaseService {
         articleRef,
         (snapshot) => {
           const data = snapshot.val();
-          // Puoi gestire gli aggiornamenti degli articoli qui
-          console.log('Cambiamenti negli articoli:', data);
-
-          // Converti gli articoli in un array (se necessario)
           const articles: Article[] = data ? Object.values(data) : [];
 
-          resolve(articles);
+          observer.next(articles);
         },
         (error) => {
-          console.error('Errore durante il recupero degli articoli:', error);
-          reject(error);
+          observer.error(error);
         }
       );
     });
