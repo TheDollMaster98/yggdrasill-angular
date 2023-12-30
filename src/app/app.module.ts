@@ -51,6 +51,7 @@ import { MobileNavbarComponent } from './components/mobile-navbar/mobile-navbar.
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginPage } from './components/pages/login/login.page';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
+import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiwyg-editor.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
     MobileNavbarComponent,
     LoginPage,
     TutorialComponent,
+    WysiwygEditorComponent,
   ],
   providers: [
     DashboardService,

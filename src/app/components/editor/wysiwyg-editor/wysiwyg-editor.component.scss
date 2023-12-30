@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  
+    .toolbar {
+      display: flex;
+      gap: 5px;
+  
+      button {
+        // Add Bootstrap styles to buttons with optional extend
+        @extend .btn !optional;
+      }
+    }
+  
+    .wysiwyg-editor {
+      min-height: 200px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-right: 20px;
+      // Add Bootstrap styles with optional extend
+      @extend .form-control !optional;
+    }
+  
+    .live-preview {
+      padding: 10px;
+      border: 1px solid #ccc;
+      // Add Bootstrap styles with optional extend
+      @extend .card !optional;
+    }
+  }
+  
