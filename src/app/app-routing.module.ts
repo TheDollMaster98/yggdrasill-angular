@@ -17,14 +17,13 @@ import { LoginPage } from './components/pages/login/login.page';
 import { AuthGuard } from './service/auth-guard.service';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/dashboard',
-  //   pathMatch: 'full',
-  // },
   {
     path: '',
-    // path: 'dashboard',
+    redirectTo: '/dashboard',
+    pathMatch: 'full',
+  },
+  {
+    path: 'dashboard',
     component: DashboardPage,
   },
   {

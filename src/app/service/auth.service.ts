@@ -5,6 +5,7 @@ import { catchError, from, map, Observable, of, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+// gestisce le operazioni di autenticazione con Firebase. Ecco una spiegazione delle sue principali funzionalità.s
 export class AuthService {
   constructor(private auth: AngularFireAuth) {}
 

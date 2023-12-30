@@ -54,8 +54,6 @@ export class LoginPage implements OnInit {
   }
   //login
   login() {
-    this.isLoggingIn = true;
-
     this.authService
       .signIn({
         email: this.loginForm.value.email,
@@ -63,12 +61,13 @@ export class LoginPage implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.isLoggingIn = false;
+          this.isLoggingIn = true;
           console.log('Utente loggato con successo!');
           this.router.navigate(['admin']);
         },
         error: (error) => {
           this.isLoggingIn = false;
+          console.log('errore nel login.');
           // Handle error
         },
       });
