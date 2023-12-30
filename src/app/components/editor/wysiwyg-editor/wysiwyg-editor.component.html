@@ -1,15 +1,17 @@
-<div class="mb-3">
-  <label for="articleContent" class="form-label">Article Content:</label>
-  <div
-    class="editor"
-    class="form-control editor"
-    contenteditable="true"
-    (input)="updateContent($event)"
-  ></div>
-</div>
-<div class="mb-3">
-  <div class="preview">
-    <h3>Preview:</h3>
-    <div [innerHTML]="content"></div>
+<div class="container mt-4 wysiwyg-editor">
+  <div class="mb-3">
+    <label for="articleContent" class="form-label">Article Content:</label>
+    <div
+      class="editor"
+      class="form-control editor"
+      contenteditable="true"
+      (input)="updateContent($event)"
+    ></div>
+  </div>
+  <div class="mb-3">
+    <div class="preview">
+      <h3>Preview:</h3>
+      <div [innerHTML]="content"></div>
+    </div>
   </div>
 </div>
