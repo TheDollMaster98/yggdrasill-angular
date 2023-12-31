@@ -11,7 +11,7 @@
   </div>
 
   <div class="form-container sign-in">
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" *ngIf="!isRecoveringPassword">
       <h1>Accedi</h1>
       <span>usa il tuo account</span>
       <input type="email" placeholder="Email" formControlName="email" />
@@ -20,10 +20,31 @@
         placeholder="Password"
         formControlName="password"
       />
-      <a href="#" (click)="forgotPassword()">Hai dimenticato la password?</a>
+      <a href="javascript:void(0);" (click)="changeLoginForgot()"
+        >Hai dimenticato la password?</a
+      >
       <button (click)="login()">Accedi</button>
     </form>
+
+    <form [formGroup]="resetPasswordForm" *ngIf="isRecoveringPassword">
+      <h1>Reimposta Password</h1>
+      <span>Inserisci la tua email</span>
+      <input type="email" placeholder="Email" formControlName="email" />
+      <a href="javascript:void(0);" (click)="changeLoginForgot()"
+        >Torna al login</a
+      >
+      <button (click)="forgotPassword()">Reimposta</button>
+    </form>
   </div>
+
+  <!-- <div class="form-container reset-password" *ngIf="isRecoveringPassword">
+    <form [formGroup]="resetPasswordForm">
+      <h1>Reimposta Password</h1>
+      <span>Inserisci la tua email</span>
+      <input type="email" placeholder="Email" formControlName="email" />
+      <button (click)="forgotPassword()">Reimposta Password</button>
+    </form>
+  </div> -->
 
   <div class="overlay-container">
     <div class="overlay">

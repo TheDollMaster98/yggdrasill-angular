@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
   @ViewChild('container') container!: ElementRef;
 
   loginForm!: FormGroup;
+  resetPasswordForm!: FormGroup;
   isLoggingIn = false;
   isRecoveringPassword = false;
 
@@ -35,8 +36,13 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+
+    // Inizializza il form per la reimpostazione della password
+    this.resetPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
   }
-  // animation:
+
   ngAfterViewInit(): void {
     this.signUp.nativeElement.addEventListener('click', () => {
       this.renderer.addClass(
@@ -52,7 +58,7 @@ export class LoginPage implements OnInit {
       );
     });
   }
-  //login
+
   login() {
     this.authService
       .signIn({
@@ -67,14 +73,29 @@ export class LoginPage implements OnInit {
         },
         error: (error) => {
           this.isLoggingIn = false;
-          console.log('errore nel login.');
+          console.log('Errore nel login.');
           // Handle error
         },
       });
   }
 
+  changeLoginForgot() {
+    this.isRecoveringPassword = !this.isRecoveringPassword;
+    // Imposta l'email nel form di reimpostazione password, se necessario
+    this.resetPasswordForm.get('email')?.setValue(this.loginForm.value.email);
+  }
+  //WIP
   forgotPassword() {
-    // Implement your forgot password logic here
+    // Al click su "Hai dimenticato la password", popola l'input con l'email corrente
+    const currentEmail = this.loginForm.value.email;
+    if (currentEmail) {
+      // Imposta l'email nel form di reimpostazione password, se necessario
+      this.resetPasswordForm.get('email')?.setValue(currentEmail);
+    } else {
+      console.log(
+        "Inserisci l'indirizzo email prima di procedere con il recupero della password."
+      );
+    }
   }
 
   register() {
