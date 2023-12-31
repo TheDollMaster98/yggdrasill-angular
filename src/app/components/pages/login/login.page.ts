@@ -23,8 +23,10 @@ export class LoginPage implements OnInit {
   resetPasswordForm!: FormGroup;
   // WIP per ricordarsi del login
   // TODO: continuare dal service e capire come convertire
-  isLoggingIn = this.authService.isLoggedIn;
-  isRecoveringPassword = this.authService.isRecoveringPassword;
+  // isLoggingIn = this.authService.isLoggedIn;
+  // isRecoveringPassword = this.authService.isRecoveringPassword;
+  isLoggingIn = false;
+  isRecoveringPassword = false;
 
   constructor(
     private renderer: Renderer2,
