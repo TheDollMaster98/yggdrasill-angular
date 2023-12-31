@@ -10,7 +10,7 @@
     </form>
   </div>
 
-  <div class="form-container sign-in">
+  <div *ngIf="!isLoggingIn" class="form-container sign-in">
     <form [formGroup]="loginForm" *ngIf="!isRecoveringPassword">
       <h1>Accedi</h1>
       <span>usa il tuo account</span>
@@ -36,15 +36,13 @@
       <button (click)="forgotPassword()">Reimposta</button>
     </form>
   </div>
-
-  <!-- <div class="form-container reset-password" *ngIf="isRecoveringPassword">
-    <form [formGroup]="resetPasswordForm">
-      <h1>Reimposta Password</h1>
-      <span>Inserisci la tua email</span>
-      <input type="email" placeholder="Email" formControlName="email" />
-      <button (click)="forgotPassword()">Reimposta Password</button>
+  <!-- TODO WIP -->
+  <div *ngIf="isLoggingIn" class="form-container sign-in">
+    <form [formGroup]="loginForm">
+      <!-- Aggiungi questo pulsante ovunque tu desideri nel tuo template -->
+      <button (click)="logout()">Logout</button>
     </form>
-  </div> -->
+  </div>
 
   <div class="overlay-container">
     <div class="overlay">

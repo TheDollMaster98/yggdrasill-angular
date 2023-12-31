@@ -7,12 +7,22 @@ import { catchError, from, map, Observable, of, throwError } from 'rxjs';
 })
 // gestisce le operazioni di autenticazione con Firebase. Ecco una spiegazione delle sue principali funzionalità.s
 export class AuthService {
+  isLoggingIn: boolean = false;
+  isRecoveringPassword: boolean = false;
   constructor(private auth: AngularFireAuth) {}
 
   signIn(params: SignIn): Observable<any> {
     return from(
       this.auth.signInWithEmailAndPassword(params.email, params.password)
     ).pipe(
+      catchError((error: FirebaseError) =>
+        throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
+      )
+    );
+  }
+
+  signOut(): Observable<void> {
+    return from(this.auth.signOut()).pipe(
       catchError((error: FirebaseError) =>
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
       )

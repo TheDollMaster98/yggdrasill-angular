@@ -21,8 +21,10 @@ export class LoginPage implements OnInit {
 
   loginForm!: FormGroup;
   resetPasswordForm!: FormGroup;
-  isLoggingIn = false;
-  isRecoveringPassword = false;
+  // WIP per ricordarsi del login
+  // TODO: continuare dal service e capire come convertire
+  isLoggingIn = this.authService.isLoggedIn;
+  isRecoveringPassword = this.authService.isRecoveringPassword;
 
   constructor(
     private renderer: Renderer2,
@@ -77,6 +79,20 @@ export class LoginPage implements OnInit {
           // Handle error
         },
       });
+  }
+
+  logout() {
+    this.authService.signOut().subscribe({
+      next: () => {
+        this.isLoggingIn = false;
+        console.log('Utente disconnesso con successo!');
+        // Puoi aggiungere il reindirizzamento o altre azioni dopo il logout
+      },
+      error: (error) => {
+        console.log('Errore durante il logout:', error);
+        // Gestisci eventuali errori durante il logout
+      },
+    });
   }
 
   changeLoginForgot() {
