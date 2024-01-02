@@ -10,7 +10,7 @@
     </form>
   </div>
 
-  <div *ngIf="!isLoggingIn" class="form-container sign-in">
+  <div *ngIf="!(isUserLoggedIn() | async)" class="form-container sign-in">
     <form [formGroup]="loginForm" *ngIf="!isRecoveringPassword">
       <h1>Accedi</h1>
       <span>usa il tuo account</span>
@@ -37,9 +37,11 @@
     </form>
   </div>
   <!-- TODO WIP -->
-  <div *ngIf="isLoggingIn" class="form-container sign-in">
+  <div *ngIf="(isUserLoggedIn() | async)" class="form-container sign-in">
     <form [formGroup]="loginForm">
       <!-- Aggiungi questo pulsante ovunque tu desideri nel tuo template -->
+      <h1>Sei già autenticato</h1>
+      <span>Vuoi uscire?</span>
       <button (click)="logout()">Logout</button>
     </form>
   </div>

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnInit,
@@ -7,12 +8,14 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPage implements OnInit {
   @ViewChild('signUp') signUp!: ElementRef;
@@ -21,12 +24,9 @@ export class LoginPage implements OnInit {
 
   loginForm!: FormGroup;
   resetPasswordForm!: FormGroup;
-  // WIP per ricordarsi del login
-  // TODO: continuare dal service e capire come convertire
-  // isLoggingIn = this.authService.isLoggedIn;
-  // isRecoveringPassword = this.authService.isRecoveringPassword;
-  isLoggingIn = false;
   isRecoveringPassword = false;
+
+  private isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn();
 
   constructor(
     private renderer: Renderer2,
@@ -71,22 +71,26 @@ export class LoginPage implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.isLoggingIn = true;
           console.log('Utente loggato con successo!');
           this.router.navigate(['admin']);
         },
         error: (error) => {
-          this.isLoggingIn = false;
           console.log('Errore nel login.');
           // Handle error
         },
       });
   }
 
+  // Metodo pubblico che chiama isLoggedIn() del servizio
+  public isUserLoggedIn(): Observable<boolean> {
+    console.log('loginpage isUserLoggedIn: ');
+    console.log(this.isLoggedIn$);
+    return this.isLoggedIn$;
+  }
+
   logout() {
     this.authService.signOut().subscribe({
       next: () => {
-        this.isLoggingIn = false;
         console.log('Utente disconnesso con successo!');
         // Puoi aggiungere il reindirizzamento o altre azioni dopo il logout
       },
@@ -102,21 +106,12 @@ export class LoginPage implements OnInit {
     // Imposta l'email nel form di reimpostazione password, se necessario
     this.resetPasswordForm.get('email')?.setValue(this.loginForm.value.email);
   }
-  //WIP
+
   forgotPassword() {
-    // Al click su "Hai dimenticato la password", popola l'input con l'email corrente
-    const currentEmail = this.loginForm.value.email;
-    if (currentEmail) {
-      // Imposta l'email nel form di reimpostazione password, se necessario
-      this.resetPasswordForm.get('email')?.setValue(currentEmail);
-    } else {
-      console.log(
-        "Inserisci l'indirizzo email prima di procedere con il recupero della password."
-      );
-    }
+    // Implementa la logica per il recupero della password
   }
 
   register() {
-    // Implement your registration logic here
+    // Implementa la logica per la registrazione
   }
 }
