@@ -19,7 +19,21 @@ export class AuthService {
     ).pipe(
       catchError((error: FirebaseError) =>
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
-      )
+      ),
+      map((userCredential) => {
+        // Ottieni l'utente corrente
+        const user = userCredential.user;
+
+        // Imposta il displayName con il nome utente
+        // Puoi aggiungere logicamente la tua logica per ottenere il nome utente
+        // TODO: cambiare questa parte, devo prendere il nick assocciato alla mail
+        const displayName = 'Loris TEST'; // Sostituisci con la tua logica
+        console.log('psw' + params.password);
+        // Aggiorna il nome utente
+        user?.updateProfile({ displayName: displayName });
+
+        return userCredential;
+      })
     );
   }
 
@@ -58,6 +72,29 @@ export class AuthService {
     );
   }
 
+  // AuthService
+  // getCurrentUserName(): Observable<string | null> {
+  //   return this.auth.authState.pipe(
+  //     map((user) => {
+  //       console.log('Current user:', user);
+  //       return user ? user.displayName : null;
+  //     })
+  //   );
+  // }
+  getCurrentUserName(): Observable<string | null> {
+    return this.auth.authState.pipe(
+      map((user) => {
+        console.log('Current user:', user);
+        return user ? user.displayName : null;
+      }),
+      catchError(() => {
+        // Gestisci eventuali errori durante il recupero dello stato di autenticazione
+        return throwError(
+          () => new Error('Error retrieving authentication state.')
+        );
+      })
+    );
+  }
   // Metodo privato per tradurre i messaggi di errore di Firebase.
   private translateFirebaseErrorMessage({ code, message }: FirebaseError) {
     if (code === 'auth/user-not-found') {

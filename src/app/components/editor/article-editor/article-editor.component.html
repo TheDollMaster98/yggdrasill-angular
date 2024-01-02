@@ -64,12 +64,6 @@
           class="form-control text-dark"
           formControlName="author"
         />
-        <div
-          *ngIf="authorControl.hasError('required') && authorControl.touched"
-          class="text-danger"
-        >
-          L'autore è obbligatorio.
-        </div>
       </div>
 
       <div class="flex-fill ms-2">

@@ -4,8 +4,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/models/article.model';
-import { catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -39,7 +40,8 @@ export class ArticleEditorPage implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public articleService: ArticleService,
-    public firebaseDatabaseService: FirebaseDatabaseService
+    public firebaseDatabaseService: FirebaseDatabaseService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -47,11 +49,27 @@ export class ArticleEditorPage implements OnInit {
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
-      author: ['', Validators.required],
+      author: [{ value: '', disabled: true }, Validators.required],
       articleContent: ['', Validators.required],
     });
-    //aggiornamento articoli
+
+    // aggiornamento articoli
     this.firebaseDatabaseService.getAllArticles();
+    // aggiornamento nome
+    this.authService.getCurrentUserName().subscribe({
+      next: (userName) => {
+        console.log('User name:', userName);
+        if (userName) {
+          this.articleForm.get('author')?.setValue(userName);
+        }
+      },
+      error: (error) => {
+        console.error('Error getting user name:', error);
+      },
+    });
+
+    const currentUserName = this.getCurrentUserName();
+    console.log('User name:', currentUserName);
   }
 
   resetArticle() {
@@ -110,6 +128,22 @@ export class ArticleEditorPage implements OnInit {
           console.error("Errore durante il salvataggio dell'articolo:", error);
         },
       });
+  }
+
+  // Metodo per ottenere il nome utente corrente
+  getCurrentUserName(): Observable<string | null> {
+    return this.authService.getCurrentUserName().pipe(
+      map((userName) => {
+        console.log('Current user name:', userName);
+        return userName ? userName : null;
+      }),
+      catchError(() => {
+        // Gestisci eventuali errori durante il recupero del nome utente
+        return throwError(
+          () => new Error('Error retrieving current user name.')
+        );
+      })
+    );
   }
 
   confirmExitWithoutSaving() {
