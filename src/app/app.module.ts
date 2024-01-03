@@ -105,7 +105,7 @@ import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiw
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     // realtime database:
-    provideDatabase(() => getDatabase()),
+    // provideDatabase(() => getDatabase()),
     AngularFirestoreModule,
     EditorModule,
     NgbModule,
