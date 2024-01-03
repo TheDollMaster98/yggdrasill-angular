@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./article-editor.component.scss'],
 })
 export class ArticleEditorPage implements OnInit {
+  private authorName = '';
   articleForm!: FormGroup;
 
   get articleTitleControl() {
@@ -49,7 +50,7 @@ export class ArticleEditorPage implements OnInit {
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
-      author: [{ value: '', disabled: true }, Validators.required],
+      author: [{ value: this.authorName, disabled: true }, Validators.required],
       articleContent: ['', Validators.required],
     });
 
@@ -60,7 +61,8 @@ export class ArticleEditorPage implements OnInit {
       next: (userName) => {
         console.log('User name:', userName);
         if (userName) {
-          this.articleForm.get('author')?.setValue(userName);
+          // this.articleForm.get('author')?.setValue(userName);
+          this.authorName = userName;
         }
       },
       error: (error) => {
@@ -68,8 +70,18 @@ export class ArticleEditorPage implements OnInit {
       },
     });
 
-    const currentUserName = this.getCurrentUserName();
-    console.log('User name:', currentUserName);
+    // Aggiornamento nome autore
+    this.authService.getCurrentUserName().subscribe({
+      next: (userName) => {
+        console.log('User name article editor:', userName);
+        if (userName) {
+          this.articleForm.get('author')?.setValue(userName);
+        }
+      },
+      error: (error) => {
+        console.error('Error getting user name:', error);
+      },
+    });
   }
 
   resetArticle() {
@@ -115,8 +127,9 @@ export class ArticleEditorPage implements OnInit {
         .subscribe();
     }
   }
-
+  // TODO: ricordarsi di mettere il controllo come sopra
   publishArticle() {
+    console.log('Author:', this.authorControl.value);
     this.firebaseDatabaseService
       .updateArticle(this.articleForm.value)
       .subscribe({
@@ -130,21 +143,21 @@ export class ArticleEditorPage implements OnInit {
       });
   }
 
-  // Metodo per ottenere il nome utente corrente
-  getCurrentUserName(): Observable<string | null> {
-    return this.authService.getCurrentUserName().pipe(
-      map((userName) => {
-        console.log('Current user name:', userName);
-        return userName ? userName : null;
-      }),
-      catchError(() => {
-        // Gestisci eventuali errori durante il recupero del nome utente
-        return throwError(
-          () => new Error('Error retrieving current user name.')
-        );
-      })
-    );
-  }
+  // // Metodo per ottenere il nome utente corrente
+  // getCurrentUserName(): Observable<string | null> {
+  //   return this.authService.getCurrentUserName().pipe(
+  //     map((userName) => {
+  //       console.log('Current user name:', userName);
+  //       return userName ? userName : null;
+  //     }),
+  //     catchError(() => {
+  //       // Gestisci eventuali errori durante il recupero del nome utente
+  //       return throwError(
+  //         () => new Error('Error retrieving current user name.')
+  //       );
+  //     })
+  //   );
+  // }
 
   confirmExitWithoutSaving() {
     const confirmExit = confirm(

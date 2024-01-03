@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, map, Observable, throwError } from 'rxjs';
+import {
+  catchError,
+  from,
+  map,
+  Observable,
+  throwError,
+  switchMap,
+  of,
+} from 'rxjs';
+import { AuthorService } from './author.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +18,10 @@ export class AuthService {
   isLoggingIn: boolean = false;
   isRecoveringPassword: boolean = false;
 
-  constructor(private auth: AngularFireAuth) {}
+  constructor(
+    private auth: AngularFireAuth,
+    private authorService: AuthorService
+  ) {}
 
   // Effettua il login con l'email e la password fornite.
   // Restituisce un'Observable contenente il risultato del login.
@@ -27,11 +39,12 @@ export class AuthService {
         // Imposta il displayName con il nome utente
         // Puoi aggiungere logicamente la tua logica per ottenere il nome utente
         // TODO: cambiare questa parte, devo prendere il nick assocciato alla mail
-        const displayName = 'Loris TEST'; // Sostituisci con la tua logica
-        console.log('psw' + params.password);
+        // const displayName = 'Loris TEST'; // Sostituisci con la tua logica
+        console.log('psw => ' + params.password);
         // Aggiorna il nome utente
-        user?.updateProfile({ displayName: displayName });
-
+        // user?.updateProfile({ displayName: displayName });
+        console.log('userCredential => ');
+        console.log(userCredential);
         return userCredential;
       })
     );
@@ -72,15 +85,24 @@ export class AuthService {
     );
   }
 
-  // AuthService
-  // getCurrentUserName(): Observable<string | null> {
-  //   return this.auth.authState.pipe(
-  //     map((user) => {
-  //       console.log('Current user:', user);
-  //       return user ? user.displayName : null;
-  //     })
-  //   );
-  // }
+  setCurrentUserName(displayName: string): Observable<void> {
+    return this.auth.authState.pipe(
+      switchMap((user) => {
+        if (user) {
+          // Usa 'from' per convertire la promise in un observable
+          return from(
+            user.updateProfile({ displayName: displayName }) ||
+              Promise.resolve()
+          );
+        } else {
+          return throwError(() => new Error('User not authenticated.'));
+        }
+      }),
+      catchError((error: FirebaseError) =>
+        throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
+      )
+    );
+  }
   getCurrentUserName(): Observable<string | null> {
     return this.auth.authState.pipe(
       map((user) => {
@@ -95,6 +117,7 @@ export class AuthService {
       })
     );
   }
+
   // Metodo privato per tradurre i messaggi di errore di Firebase.
   private translateFirebaseErrorMessage({ code, message }: FirebaseError) {
     if (code === 'auth/user-not-found') {

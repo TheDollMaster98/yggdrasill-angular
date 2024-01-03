@@ -1,9 +1,19 @@
 <!-- tutorial.component.html -->
-
+<div class="container">
+  <label for="newAuthor">Nuovo Nome Utente:</label>
+  <input type="text" id="newAuthor" class="form-control" [(ngModel)]="author" />
+  <button
+    type="submit"
+    class="btn btn-primary me-2 mt-2"
+    (click)="setNewDisplayName()"
+  >
+    Imposta Nome Utente
+  </button>
+</div>
 <div class="container mt-5">
   <h1 class="mb-4">Tutorial Component</h1>
   <form (submit)="writeUserData()" class="needs-validation" novalidate>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
       <label for="author" class="form-label">Author:</label>
       <input
         type="text"
@@ -13,7 +23,7 @@
         class="form-control"
         required
       />
-    </div>
+    </div> -->
 
     <div class="mb-3">
       <label for="genre" class="form-label">Genre:</label>
