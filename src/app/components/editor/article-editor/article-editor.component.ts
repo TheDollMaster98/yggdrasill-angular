@@ -7,6 +7,7 @@ import { Article } from 'src/app/models/article.model';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -17,32 +18,13 @@ export class ArticleEditorPage implements OnInit {
   private authorName = '';
   articleForm!: FormGroup;
 
-  get articleTitleControl() {
-    return this.articleForm.get('articleTitle')!;
-  }
-
-  get publishDateControl() {
-    return this.articleForm.get('publishDate')!;
-  }
-
-  get authorControl() {
-    return this.articleForm.get('author')!;
-  }
-
-  get genreControl() {
-    return this.articleForm.get('genre')!;
-  }
-
-  get articleContentControl() {
-    return this.articleForm.get('articleContent')!;
-  }
-
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     public articleService: ArticleService,
     public firebaseDatabaseService: FirebaseDatabaseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private firestoreAPIService: FirestoreAPIService<Article>
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +43,7 @@ export class ArticleEditorPage implements OnInit {
       next: (userName) => {
         console.log('User name:', userName);
         if (userName) {
-          // this.articleForm.get('author')?.setValue(userName);
+          this.articleForm.get('author')?.setValue(userName);
           this.authorName = userName;
         }
       },
@@ -82,6 +64,30 @@ export class ArticleEditorPage implements OnInit {
         console.error('Error getting user name:', error);
       },
     });
+
+    //push sul cloud:
+    this.firestoreAPIService.setCollection('articles');
+  }
+
+  // getter:
+  get articleTitleControl() {
+    return this.articleForm.get('articleTitle')!;
+  }
+
+  get publishDateControl() {
+    return this.articleForm.get('publishDate')!;
+  }
+
+  get authorControl() {
+    return this.articleForm.get('author')!;
+  }
+
+  get genreControl() {
+    return this.articleForm.get('genre')!;
+  }
+
+  get articleContentControl() {
+    return this.articleForm.get('articleContent')!;
   }
 
   resetArticle() {
@@ -128,7 +134,8 @@ export class ArticleEditorPage implements OnInit {
     }
   }
   // TODO: ricordarsi di mettere il controllo come sopra
-  publishArticle() {
+  // CON realtime db.
+  publishArticle2() {
     console.log('Author:', this.authorControl.value);
     this.firebaseDatabaseService
       .updateArticle(this.articleForm.value)
@@ -141,6 +148,16 @@ export class ArticleEditorPage implements OnInit {
           console.error("Errore durante il salvataggio dell'articolo:", error);
         },
       });
+  }
+
+  // GOOGLE CLOUD:
+  publishArticle() {
+    console.log('Author:', this.authorControl.value);
+    // Chiamata alla funzione add con newArticle popolato
+    this.firestoreAPIService.add(this.articleForm.value).then(() => {
+      console.log('Articolo aggiunto con successo.');
+      this.resetArticle();
+    });
   }
 
   // // Metodo per ottenere il nome utente corrente
@@ -159,6 +176,13 @@ export class ArticleEditorPage implements OnInit {
   //   );
   // }
 
+  generateUniqueId(): string {
+    const timestamp = new Date().getTime().toString();
+    const randomPart = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(4, '0');
+    return timestamp + randomPart;
+  }
   confirmExitWithoutSaving() {
     const confirmExit = confirm(
       'Sei sicuro di voler uscire senza salvare? I dati verranno persi.'

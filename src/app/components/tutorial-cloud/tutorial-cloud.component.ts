@@ -42,6 +42,16 @@ export class TutorialCloudComponent implements OnInit {
 
   addArticle(): void {
     if (this.validateArticle()) {
+      // Popola newArticle con i valori dal form
+      this.newArticle = {
+        author: this.articleForm.value.author,
+        genre: this.articleForm.value.genre,
+        articleTitle: this.articleForm.value.articleTitle,
+        articleContent: this.articleForm.value.articleContent,
+        publishDate: this.articleForm.value.publishDate,
+      };
+
+      // Chiamata alla funzione add con newArticle popolato
       this.firestoreAPIService.add(this.newArticle).then(() => {
         console.log('Articolo aggiunto con successo.');
         this.clearForm();

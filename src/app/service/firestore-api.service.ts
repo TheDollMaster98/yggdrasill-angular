@@ -59,8 +59,12 @@ export class FirestoreAPIService<T> {
   }
 
   // Aggiunge un nuovo elemento alla collezione e restituisce una Promise
-  async add(item: T): Promise<void> {
-    await this.collection.add(item);
+  async add(item: T, customId?: string): Promise<void> {
+    if (!customId) {
+      // Genera un ID di default se non è fornito uno personalizzato
+      await this.collection.add(item);
+    }
+    await this.collection.doc(customId).set(item);
   }
 
   // Aggiorna l'elemento con l'ID specificato con i nuovi dati
