@@ -2,6 +2,10 @@
   "database": {
     "rules": "database.rules.json"
   },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
   "hosting": {
     "public": "dist/yggdrasill-angular",
     "ignore": [
@@ -9,9 +13,6 @@
       "**/.*",
       "**/node_modules/**"
     ]
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
   }
+
 }
