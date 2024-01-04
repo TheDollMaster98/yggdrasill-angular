@@ -52,6 +52,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginPage } from './components/pages/login/login.page';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiwyg-editor.component';
+import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-cloud.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiw
     LoginPage,
     TutorialComponent,
     WysiwygEditorComponent,
+    TutorialCloudComponent,
   ],
   providers: [
     DashboardService,

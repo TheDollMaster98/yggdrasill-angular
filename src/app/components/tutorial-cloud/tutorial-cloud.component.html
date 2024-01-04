@@ -1,0 +1,89 @@
+<!-- tutorial-cloud.component.html -->
+<h1>PROVA Cloud Firestore:</h1>
+
+<div class="container mt-4">
+  <h1>Aggiungi un nuovo articolo</h1>
+
+  <form [formGroup]="articleForm" (ngSubmit)="addArticle()">
+    <div class="mb-3">
+      <label for="author" class="form-label">Autore</label>
+      <input
+        type="text"
+        class="form-control"
+        id="author"
+        formControlName="author"
+        required
+      />
+      <div *ngIf="isFieldInvalid('author')">
+        Il campo Autore è obbligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="genre" class="form-label">Genere</label>
+      <input
+        type="text"
+        class="form-control"
+        id="genre"
+        formControlName="genre"
+        required
+      />
+      <div *ngIf="isFieldInvalid('genre')">Il campo Genere è obbligatorio.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="articleTitle" class="form-label">Titolo dell'articolo</label>
+      <input
+        type="text"
+        class="form-control"
+        id="articleTitle"
+        formControlName="articleTitle"
+        required
+      />
+      <div *ngIf="isFieldInvalid('articleTitle')">
+        Il campo Titolo dell'articolo è obbligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="articleContent" class="form-label"
+        >Contenuto dell'articolo</label
+      >
+      <textarea
+        class="form-control"
+        id="articleContent"
+        formControlName="articleContent"
+        required
+      ></textarea>
+      <div *ngIf="isFieldInvalid('articleContent')">
+        Il campo Contenuto dell'articolo è obbligatorio.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="publishDate" class="form-label">Data di pubblicazione</label>
+      <input
+        type="text"
+        class="form-control"
+        id="publishDate"
+        formControlName="publishDate"
+        required
+      />
+      <div *ngIf="isFieldInvalid('publishDate')">
+        Il campo Data di pubblicazione è obbligatorio.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Aggiungi articolo</button>
+  </form>
+
+  <hr />
+
+  <h2>Lista degli articoli</h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let article of articleList">
+      {{ article.articleTitle }} - {{ article.author }} -
+      {{ article.publishDate }}
+    </li>
+  </ul>
+</div>
