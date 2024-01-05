@@ -5,11 +5,6 @@ export const environment = {
   production: true,
   firebaseConfig: config.firebaseConfig,
   useEmulator: false,
-  emulatorConfig: {
-    host: 'localhost',
-    port: 4000,
-    ssl: false,
-  },
   databaseURL: config.firebaseConfig.databaseURL,
   article: apiUrl + 'api/article',
   articles: apiUrl + 'api/articles',
