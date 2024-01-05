@@ -4,7 +4,7 @@ const apiUrl = 'https://yggdrasill-server-4c5d50388301.herokuapp.com/';
 export const environment = {
   production: true,
   firebaseConfig: config.firebaseConfig,
-  useEmulator: true,
+  useEmulator: false,
   emulatorConfig: {
     host: 'localhost',
     port: 4000,
