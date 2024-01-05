@@ -6,7 +6,7 @@ import {
   DocumentChange,
   DocumentSnapshot,
 } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -27,7 +27,14 @@ export class FirestoreAPIService<T> {
 
   // Imposta il nome della collezione
   setCollection(collectionName: string): void {
-    this.collectionName = collectionName;
+    if (collectionName) {
+      this.collectionName = collectionName;
+    } else {
+      // Gestisci il caso in cui il percorso sia vuoto
+      console.error(
+        'Errore: Il percorso della collezione non può essere vuoto.'
+      );
+    }
   }
 
   // Restituisce un riferimento alla collezione specificata
@@ -54,6 +61,11 @@ export class FirestoreAPIService<T> {
 
   // Restituisce un Observable che emette l'elemento con l'ID specificato
   getById(id: string): Observable<T | undefined> {
+    if (!id) {
+      console.error("Errore: L'ID del documento non può essere vuoto.");
+      return of(undefined);
+    }
+
     return this.collection
       .doc<T>(id)
       .snapshotChanges()

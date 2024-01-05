@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getDatabase, ref, set, update, get, remove } from 'firebase/database';
 import { Observable, from, map } from 'rxjs';
-import { Author } from '../models/author.model';
+import { Author } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',

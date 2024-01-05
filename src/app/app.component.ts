@@ -23,6 +23,7 @@ export class AppComponent {
   ngOnInit(): void {
     // Chiamata alla funzione per collegarsi all'emulatore Firestore
     this.firestoreService.connectToFirestoreEmulator();
+
     //TODO: capire cosa fare e pulire il resto
     Date.prototype.toJSON = function () {
       const hoursDiff = this.getHours() - this.getTimezoneOffset() / 60;
