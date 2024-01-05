@@ -63,20 +63,47 @@ export class LoginPage implements OnInit {
     });
   }
 
+  // TODO: controllare QUI!
   login() {
+    // Visualizza uno spinner di caricamento o altro feedback visivo
+    // per indicare all'utente che il login è in corso
+    // ...
+
+    // Chiamata al metodo di autenticazione signIn nel servizio AuthService
     this.authService
       .signIn({
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
       })
       .subscribe({
-        next: () => {
+        next: (user) => {
+          // Questo blocco viene eseguito quando il login ha successo
           console.log('Utente loggato con successo!');
-          this.router.navigate(['admin']);
+
+          // Ottieni il ruolo dell'utente dal servizio AuthService
+          this.authService.getUserRole(user.email).subscribe((role) => {
+            console.log("Ruolo dell'utente:", role);
+
+            // Puoi aggiungere ulteriori azioni in base al ruolo
+            if (role === 'admin') {
+              // Reindirizza a una pagina specifica per gli amministratori
+              this.router.navigate(['/admin']);
+            } else if (role === 'user') {
+              // Reindirizza a una pagina specifica per gli utenti
+              this.router.navigate(['/dashboard']);
+            }
+
+            // Puoi nascondere lo spinner di caricamento qui
+            // ...
+          });
         },
         error: (error) => {
-          console.log('Errore nel login.');
-          // Handle error
+          // Questo blocco viene eseguito in caso di errore durante il login
+          console.log('Errore nel login:', error);
+
+          // Gestisci errori in modo più specifico per fornire un feedback utente
+          // Mostra un messaggio di errore o nascondi lo spinner di caricamento
+          // ...
         },
       });
   }

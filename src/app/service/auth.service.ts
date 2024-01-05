@@ -8,8 +8,11 @@ import {
   throwError,
   switchMap,
   of,
+  forkJoin,
 } from 'rxjs';
-import { AuthorService } from './author.service';
+import { SignIn, SignUp, FirebaseError } from '../models/auth.model';
+import { UserDetails } from '../models/user.model';
+import { FirestoreAPIService } from './firestore-api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +21,12 @@ export class AuthService {
   isLoggingIn: boolean = false;
   isRecoveringPassword: boolean = false;
 
+  private adminCollection: string = 'admin';
+  private usersCollection: string = 'users';
+
   constructor(
     private auth: AngularFireAuth,
-    private authorService: AuthorService
+    private firestoreAPIService: FirestoreAPIService<UserDetails>
   ) {}
 
   // Effettua il login con l'email e la password fornite.
@@ -43,8 +49,8 @@ export class AuthService {
         console.log('psw => ' + params.password);
         // Aggiorna il nome utente
         // user?.updateProfile({ displayName: displayName });
-        console.log('userCredential => ');
-        console.log(userCredential);
+        // console.log('userCredential => ');
+        // console.log(userCredential);
         return userCredential;
       })
     );
@@ -70,6 +76,34 @@ export class AuthService {
     );
   }
 
+  // TODO: controllare QUI!
+  // Ottiene il ruolo dell'utente basato sulla sua presenza nelle collezioni admin o users.
+  // Restituisce un Observable contenente il ruolo ('admin', 'user' o 'unknown').
+  getUserRole(email: string): Observable<string> {
+    // Esegue due verifiche per determinare se l'utente è presente nelle collezioni admin o users.
+    return forkJoin([
+      this.firestoreAPIService.checkCollection(
+        `${this.adminCollection}/${email}`
+      ),
+      this.firestoreAPIService.checkCollection(
+        `${this.usersCollection}/${email}`
+      ),
+    ]).pipe(
+      // Mappa i risultati delle verifiche in un singolo ruolo ('admin', 'user' o 'unknown').
+      map(([isAdmin, isUser]) => {
+        if (isAdmin) {
+          return 'admin';
+        } else if (isUser) {
+          return 'user';
+        } else {
+          return 'unknown';
+        }
+      }),
+      // Gestisce eventuali errori restituendo 'unknown'.
+      catchError(() => of('unknown'))
+    );
+  }
+
   // Restituisce un'Observable booleano che indica se l'utente è attualmente loggato o meno.
   isLoggedIn(): Observable<boolean> {
     return this.auth.authState.pipe(map((user) => !!user));
@@ -83,6 +117,11 @@ export class AuthService {
         throwError(() => new Error(this.translateFirebaseErrorMessage(error)))
       )
     );
+  }
+
+  // Metodo per ottenere l'ID dell'utente corrente
+  getCurrentUserId(): Observable<string | null> {
+    return this.auth.authState.pipe(map((user) => (user ? user.uid : null)));
   }
 
   setCurrentUserName(displayName: string): Observable<void> {
@@ -129,13 +168,3 @@ export class AuthService {
     return message;
   }
 }
-
-type SignIn = {
-  email: string;
-  password: string;
-};
-
-type FirebaseError = {
-  code: string;
-  message: string;
-};

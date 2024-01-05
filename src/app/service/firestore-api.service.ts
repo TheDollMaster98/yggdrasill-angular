@@ -7,7 +7,7 @@ import {
   DocumentSnapshot,
 } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +35,24 @@ export class FirestoreAPIService<T> {
         'Errore: Il percorso della collezione non può essere vuoto.'
       );
     }
+  }
+
+  // TODO: controllare QUI!
+  // Verifica se un documento esiste in una collezione specifica.
+  // Restituisce un Observable booleano.
+  checkCollection(path: string): Observable<boolean> {
+    // Ottiene il documento dalla collezione specificata usando il percorso.
+    return this.afs
+      .doc(path)
+      .get()
+      .pipe(
+        // Trasforma il risultato in un booleano, indicando se il documento esiste o meno.
+        map((doc: any) => {
+          return doc.exists;
+        }),
+        // Gestisce eventuali errori restituendo false.
+        catchError(() => of(false))
+      );
   }
 
   // Restituisce un riferimento alla collezione specificata
