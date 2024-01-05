@@ -12,7 +12,7 @@ COPY firestore.rules .
 RUN npm install -g firebase-tools
 
 # Espone la porta necessaria per l'emulazione (sostituisci '9000' con la tua porta effettiva)
-EXPOSE 9000
+EXPOSE 8080
 
 # firebase emulators:start --only firestore
 

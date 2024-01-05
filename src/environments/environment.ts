@@ -22,7 +22,7 @@ export const environment = {
   useEmulator: true,
   emulatorConfig: {
     host: 'localhost',
-    port: 4000,
+    port: 8080,
     ssl: false,
   },
   databaseURL: config.firebaseConfig.databaseURL,
