@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { BackgroundColorClass } from './models/enum';
+import { FirestoreAPIService } from './service/firestore-api.service';
 
 const mainBgRoutes = ['/dashboard'];
 const routesBgRoutes = ['/dashboard'];
@@ -13,9 +14,16 @@ const routesBgRoutes = ['/dashboard'];
 export class AppComponent {
   title = 'yggdrasill-angular';
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService,
+    private router: Router,
+    private firestoreService: FirestoreAPIService<any>
+  ) {}
 
   ngOnInit(): void {
+    // Chiamata alla funzione per collegarsi all'emulatore Firestore
+    this.firestoreService.connectToFirestoreEmulator();
+    //TODO: capire cosa fare e pulire il resto
     Date.prototype.toJSON = function () {
       const hoursDiff = this.getHours() - this.getTimezoneOffset() / 60;
       this.setHours(hoursDiff);

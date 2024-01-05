@@ -17,6 +17,14 @@ export class FirestoreAPIService<T> {
 
   constructor(private afs: AngularFirestore) {}
 
+  // Funzione per collegarsi all'emulatore Firestore
+  connectToFirestoreEmulator(): void {
+    if (location.hostname === 'localhost') {
+      // Imposta il collegamento all'emulatore solo se l'app è in esecuzione localmente
+      this.afs.firestore.useEmulator('localhost', 8888);
+    }
+  }
+
   // Imposta il nome della collezione
   setCollection(collectionName: string): void {
     this.collectionName = collectionName;
