@@ -46,7 +46,7 @@ export class AuthService {
         // Puoi aggiungere logicamente la tua logica per ottenere il nome utente
         // TODO: cambiare questa parte, devo prendere il nick assocciato alla mail
         // const displayName = 'Loris TEST'; // Sostituisci con la tua logica
-        console.log('psw => ' + params.password);
+        // console.log('psw => ' + params.password);
         // Aggiorna il nome utente
         // user?.updateProfile({ displayName: displayName });
         // console.log('userCredential => ');
@@ -81,6 +81,8 @@ export class AuthService {
   // Restituisce un Observable contenente il ruolo ('admin', 'user' o 'unknown').
   getUserRole(email: string): Observable<string> {
     // Esegue due verifiche per determinare se l'utente è presente nelle collezioni admin o users.
+    let prova = `${this.adminCollection}/${email}`;
+    console.log('collection auth => ', prova);
     return forkJoin([
       this.firestoreAPIService.checkCollection(
         `${this.adminCollection}/${email}`

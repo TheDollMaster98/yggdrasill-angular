@@ -65,6 +65,8 @@ export class LoginPage implements OnInit {
 
   // TODO: controllare QUI!
   login() {
+    let email = this.loginForm.value.email;
+    let psw = this.loginForm.value.password;
     // Visualizza uno spinner di caricamento o altro feedback visivo
     // per indicare all'utente che il login è in corso
     // ...
@@ -72,16 +74,17 @@ export class LoginPage implements OnInit {
     // Chiamata al metodo di autenticazione signIn nel servizio AuthService
     this.authService
       .signIn({
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password,
+        email: email,
+        password: psw,
       })
       .subscribe({
-        next: (user) => {
+        next: () => {
           // Questo blocco viene eseguito quando il login ha successo
           console.log('Utente loggato con successo!');
 
           // Ottieni il ruolo dell'utente dal servizio AuthService
-          this.authService.getUserRole(user.email).subscribe((role) => {
+          console.log("Mail dell'utente:", email);
+          this.authService.getUserRole(email).subscribe((role) => {
             console.log("Ruolo dell'utente:", role);
 
             // Puoi aggiungere ulteriori azioni in base al ruolo
