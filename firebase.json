@@ -18,7 +18,20 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "target": {
+      "production": {
+        "site": "yggdrasillproject.com"
+      },
+      "test": {
+        "site": "test-ygg-proj.web.app"
+      }
+    }
   }
-
 }
