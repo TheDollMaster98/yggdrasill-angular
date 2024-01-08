@@ -67,11 +67,7 @@ export class LoginPage implements OnInit {
   login() {
     let email = this.loginForm.value.email;
     let psw = this.loginForm.value.password;
-    // Visualizza uno spinner di caricamento o altro feedback visivo
-    // per indicare all'utente che il login è in corso
-    // ...
 
-    // Chiamata al metodo di autenticazione signIn nel servizio AuthService
     this.authService
       .signIn({
         email: email,
@@ -79,31 +75,26 @@ export class LoginPage implements OnInit {
       })
       .subscribe({
         next: () => {
-          // Questo blocco viene eseguito quando il login ha successo
-          console.log('Utente loggato con successo!');
+          this.authService.getCurrentUserEmail().subscribe((userEmail) => {
+            if (userEmail) {
+              console.log("Email dell'utente:", userEmail);
+              this.authService.getUserRole(userEmail).subscribe((role) => {
+                console.log("Ruolo dell'utente:", role);
 
-          // Ottieni il ruolo dell'utente dal servizio AuthService
-          console.log("Mail dell'utente:", email);
-          this.authService.getUserRole(email).subscribe((role) => {
-            console.log("Ruolo dell'utente:", role);
-
-            // Puoi aggiungere ulteriori azioni in base al ruolo
-            if (role === 'admin') {
-              // Reindirizza a una pagina specifica per gli amministratori
-              this.router.navigate(['/admin']);
-            } else if (role === 'user') {
-              // Reindirizza a una pagina specifica per gli utenti
-              this.router.navigate(['/dashboard']);
+                if (role === 'admin') {
+                  this.router.navigate(['/admin']);
+                } else if (role === 'user') {
+                  this.router.navigate(['/dashboard']);
+                }
+              });
+            } else {
+              console.log("Impossibile ottenere l'email dell'utente.");
+              // Gestire il caso in cui l'email non può essere recuperata
             }
-
-            // Puoi nascondere lo spinner di caricamento qui
-            // ...
           });
         },
         error: (error) => {
-          // Questo blocco viene eseguito in caso di errore durante il login
           console.log('Errore nel login:', error);
-
           // Gestisci errori in modo più specifico per fornire un feedback utente
           // Mostra un messaggio di errore o nascondi lo spinner di caricamento
           // ...
@@ -113,8 +104,8 @@ export class LoginPage implements OnInit {
 
   // Metodo pubblico che chiama isLoggedIn() del servizio
   public isUserLoggedIn(): Observable<boolean> {
-    console.log('loginpage isUserLoggedIn: ');
-    console.log(this.isLoggedIn$);
+    // console.log('loginpage isUserLoggedIn: ');
+    // console.log(this.isLoggedIn$);
     return this.isLoggedIn$;
   }
 

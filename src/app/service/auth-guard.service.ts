@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { AuthService } from './auth.service';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +15,41 @@ import { Observable, map } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
     return this.authService.isLoggedIn().pipe(
-      map((isLoggedIn: any) => {
+      switchMap((isLoggedIn: boolean) => {
         if (isLoggedIn) {
-          return true;
+          return this.authService.getCurrentUserEmail().pipe(
+            switchMap((userEmail: string | null) => {
+              if (userEmail) {
+                return this.authService.getUserRole(userEmail).pipe(
+                  map((role: string) => {
+                    if (role === 'admin') {
+                      return true;
+                    } else {
+                      this.router.navigate(['/dashboard']);
+                      return false;
+                    }
+                  }),
+                  catchError(() => {
+                    this.router.navigate(['/dashboard']);
+                    return of(false);
+                  })
+                );
+              } else {
+                console.log("Impossibile ottenere l'email dell'utente.");
+                // Gestire il caso in cui l'email non può essere recuperata
+                this.router.navigate(['/dashboard']);
+                return of(false);
+              }
+            })
+          );
         } else {
-          this.router.navigate(['/dashboard']); // Se non si è loggati, reindirizza a /dashboard
-          return false;
+          this.router.navigate(['/dashboard']);
+          return of(false);
         }
       })
     );
@@ -32,6 +59,6 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.canActivate();
+    return this.canActivate(route, state);
   }
 }

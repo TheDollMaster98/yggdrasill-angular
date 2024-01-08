@@ -9,6 +9,7 @@ import {
   switchMap,
   of,
   forkJoin,
+  BehaviorSubject,
 } from 'rxjs';
 import { SignIn, SignUp, FirebaseError } from '../models/auth.model';
 import { UserDetails } from '../models/user.model';
@@ -18,6 +19,9 @@ import { FirestoreAPIService } from './firestore-api.service';
   providedIn: 'root',
 })
 export class AuthService {
+  private userRoleSubject: BehaviorSubject<string> =
+    new BehaviorSubject<string>('unknown');
+
   isLoggingIn: boolean = false;
   isRecoveringPassword: boolean = false;
 
@@ -80,29 +84,44 @@ export class AuthService {
   // Ottiene il ruolo dell'utente basato sulla sua presenza nelle collezioni admin o users.
   // Restituisce un Observable contenente il ruolo ('admin', 'user' o 'unknown').
   getUserRole(email: string): Observable<string> {
-    // Esegue due verifiche per determinare se l'utente è presente nelle collezioni admin o users.
-    let prova = `${this.adminCollection}/${email}`;
-    console.log('collection auth => ', prova);
-    return forkJoin([
-      this.firestoreAPIService.checkCollection(
-        `${this.adminCollection}/${email}`
-      ),
-      this.firestoreAPIService.checkCollection(
-        `${this.usersCollection}/${email}`
-      ),
-    ]).pipe(
-      // Mappa i risultati delle verifiche in un singolo ruolo ('admin', 'user' o 'unknown').
+    let adminCheck$ = this.firestoreAPIService.checkCollection(
+      `${this.adminCollection}/${email}`
+    );
+    let userCheck$ = this.firestoreAPIService.checkCollection(
+      `${this.usersCollection}/${email}`
+    );
+
+    return forkJoin([adminCheck$, userCheck$]).pipe(
       map(([isAdmin, isUser]) => {
         if (isAdmin) {
+          this.userRoleSubject.next('admin');
           return 'admin';
         } else if (isUser) {
+          this.userRoleSubject.next('user');
           return 'user';
         } else {
+          this.userRoleSubject.next('unknown');
           return 'unknown';
         }
       }),
-      // Gestisce eventuali errori restituendo 'unknown'.
-      catchError(() => of('unknown'))
+      catchError(() => {
+        this.userRoleSubject.next('unknown');
+        return of('unknown');
+      })
+    );
+  }
+
+  // prende la mail corrente
+  getCurrentUserEmail(): Observable<string | null> {
+    return this.auth.authState.pipe(
+      switchMap((user) => {
+        if (user) {
+          return of(user.email || null);
+        } else {
+          return of(null);
+        }
+      }),
+      catchError(() => of(null))
     );
   }
 
