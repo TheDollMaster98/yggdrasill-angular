@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "yggdrasill-project"
-  }
+  },
+  "targets": {
+    "yggdrasill-project": {
+      "hosting": {
+        "test": [
+          "test-ygg-proj.web.app"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
