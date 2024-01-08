@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ImageService } from 'src/app/service/image.service';
 
 @Component({
   selector: 'app-carousel',

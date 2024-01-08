@@ -41,6 +41,14 @@ export class FirestoreAPIService<T> {
   // Verifica se un documento esiste in una collezione specifica.
   // Restituisce un Observable booleano.
   checkCollection(path: string): Observable<boolean> {
+    // Verifica se il percorso è vuoto
+    if (!path) {
+      console.error(
+        'Errore: Il percorso della collezione non può essere vuoto.'
+      );
+      return of(false);
+    }
+
     // Ottiene il documento dalla collezione specificata usando il percorso.
     return this.afs
       .doc(path)
