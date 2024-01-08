@@ -1,3 +1,4 @@
+// admin.guard.ts
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -5,60 +6,63 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthService } from './auth.service';
-import { Observable, catchError, map, of, switchMap } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { switchMap, catchError, map } from 'rxjs/operators';
+import { AuthService } from '../service/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-// guardiano di rotte (CanActivate) che controlla se un utente può accedere o meno a una determinata rotta
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
+  // Metodo che viene chiamato per determinare se l'utente può attivare una determinata route
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
     return this.authService.isLoggedIn().pipe(
+      // Passa al risultato della isLoggedIn
       switchMap((isLoggedIn: boolean) => {
         if (isLoggedIn) {
+          // Se l'utente è loggato, ottieni la sua email corrente
           return this.authService.getCurrentUserEmail().pipe(
             switchMap((userEmail: string | null) => {
               if (userEmail) {
+                // Se è possibile ottenere l'email, ottieni il ruolo dell'utente
                 return this.authService.getUserRole(userEmail).pipe(
+                  // Mappa il ruolo in un booleano che determina l'accesso
                   map((role: string) => {
                     if (role === 'admin') {
+                      // Se l'utente è admin, permetti l'accesso
                       return true;
                     } else {
+                      // Altrimenti, reindirizza a /dashboard e nega l'accesso
                       this.router.navigate(['/dashboard']);
                       return false;
                     }
                   }),
+                  // Gestisce eventuali errori nel recupero del ruolo
                   catchError(() => {
+                    // In caso di errore, reindirizza a /dashboard e nega l'accesso
                     this.router.navigate(['/dashboard']);
                     return of(false);
                   })
                 );
               } else {
+                // Se non è possibile ottenere l'email, logga un messaggio e reindirizza a /dashboard
                 console.log("Impossibile ottenere l'email dell'utente.");
-                // Gestire il caso in cui l'email non può essere recuperata
                 this.router.navigate(['/dashboard']);
                 return of(false);
               }
             })
           );
         } else {
+          // Se l'utente non è loggato, reindirizza a /dashboard e nega l'accesso
           this.router.navigate(['/dashboard']);
           return of(false);
         }
       })
     );
-  }
-
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.canActivate(route, state);
   }
 }

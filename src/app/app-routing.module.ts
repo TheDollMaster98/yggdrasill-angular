@@ -14,7 +14,8 @@ import { DashboardWordpressComponent } from './components/wordpress/blog-wordpre
 import { HomeWordpressComponent } from './components/wordpress/home-wordpress/home-wordpress.component';
 import { HamButtonComponent } from './components/icon-component/ham-button/ham-button.component';
 import { LoginPage } from './components/pages/login/login.page';
-import { AuthGuard } from './service/auth-guard.service';
+import { AdminGuard } from './guards/admin.guard';
+import { AuthorGuard } from './guards/author.guard';
 
 const routes: Routes = [
   {
@@ -49,6 +50,7 @@ const routes: Routes = [
   {
     path: 'edit',
     component: ArticleEditorPage,
+    canActivate: [AuthorGuard, AdminGuard],
   },
   {
     path: 'chi-siamo',
@@ -57,7 +59,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminPage,
-    canActivate: [AuthGuard],
+    canActivate: [AuthorGuard, AdminGuard],
   },
   {
     path: 'podcast',
