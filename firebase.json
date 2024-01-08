@@ -12,26 +12,36 @@
       "port": 8888
     }
   },
-  "hosting": {
-    "public": "dist/yggdrasill-angular",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
-    "target": {
-      "production": {
-        "site": "yggdrasillproject.com"
-      },
-      "test": {
-        "site": "test-ygg-proj.web.app"
-      }
+  "hosting": [
+    {
+      "target": "production",
+      "public": "dist/yggdrasill-angular",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "test",
+      "public": "dist/yggdrasill-angular",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
-  }
+  ]
 }
