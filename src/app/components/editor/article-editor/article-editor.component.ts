@@ -16,6 +16,7 @@ import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 })
 export class ArticleEditorPage implements OnInit {
   private authorName = '';
+  editorName = this.authService.authName;
   articleForm!: FormGroup;
 
   constructor(
@@ -32,7 +33,8 @@ export class ArticleEditorPage implements OnInit {
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
-      author: [{ value: this.authorName, disabled: true }, Validators.required],
+      // author: [{ value: this.authorName, disabled: true }, Validators.required],
+      author: [{ value: this.editorName, disabled: true }, Validators.required],
       articleContent: ['', Validators.required],
     });
 

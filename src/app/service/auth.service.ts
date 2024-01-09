@@ -22,6 +22,8 @@ export class AuthService {
   private userRoleSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('unknown');
 
+  authName: string = '';
+
   isLoggingIn: boolean = false;
   isRecoveringPassword: boolean = false;
 
@@ -56,6 +58,7 @@ export class AuthService {
           switchMap((userDetails) => {
             if (userDetails) {
               const displayName = userDetails.name || 'Autore Sconosciuto';
+              this.authName = userDetails.name || 'Autore Sconosciuto';
               console.log('Dettagli utente:', userDetails);
 
               // Aggiorna il nome utente
