@@ -16,6 +16,7 @@ import { HamButtonComponent } from './components/icon-component/ham-button/ham-b
 import { LoginPage } from './components/pages/login/login.page';
 import { AdminGuard } from './guards/admin.guard';
 import { AuthorGuard } from './guards/author.guard';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -59,7 +60,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminPage,
-    canActivate: [AuthorGuard, AdminGuard],
+    canActivate: [AdminGuard],
   },
   {
     path: 'podcast',
@@ -72,6 +73,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginPage,
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
   },
 ];
 

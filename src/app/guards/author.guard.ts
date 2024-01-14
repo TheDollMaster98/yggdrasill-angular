@@ -33,7 +33,7 @@ export class AuthorGuard implements CanActivate {
                 return this.authService.getUserRole(userEmail).pipe(
                   // Mappa il ruolo in un booleano che determina l'accesso
                   map((role: string) => {
-                    if (role === 'admin' || role === 'author') {
+                    if (role === 'author') {
                       // Se l'utente è admin o author, permetti l'accesso
                       return true;
                     } else {

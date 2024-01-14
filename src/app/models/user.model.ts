@@ -1,7 +1,6 @@
 // user.model.ts
 
 export interface UserDetails {
-  id: string;
   email: string;
   role: string;
   admin?: boolean;
@@ -29,11 +28,16 @@ export interface AuthorList {
 
 export interface UserRoles {
   admin: boolean;
-  authors: boolean;
+  author: boolean;
+  user: boolean;
 }
 
 // Intersection type per combinare le proprietà di UserDetails e UserRoles
 export type UserData = UserDetails & UserRoles & { profile?: UserProfile };
+
+export interface UserWithRoles extends UserRoles {
+  name?: string;
+}
 
 export class AuthorData implements Author {
   displayName: string = '';

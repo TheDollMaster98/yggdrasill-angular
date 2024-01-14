@@ -39,7 +39,6 @@
   <!-- TODO WIP -->
   <div *ngIf="(isUserLoggedIn() | async)" class="form-container sign-in">
     <form [formGroup]="loginForm">
-      <!-- Aggiungi questo pulsante ovunque tu desideri nel tuo template -->
       <h1>Sei già autenticato</h1>
       <span>Vuoi uscire?</span>
       <button (click)="logout()">Logout</button>
