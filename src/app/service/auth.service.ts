@@ -28,6 +28,7 @@ export class AuthService {
   isRecoveringPassword: boolean = false;
 
   private adminCollection: string = 'admin';
+  private authorCollection: string = 'author';
   private usersCollection: string = 'users';
 
   constructor(
@@ -44,7 +45,6 @@ export class AuthService {
     ).pipe(
       catchError((error: FirebaseError) => {
         console.error('Errore durante il login:', error);
-        // Ritorna un observable di tipo any
         return throwError(
           () => new Error(this.translateFirebaseErrorMessage(error))
         );
@@ -53,43 +53,46 @@ export class AuthService {
         const user = userCredential.user;
         console.log('Utente autenticato:', user);
 
-        // Ottieni i dettagli dell'utente dal database e imposta il nome utente
-        return this.getUserDetails(user?.email || '').pipe(
-          switchMap((userDetails) => {
-            if (userDetails) {
-              const displayName = userDetails.name || 'Autore Sconosciuto';
-              this.authName = userDetails.name || 'Autore Sconosciuto';
-              console.log('Dettagli utente:', userDetails);
+        // Verifica se l'email dell'utente è presente prima di chiamare getUserDetails
+        const userEmail = user?.email;
+        if (userEmail) {
+          return this.getUserDetails(userEmail).pipe(
+            switchMap((userDetails) => {
+              if (userDetails) {
+                const displayName = userDetails.name || 'Autore Sconosciuto';
+                this.authName = userDetails.name || 'Autore Sconosciuto';
+                console.log('Dettagli utente:', userDetails);
 
-              // Aggiorna il nome utente
-              return this.setCurrentUserName(displayName).pipe(
-                map(() => userCredential)
-              );
-            } else {
-              // Dettagli utente non trovati nel database, effettua il logout e restituisci un errore
-              console.error('Dettagli utente non trovati nel database.');
-              return this.signOut().pipe(
-                switchMap(() =>
-                  throwError(
-                    () => new Error('Dettagli utente non trovati nel database.')
+                return this.setCurrentUserName(displayName).pipe(
+                  map(() => userCredential)
+                );
+              } else {
+                console.error('Dettagli utente non trovati nel database.');
+                return this.signOut().pipe(
+                  switchMap(() =>
+                    throwError(
+                      () =>
+                        new Error('Dettagli utente non trovati nel database.')
+                    )
                   )
-                )
+                );
+              }
+            }),
+            catchError((err) => {
+              console.error(
+                "Errore durante l'ottenimento dei dettagli utente:",
+                err
               );
-            }
-          }),
-          catchError((err) => {
-            console.error(
-              "Errore durante l'ottenimento dei dettagli utente:",
-              err
-            );
-            // Ritorna un observable di tipo any
-            return of(userCredential);
-          })
-        );
+              return of(userCredential);
+            })
+          );
+        } else {
+          console.error("Errore: Email dell'utente non presente.");
+          return of(userCredential);
+        }
       }),
       catchError((err) => {
         console.error('Errore generico durante il login:', err);
-        // Ritorna un observable di tipo any
         return of(null);
       })
     );
@@ -121,12 +124,18 @@ export class AuthService {
     let userCheck$ = this.firestoreAPIService.checkCollection(
       `${this.usersCollection}/${email}`
     );
+    let authorCheck$ = this.firestoreAPIService.checkCollection(
+      `${this.authorCollection}/${email}`
+    );
 
-    return forkJoin([adminCheck$, userCheck$]).pipe(
-      map(([isAdmin, isUser]) => {
+    return forkJoin([adminCheck$, userCheck$, authorCheck$]).pipe(
+      map(([isAdmin, isUser, isAuthor]) => {
         if (isAdmin) {
           this.userRoleSubject.next('admin');
           return 'admin';
+        } else if (isAuthor) {
+          this.userRoleSubject.next('author');
+          return 'author';
         } else if (isUser) {
           this.userRoleSubject.next('user');
           return 'user';
@@ -138,6 +147,22 @@ export class AuthService {
       catchError(() => {
         this.userRoleSubject.next('unknown');
         return of('unknown');
+      })
+    );
+  }
+
+  getUserNameByRole(email: string, role: string): Observable<string | null> {
+    const path = `${role}/${email}`;
+    return this.firestoreAPIService.getById(path).pipe(
+      map((userData: any) => {
+        if (userData && 'name' in userData) {
+          return userData.name;
+        } else {
+          console.error(
+            `Errore: Nome utente non trovato nella collezione ${role}.`
+          );
+          return null;
+        }
       })
     );
   }
@@ -158,9 +183,25 @@ export class AuthService {
 
   // Ottiene i dettagli dell'utente dal database
   getUserDetails(email: string): Observable<UserDetails | null> {
-    return this.firestoreAPIService
-      .getById(email)
-      .pipe(map((userDetails) => userDetails || null));
+    console.log('Inizio getUserDetails con email:', email);
+
+    // Verifica se l'email è valida
+    if (!email) {
+      console.error("Errore: Email dell'utente non valida.");
+      return of(null);
+    }
+
+    return this.firestoreAPIService.getById(email).pipe(
+      map((userDetails) => {
+        console.log('Dettagli utente ottenuti con successo:', userDetails);
+        return userDetails || null;
+      }),
+      catchError((error) => {
+        console.error('Errore durante il recupero dei dettagli utente:', error);
+        // Puoi gestire l'errore in base alle tue esigenze
+        return of(null);
+      })
+    );
   }
 
   // Verifica se l'utente è attualmente loggato

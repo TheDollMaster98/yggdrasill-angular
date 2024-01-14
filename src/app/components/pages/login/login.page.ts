@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/service/auth.service';
+import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginPage implements OnInit {
     private renderer: Renderer2,
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private db: FirestoreAPIService<any>
   ) {}
 
   ngOnInit(): void {
@@ -78,13 +80,59 @@ export class LoginPage implements OnInit {
           this.authService.getCurrentUserEmail().subscribe((userEmail) => {
             if (userEmail) {
               console.log("Email dell'utente:", userEmail);
+
+              // Creiamo una variabile per memorizzare il nome
+              let userName: string;
+
+              // Ottieni il ruolo e il nome dell'utente
               this.authService.getUserRole(userEmail).subscribe((role) => {
                 console.log("Ruolo dell'utente:", role);
 
-                if (role === 'admin') {
-                  this.router.navigate(['/admin']);
-                } else if (role === 'user') {
-                  this.router.navigate(['/dashboard']);
+                // Usa switch per gestire diversi ruoli
+                switch (role) {
+                  case 'admin':
+                    this.db.setCollection('admin');
+                    this.db
+                      .getByIdCollection('name', 'admin')
+                      .subscribe((data) => {
+                        // Memorizza il nome ottenuto solo se data è definito
+                        if (data) {
+                          userName = data.name;
+                          this.authService.authName = userName;
+                          console.log('this.authService.authName: ' + userName);
+                        }
+                        // Naviga alla pagina di modifica indipendentemente dal risultato
+                        this.router.navigate(['/edit']);
+                      });
+                    break;
+                  case 'author':
+                    this.db
+                      .getValueInDocument('author', userEmail, 'name')
+                      .subscribe((name) => {
+                        if (name) {
+                          userName = name;
+                          this.authService.authName = userName;
+                          console.log('this.authService.authName: ' + userName);
+                        }
+                        this.router.navigate(['/edit']);
+                      });
+                    break;
+                  case 'user':
+                    this.db.setCollection('user');
+                    this.db
+                      .getByIdCollection('name', 'user')
+                      .subscribe((data) => {
+                        if (data) {
+                          userName = data.name;
+                          this.authService.authName = userName;
+                          console.log('this.authService.authName: ' + userName);
+                        }
+                        this.router.navigate(['/dashboard']);
+                      });
+                    break;
+                  default:
+                    // Gestisci il caso in cui il ruolo non è admin, author o user
+                    break;
                 }
               });
             } else {

@@ -7,7 +7,7 @@ import {
   DocumentSnapshot,
 } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -87,19 +87,110 @@ export class FirestoreAPIService<T> {
 
   // Restituisce un Observable che emette l'elemento con l'ID specificato
   getById(id: string): Observable<T | undefined> {
+    console.log('Inizio getById con ID:', id);
+
     if (!id) {
       console.error("Errore: L'ID del documento non può essere vuoto.");
       return of(undefined);
     }
 
-    return this.collection
-      .doc<T>(id)
+    // Aggiunta verifica per il percorso
+    const path = `${this.collectionName}/${id}`;
+
+    if (!path) {
+      console.error(
+        'Errore: Il percorso della collezione non può essere vuoto.'
+      );
+      return of(undefined);
+    }
+
+    return this.afs
+      .doc(path)
       .snapshotChanges()
       .pipe(
-        map((action: Action<DocumentSnapshot<T>>) => {
-          const data = action.payload.data() as T;
+        map((action) => {
+          const data = action.payload.data() as Record<string, unknown>; // Forza il casting come oggetto generico
           const docId = action.payload.id;
-          return { id: docId, ...data };
+          return { id: docId, ...(data as T) }; // Forza il casting come T
+        })
+      );
+  }
+
+  getByIdCollection(id: string, collection: string): Observable<T | undefined> {
+    console.log('Inizio getById con ID:', id);
+
+    if (!id) {
+      console.error("Errore: L'ID del documento non può essere vuoto.");
+      return of(undefined);
+    }
+
+    // Aggiunta verifica per il percorso
+    const path = `${this.collection}/${id}`;
+
+    if (!path) {
+      console.error(
+        'Errore: Il percorso della collezione non può essere vuoto.'
+      );
+      return of(undefined);
+    }
+
+    return this.afs
+      .doc(path)
+      .snapshotChanges()
+      .pipe(
+        map((action) => {
+          const data = action.payload.data() as Record<string, unknown>; // Forza il casting come oggetto generico
+          const docId = action.payload.id;
+          return { id: docId, ...(data as T) }; // Forza il casting come T
+        })
+      );
+  }
+
+  getByField(
+    collection: string,
+    fieldName: string,
+    value: any
+  ): Observable<T | undefined> {
+    console.log(`Inizio getByField con campo ${fieldName} e valore ${value}`);
+
+    return this.afs
+      .collection(collection, (ref) => ref.where(fieldName, '==', value))
+      .snapshotChanges()
+      .pipe(
+        map((actions) => {
+          const data = actions[0]?.payload.doc.data() as Record<
+            string,
+            unknown
+          >;
+          const docId = actions[0]?.payload.doc.id;
+          return { id: docId, ...(data as T) };
+        })
+      );
+  }
+  // funziona:
+  getValueInDocument(
+    collection: string,
+    documentId: string,
+    field: string
+  ): Observable<any> {
+    console.log(
+      `Inizio getValueInDocument con collezione ${collection}, ID ${documentId} e campo ${field}`
+    );
+
+    const path = `${collection}/${documentId}`;
+
+    if (!path) {
+      console.error('Errore: Il percorso del documento non può essere vuoto.');
+      return of(undefined);
+    }
+
+    return this.afs
+      .doc(path)
+      .snapshotChanges()
+      .pipe(
+        map((action) => {
+          const data = action.payload.data() as Record<string, unknown>;
+          return data ? data[field] : undefined;
         })
       );
   }
