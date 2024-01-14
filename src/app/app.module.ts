@@ -53,6 +53,7 @@ import { LoginPage } from './components/pages/login/login.page';
 import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiwyg-editor.component';
 import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-cloud.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-clo
     TutorialComponent,
     WysiwygEditorComponent,
     TutorialCloudComponent,
+    PageNotFoundComponent,
   ],
   providers: [
     DashboardService,
