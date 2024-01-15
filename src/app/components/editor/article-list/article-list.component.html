@@ -11,6 +11,18 @@
   ></app-article-preview>
 </div>
 
+<!-- Nel file nome-componente.component.html -->
+<div class="container">
+  <div class="custom-card" *ngFor="let article of articleList">
+    <div class="img-box"><img [src]="article.articleTitle" /></div>
+    <div class="custom-content">
+      <h2>{{ article.articleTitle }}</h2>
+      <p>{{ article.articleContent }}</p>
+      <a href="#">Read More</a>
+    </div>
+  </div>
+</div>
+
 <!--
 <div *ngIf="articles.length > 0; else noArticles">
   <div *ngFor="let article of articles; let i = index" class="article-item">

@@ -51,7 +51,7 @@ const routes: Routes = [
   {
     path: 'edit',
     component: ArticleEditorPage,
-    canActivate: [AuthorGuard, AdminGuard],
+    canActivate: [AuthorGuard],
   },
   {
     path: 'chi-siamo',
