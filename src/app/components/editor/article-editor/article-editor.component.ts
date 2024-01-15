@@ -15,8 +15,7 @@ import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
   styleUrls: ['./article-editor.component.scss'],
 })
 export class ArticleEditorPage implements OnInit {
-  private authorName = '';
-  editorName = this.authService.authName;
+  editorName = '';
   articleForm!: FormGroup;
 
   constructor(
@@ -25,47 +24,40 @@ export class ArticleEditorPage implements OnInit {
     public articleService: ArticleService,
     public firebaseDatabaseService: FirebaseDatabaseService,
     private authService: AuthService,
-    private firestoreAPIService: FirestoreAPIService<Article>
+    private db: FirestoreAPIService<Article>
   ) {}
 
   ngOnInit(): void {
+    this.authService.getAuthName();
+    this.editorName = this.authService.getAuthName();
+
     this.articleForm = this.formBuilder.group({
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
       author: [{ value: this.editorName, disabled: true }, Validators.required],
+      // author: [this.editorName, Validators.required],
       articleContent: ['', Validators.required],
     });
 
-    // Aggiorna nome utente
-    this.authService.getCurrentUserName().subscribe({
-      next: (userName) => {
-        console.log('Nome utente:', userName);
-        if (userName) {
-          this.articleForm.get('author')?.setValue(userName);
-          this.authorName = userName;
-        }
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero del nome utente:', error);
-      },
-    });
+    this.articleForm.get('author')?.setValue(this.editorName);
+    this.articleForm.controls['author'].setValue(this.editorName);
 
-    // Aggiorna nome autore
-    this.authService.getCurrentUserName().subscribe({
-      next: (userName) => {
-        console.log("Nome utente nell'article editor:", userName);
-        if (userName) {
-          this.articleForm.get('author')?.setValue(userName);
-        }
-      },
-      error: (error) => {
-        console.error('Errore durante il recupero del nome utente:', error);
-      },
-    });
+    // // Aggiorna nome utente
+    // this.authService.getCurrentUserName().subscribe({
+    //   next: (userName) => {
+    //     console.log("Nome utente nell'article editor:", userName);
+    //     if (userName) {
+    //       this.articleForm.get('author')?.setValue(userName);
+    //     }
+    //   },
+    //   error: (error) => {
+    //     console.error('Errore durante il recupero del nome utente:', error);
+    //   },
+    // });
 
     // Connettiti all'emulatore Firestore
-    this.firestoreAPIService.connectToFirestoreEmulator();
+    this.db.connectToFirestoreEmulator();
   }
 
   get articleTitleControl() {
@@ -89,7 +81,10 @@ export class ArticleEditorPage implements OnInit {
   }
 
   resetArticle() {
-    this.articleForm.reset();
+    this.articleForm.controls['articleTitle'].reset();
+    this.articleForm.controls['genre'].reset();
+    this.articleForm.controls['articleContent'].reset();
+    this.articleForm.controls['publishDate'].reset();
   }
 
   previewArticle() {
@@ -111,14 +106,20 @@ export class ArticleEditorPage implements OnInit {
   }
 
   publishArticle() {
-    console.log('Autore:', this.authorControl.value);
+    // Ottieni il nome dell'autore
+    const authorName = this.authService.getAuthName();
+
+    // Aggiungi il nome dell'autore ai dati
+    const articleData = {
+      ...this.articleForm.value,
+      author: authorName,
+    };
+
     // Chiamata alla funzione add con newArticle popolato
-    this.firestoreAPIService
-      .add(this.articleForm.value, 'articles')
-      .then(() => {
-        console.log('Articolo aggiunto con successo.');
-        this.resetArticle();
-      });
+    this.db.add(articleData, 'articles').then(() => {
+      console.log('Articolo aggiunto con successo.');
+      this.resetArticle();
+    });
   }
 
   generateUniqueId(): string {

@@ -80,10 +80,6 @@ export class LoginPage implements OnInit {
           this.authService.getCurrentUserEmail().subscribe((userEmail) => {
             if (userEmail) {
               console.log("Email dell'utente:", userEmail);
-
-              // Creiamo una variabile per memorizzare il nome
-              let userName: string;
-
               // Ottieni il ruolo e il nome dell'utente
               this.authService.getUserRole(userEmail).subscribe((role) => {
                 console.log("Ruolo dell'utente:", role);
@@ -94,8 +90,12 @@ export class LoginPage implements OnInit {
                     this.db.getById(email, 'admin').subscribe((data) => {
                       // Memorizza il nome ottenuto solo se data è definito
                       if (data) {
-                        this.authService.authName = data.name;
-                        console.log('this.authService.authName: ' + data.name);
+                        this.authService.setAuthName(data.name);
+                        console.log('data.name: ' + data.name);
+                        console.log(
+                          'this.authService.getAuthName(): ' +
+                            this.authService.getAuthName()
+                        );
                       }
                       // Naviga alla pagina di modifica indipendentemente dal risultato
                       this.router.navigate(['/edit']);
@@ -104,8 +104,12 @@ export class LoginPage implements OnInit {
                   case 'author':
                     this.db.getById(email, 'author').subscribe((data) => {
                       if (data) {
-                        this.authService.authName = data.name;
-                        console.log('this.authService.authName: ' + data.name);
+                        this.authService.setAuthName(data.name);
+                        console.log('data.name: ' + data.name);
+                        console.log(
+                          'this.authService.getAuthName(): ' +
+                            this.authService.getAuthName()
+                        );
                       }
                       this.router.navigate(['/edit']);
                     });
@@ -113,8 +117,12 @@ export class LoginPage implements OnInit {
                   case 'user':
                     this.db.getById(email, 'user').subscribe((data) => {
                       if (data) {
-                        this.authService.authName = data.name;
-                        console.log('this.authService.authName: ' + data.name);
+                        this.authService.setAuthName(data.name);
+                        console.log('data.name: ' + data.name);
+                        console.log(
+                          'this.authService.getAuthName(): ' +
+                            this.authService.getAuthName()
+                        );
                       }
                       this.router.navigate(['/dashboard']);
                     });

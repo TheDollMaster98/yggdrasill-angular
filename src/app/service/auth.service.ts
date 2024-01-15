@@ -36,6 +36,14 @@ export class AuthService {
     private firestoreAPIService: FirestoreAPIService<UserDetails>
   ) {}
 
+  setAuthName(newName: string) {
+    this.authName = newName;
+  }
+
+  getAuthName() {
+    return this.authName;
+  }
+
   signIn(params: SignIn): Observable<any> {
     console.log('Inizio signIn:', params);
 
