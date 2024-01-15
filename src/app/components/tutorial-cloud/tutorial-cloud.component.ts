@@ -34,8 +34,7 @@ export class TutorialCloudComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.firestoreAPIService.setCollection('articles');
-    this.firestoreAPIService.getAll().subscribe((elementi) => {
+    this.firestoreAPIService.getAll('articles').subscribe((elementi) => {
       this.articleList = elementi;
     });
   }
@@ -52,7 +51,7 @@ export class TutorialCloudComponent implements OnInit {
       };
 
       // Chiamata alla funzione add con newArticle popolato
-      this.firestoreAPIService.add(this.newArticle).then(() => {
+      this.firestoreAPIService.add(this.newArticle, 'articles').then(() => {
         console.log('Articolo aggiunto con successo.');
         this.clearForm();
       });

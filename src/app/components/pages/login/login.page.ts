@@ -91,44 +91,33 @@ export class LoginPage implements OnInit {
                 // Usa switch per gestire diversi ruoli
                 switch (role) {
                   case 'admin':
-                    this.db.setCollection('admin');
-                    this.db
-                      .getByIdCollection('name', 'admin')
-                      .subscribe((data) => {
-                        // Memorizza il nome ottenuto solo se data è definito
-                        if (data) {
-                          userName = data.name;
-                          this.authService.authName = userName;
-                          console.log('this.authService.authName: ' + userName);
-                        }
-                        // Naviga alla pagina di modifica indipendentemente dal risultato
-                        this.router.navigate(['/edit']);
-                      });
+                    this.db.getById(email, 'admin').subscribe((data) => {
+                      // Memorizza il nome ottenuto solo se data è definito
+                      if (data) {
+                        this.authService.authName = data.name;
+                        console.log('this.authService.authName: ' + data.name);
+                      }
+                      // Naviga alla pagina di modifica indipendentemente dal risultato
+                      this.router.navigate(['/edit']);
+                    });
                     break;
                   case 'author':
-                    this.db
-                      .getValueInDocument('author', userEmail, 'name')
-                      .subscribe((name) => {
-                        if (name) {
-                          userName = name;
-                          this.authService.authName = userName;
-                          console.log('this.authService.authName: ' + userName);
-                        }
-                        this.router.navigate(['/edit']);
-                      });
+                    this.db.getById(email, 'author').subscribe((data) => {
+                      if (data) {
+                        this.authService.authName = data.name;
+                        console.log('this.authService.authName: ' + data.name);
+                      }
+                      this.router.navigate(['/edit']);
+                    });
                     break;
                   case 'user':
-                    this.db.setCollection('user');
-                    this.db
-                      .getByIdCollection('name', 'user')
-                      .subscribe((data) => {
-                        if (data) {
-                          userName = data.name;
-                          this.authService.authName = userName;
-                          console.log('this.authService.authName: ' + userName);
-                        }
-                        this.router.navigate(['/dashboard']);
-                      });
+                    this.db.getById(email, 'user').subscribe((data) => {
+                      if (data) {
+                        this.authService.authName = data.name;
+                        console.log('this.authService.authName: ' + data.name);
+                      }
+                      this.router.navigate(['/dashboard']);
+                    });
                     break;
                   default:
                     // Gestisci il caso in cui il ruolo non è admin, author o user

@@ -36,7 +36,6 @@ export class AuthService {
     private firestoreAPIService: FirestoreAPIService<UserDetails>
   ) {}
 
-  // Effettua l'accesso dell'utente con le credenziali fornite
   signIn(params: SignIn): Observable<any> {
     console.log('Inizio signIn:', params);
 
@@ -53,7 +52,6 @@ export class AuthService {
         const user = userCredential.user;
         console.log('Utente autenticato:', user);
 
-        // Verifica se l'email dell'utente è presente prima di chiamare getUserDetails
         const userEmail = user?.email;
         if (userEmail) {
           return this.getUserDetails(userEmail).pipe(
@@ -98,7 +96,6 @@ export class AuthService {
     );
   }
 
-  // Effettua il logout dell'utente attualmente autenticato
   signOut(): Observable<void> {
     return from(this.auth.signOut()).pipe(
       catchError((error: FirebaseError) =>
@@ -107,7 +104,6 @@ export class AuthService {
     );
   }
 
-  // Invia un'email per reimpostare la password dell'utente con l'email fornita
   recoverPassword(email: string): Observable<void> {
     return from(this.auth.sendPasswordResetEmail(email)).pipe(
       catchError((error: FirebaseError) =>
@@ -116,7 +112,6 @@ export class AuthService {
     );
   }
 
-  // Ottiene il ruolo dell'utente basato sulla sua presenza nelle collezioni admin o users
   getUserRole(email: string): Observable<string> {
     let adminCheck$ = this.firestoreAPIService.checkCollection(
       `${this.adminCollection}/${email}`
@@ -153,7 +148,7 @@ export class AuthService {
 
   getUserNameByRole(email: string, role: string): Observable<string | null> {
     const path = `${role}/${email}`;
-    return this.firestoreAPIService.getById(path).pipe(
+    return this.firestoreAPIService.getById(email, path).pipe(
       map((userData: any) => {
         if (userData && 'name' in userData) {
           return userData.name;
@@ -167,7 +162,6 @@ export class AuthService {
     );
   }
 
-  // Ottiene l'email dell'utente correntemente autenticato
   getCurrentUserEmail(): Observable<string | null> {
     return this.auth.authState.pipe(
       switchMap((user) => {
@@ -181,35 +175,30 @@ export class AuthService {
     );
   }
 
-  // Ottiene i dettagli dell'utente dal database
   getUserDetails(email: string): Observable<UserDetails | null> {
     console.log('Inizio getUserDetails con email:', email);
 
-    // Verifica se l'email è valida
     if (!email) {
       console.error("Errore: Email dell'utente non valida.");
       return of(null);
     }
 
-    return this.firestoreAPIService.getById(email).pipe(
+    return this.firestoreAPIService.getById(email, this.usersCollection).pipe(
       map((userDetails) => {
         console.log('Dettagli utente ottenuti con successo:', userDetails);
         return userDetails || null;
       }),
       catchError((error) => {
         console.error('Errore durante il recupero dei dettagli utente:', error);
-        // Puoi gestire l'errore in base alle tue esigenze
         return of(null);
       })
     );
   }
 
-  // Verifica se l'utente è attualmente loggato
   isLoggedIn(): Observable<boolean> {
     return this.auth.authState.pipe(map((user) => !!user));
   }
 
-  // Imposta il tipo di persistenza dell'autenticazione
   setAuthPersistence(persistence: string): Observable<void> {
     return from(this.auth.setPersistence(persistence)).pipe(
       catchError((error: FirebaseError) =>
@@ -218,17 +207,14 @@ export class AuthService {
     );
   }
 
-  // Ottiene l'ID dell'utente correntemente autenticato
   getCurrentUserId(): Observable<string | null> {
     return this.auth.authState.pipe(map((user) => (user ? user.uid : null)));
   }
 
-  // Imposta il nome utente dell'utente correntemente autenticato
   setCurrentUserName(displayName: string): Observable<void> {
     return this.auth.authState.pipe(
       switchMap((user) => {
         if (user) {
-          // Usa 'from' per convertire la promise in un observable
           return from(
             user.updateProfile({ displayName: displayName }) ||
               Promise.resolve()
@@ -243,7 +229,6 @@ export class AuthService {
     );
   }
 
-  // Ottiene il nome utente dell'utente correntemente autenticato
   getCurrentUserName(): Observable<string | null> {
     return this.auth.authState.pipe(
       map((user) => (user ? user.displayName : 'Autore Sconosciuto')),
@@ -253,7 +238,6 @@ export class AuthService {
     );
   }
 
-  // Traduce i messaggi di errore di Firebase
   private translateFirebaseErrorMessage({ code, message }: FirebaseError) {
     if (code === 'auth/user-not-found') {
       return 'User not found.';

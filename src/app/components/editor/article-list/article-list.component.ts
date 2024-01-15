@@ -23,7 +23,6 @@ export class ArticleListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.firestoreAPIService.setCollection('articles');
     this.loadArticles();
   }
 
@@ -52,7 +51,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   loadArticles(): void {
-    this.firestoreAPIService.getAll().subscribe((article) => {
+    this.firestoreAPIService.getAll('articles').subscribe((article) => {
       console.log('Articoli dopo il caricamento:', article);
       this.articleList = article;
     });

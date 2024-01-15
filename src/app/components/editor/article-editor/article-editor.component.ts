@@ -33,45 +33,41 @@ export class ArticleEditorPage implements OnInit {
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
-      // author: [{ value: this.authorName, disabled: true }, Validators.required],
       author: [{ value: this.editorName, disabled: true }, Validators.required],
       articleContent: ['', Validators.required],
     });
 
-    // aggiornamento articoli
-    this.firebaseDatabaseService.getAllArticles();
-    // aggiornamento nome
+    // Aggiorna nome utente
     this.authService.getCurrentUserName().subscribe({
       next: (userName) => {
-        console.log('User name:', userName);
+        console.log('Nome utente:', userName);
         if (userName) {
           this.articleForm.get('author')?.setValue(userName);
           this.authorName = userName;
         }
       },
       error: (error) => {
-        console.error('Error getting user name:', error);
+        console.error('Errore durante il recupero del nome utente:', error);
       },
     });
 
-    // Aggiornamento nome autore
+    // Aggiorna nome autore
     this.authService.getCurrentUserName().subscribe({
       next: (userName) => {
-        console.log('User name article editor:', userName);
+        console.log("Nome utente nell'article editor:", userName);
         if (userName) {
           this.articleForm.get('author')?.setValue(userName);
         }
       },
       error: (error) => {
-        console.error('Error getting user name:', error);
+        console.error('Errore durante il recupero del nome utente:', error);
       },
     });
 
-    //push sul cloud:
-    this.firestoreAPIService.setCollection('articles');
+    // Connettiti all'emulatore Firestore
+    this.firestoreAPIService.connectToFirestoreEmulator();
   }
 
-  // getter:
   get articleTitleControl() {
     return this.articleForm.get('articleTitle')!;
   }
@@ -114,69 +110,16 @@ export class ArticleEditorPage implements OnInit {
     }
   }
 
-  publishArticle1() {
-    if (this.articleForm.valid) {
-      this.articleService
-        .createArticle(this.articleForm.value)
-        .pipe(
-          tap((response) => {
-            console.log('Articolo salvato con successo:', response);
-            this.resetArticle();
-          }),
-          catchError((error) => {
-            console.error(
-              "Errore durante il salvataggio dell'articolo:",
-              error
-            );
-            console.error("Dettagli dell'errore:", error.error);
-            return throwError(() => error);
-          })
-        )
-        .subscribe();
-    }
-  }
-  // TODO: ricordarsi di mettere il controllo come sopra
-  // CON realtime db.
-  publishArticle2() {
-    console.log('Author:', this.authorControl.value);
-    this.firebaseDatabaseService
-      .updateArticle(this.articleForm.value)
-      .subscribe({
-        complete: () => {
-          console.info('Articolo salvato con successo! publishArticle');
-          this.resetArticle();
-        },
-        error: (error) => {
-          console.error("Errore durante il salvataggio dell'articolo:", error);
-        },
+  publishArticle() {
+    console.log('Autore:', this.authorControl.value);
+    // Chiamata alla funzione add con newArticle popolato
+    this.firestoreAPIService
+      .add(this.articleForm.value, 'articles')
+      .then(() => {
+        console.log('Articolo aggiunto con successo.');
+        this.resetArticle();
       });
   }
-
-  // GOOGLE CLOUD:
-  publishArticle() {
-    console.log('Author:', this.authorControl.value);
-    // Chiamata alla funzione add con newArticle popolato
-    this.firestoreAPIService.add(this.articleForm.value).then(() => {
-      console.log('Articolo aggiunto con successo.');
-      this.resetArticle();
-    });
-  }
-
-  // // Metodo per ottenere il nome utente corrente
-  // getCurrentUserName(): Observable<string | null> {
-  //   return this.authService.getCurrentUserName().pipe(
-  //     map((userName) => {
-  //       console.log('Current user name:', userName);
-  //       return userName ? userName : null;
-  //     }),
-  //     catchError(() => {
-  //       // Gestisci eventuali errori durante il recupero del nome utente
-  //       return throwError(
-  //         () => new Error('Error retrieving current user name.')
-  //       );
-  //     })
-  //   );
-  // }
 
   generateUniqueId(): string {
     const timestamp = new Date().getTime().toString();
@@ -185,6 +128,7 @@ export class ArticleEditorPage implements OnInit {
       .padStart(4, '0');
     return timestamp + randomPart;
   }
+
   confirmExitWithoutSaving() {
     const confirmExit = confirm(
       'Sei sicuro di voler uscire senza salvare? I dati verranno persi.'
