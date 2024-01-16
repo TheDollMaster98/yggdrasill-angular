@@ -28,7 +28,7 @@ export class AuthService {
   isRecoveringPassword: boolean = false;
 
   private adminCollection: string = 'admin';
-  private authorCollection: string = 'author';
+  private authorCollection: string = 'authors';
   private usersCollection: string = 'users';
 
   constructor(
