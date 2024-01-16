@@ -4,11 +4,13 @@
   },
   "firestore": {
     "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "indexes": "firestore.indexes.json",
+    "data": "mock/firebase-mock/firestore-mock.json"
   },
   "storage": {
-    "rules": "storage.rules"
-  },  
+    "rules": "storage.rules",
+    "data": "mock/firebase-mock/storage-mock.json"
+  },
   "emulators": {
     "firestore": {
       "host": "localhost",
@@ -43,11 +45,7 @@
     {
       "target": "production",
       "public": "dist/yggdrasill-angular",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "**",
@@ -58,11 +56,7 @@
     {
       "target": "test",
       "public": "dist/yggdrasill-angular",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "**",

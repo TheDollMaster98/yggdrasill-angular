@@ -1,0 +1,31 @@
+{
+  "users": {
+    "bottana2017@gmail.com": {
+      "email": "bottana2017@gmail.com",
+      "password": "hashed_password",
+      "displayName": "Author One",
+      "roles": {
+        "admin": false,
+        "author": true
+      }
+    },
+    "altroautore@gmail.com": {
+      "email": "altroautore@gmail.com",
+      "password": "hashed_password",
+      "displayName": "Author Two",
+      "roles": {
+        "admin": false,
+        "author": true
+      }
+    },
+    "admin@gmail.com": {
+      "email": "admin@gmail.com",
+      "password": "hashed_password",
+      "displayName": "Admin User",
+      "roles": {
+        "admin": true,
+        "author": false
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "images": {
+    "propic": {
+      "bottana2017@gmail.com": "propic_author1.jpg",
+      "altroautore@gmail.com": "propic_author2.jpg",
+      "admin@gmail.com": "propic_admin.png"
+    },
+    "article": {
+      "article1": "article1_image.jpg",
+      "article2": "article2_image.png",
+      "article3": "article3_image.jpg"
+    }
+  }
+}

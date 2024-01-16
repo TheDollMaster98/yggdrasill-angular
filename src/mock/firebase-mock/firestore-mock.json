@@ -1,0 +1,71 @@
+{
+  "articles": {
+    "article1": {
+      "author": "bottana2017@gmail.com",
+      "propicUrl": "propic_author1.jpg",
+      "genre": "Technology",
+      "articleTitle": "Introduction to Angular",
+      "articleContent": "<p>This is an introductory article about Angular.</p><p><strong>Angular</strong> is a powerful framework...</p>",
+      "publishDate": "2024-01-30"
+    },
+    "article2": {
+      "author": "altroautore@gmail.com",
+      "propicUrl": "propic_author2.jpg",
+      "genre": "Science",
+      "articleTitle": "The Wonders of Space",
+      "articleContent": "<p>Exploring the mysteries of the universe...</p><p>From black holes to distant galaxies...</p>",
+      "publishDate": "2024-02-15"
+    },
+    "article3": {
+      "author": "admin@gmail.com",
+      "propicUrl": "propic_admin.jpg",
+      "genre": "Health",
+      "articleTitle": "Healthy Living Tips",
+      "articleContent": "<p>Embrace a healthy lifestyle with these tips...</p><ul><li>Eat a balanced diet</li><li>Exercise regularly</li><li>Get enough sleep</li></ul>",
+      "publishDate": "2024-03-05"
+    }
+  },
+  "users": {
+    "user1@example.com": {
+      "username": "user1",
+      "email": "user1@example.com"
+    },
+    "user2@example.com": {
+      "username": "user2",
+      "email": "user2@example.com"
+    }
+  },
+  "authors": {
+    "authors": {
+      "bottana2017@gmail.com": {
+        "name": "Bottana MOCK",
+        "email": "bottana2017@gmail.com",
+        "bio": "I am an experienced author.",
+        "roles": {
+          "admin": false,
+          "author": true
+        }
+      },
+      "superlolli98@gmail.com": {
+        "name": "LOLLI MOCK",
+        "email": "superlolli98@gmail.com",
+        "bio": "I am an experienced author.",
+        "roles": {
+          "admin": true,
+          "author": true
+        }
+      }
+    }
+  },
+  "admin": {
+    "superlolli98@gmail.com": {
+      "name": "LOLLI MOCK",
+      "email": "superlolli98@gmail.com",
+      "bio": "I am an experienced author.",
+      "roles": {
+        "admin": true,
+        "author": true
+      }
+    }
+  }
+}
