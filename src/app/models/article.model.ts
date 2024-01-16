@@ -2,6 +2,7 @@
 export interface Article {
   id?: string;
   author?: string;
+  propicUrl?: string;
   genre?: string;
   articleTitle?: string;
   articleContent?: string;

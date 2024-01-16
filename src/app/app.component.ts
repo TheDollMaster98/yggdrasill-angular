@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { BackgroundColorClass } from './models/enum';
 import { FirestoreAPIService } from './service/firestore-api.service';
+import { StorageService } from './service/storage.service';
 
 const mainBgRoutes = ['/dashboard'];
 const routesBgRoutes = ['/dashboard'];
@@ -17,12 +18,14 @@ export class AppComponent {
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private firestoreService: FirestoreAPIService<any>
+    private firestoreService: FirestoreAPIService<any>,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
     // Chiamata alla funzione per collegarsi all'emulatore Firestore
-    this.firestoreService.connectToFirestoreEmulator();
+    // this.firestoreService.connectToFirestoreEmulator();
+    // this.storageService.connectToStorageEmulator();
 
     //TODO: capire cosa fare e pulire il resto
     Date.prototype.toJSON = function () {

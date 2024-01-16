@@ -17,7 +17,7 @@ export class FirestoreAPIService<T> {
    */
   connectToFirestoreEmulator(): void {
     if (location.hostname === 'localhost') {
-      // this.afs.firestore.useEmulator('localhost', 8888);
+      this.afs.firestore.useEmulator('localhost', 8888);
     }
   }
 

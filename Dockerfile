@@ -14,7 +14,7 @@ RUN npm install -g firebase-tools
 # Espone la porta necessaria per l'emulazione (sostituisci '9000' con la tua porta effettiva)
 EXPOSE 8888
 
-# firebase emulators:start --only firestore
+# firebase emulators:start --only firestore,storage
 
 # Comando di avvio dell'emulazione
 CMD ["firebase", "emulators:start", "--only", "firestore"]

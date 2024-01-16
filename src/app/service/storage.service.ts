@@ -8,6 +8,12 @@ import { Observable } from 'rxjs';
 export class StorageService {
   constructor(private storage: AngularFireStorage) {}
 
+  connectToStorageEmulator(): void {
+    if (location.hostname === 'localhost') {
+      this.storage.storage.useEmulator('localhost', 9198);
+    }
+  }
+
   // Questo metodo carica un file nello storage di Firebase
   pushFileToStorage(file: File, path: string): Observable<number | undefined> {
     // filePath è il percorso completo del file nello storage di Firebase
