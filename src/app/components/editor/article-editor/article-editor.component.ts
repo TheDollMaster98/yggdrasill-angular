@@ -55,9 +55,6 @@ export class ArticleEditorPage implements OnInit {
     //     console.error('Errore durante il recupero del nome utente:', error);
     //   },
     // });
-
-    // Connettiti all'emulatore Firestore
-    this.db.connectToFirestoreEmulator();
   }
 
   get articleTitleControl() {
