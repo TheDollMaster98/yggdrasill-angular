@@ -102,7 +102,7 @@ export class LoginPage implements OnInit {
                     });
                     break;
                   case 'author':
-                    this.db.getById(email, 'author').subscribe((data) => {
+                    this.db.getById(email, 'authors').subscribe((data) => {
                       if (data) {
                         this.authService.setAuthName(data.name);
                         console.log('data.name: ' + data.name);
@@ -115,7 +115,7 @@ export class LoginPage implements OnInit {
                     });
                     break;
                   case 'user':
-                    this.db.getById(email, 'user').subscribe((data) => {
+                    this.db.getById(email, 'users').subscribe((data) => {
                       if (data) {
                         this.authService.setAuthName(data.name);
                         console.log('data.name: ' + data.name);
