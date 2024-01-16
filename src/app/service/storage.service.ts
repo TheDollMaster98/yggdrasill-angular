@@ -10,7 +10,7 @@ export class StorageService {
 
   connectToStorageEmulator(): void {
     if (location.hostname === 'localhost') {
-      this.storage.storage.useEmulator('localhost', 9198);
+      this.storage.storage.useEmulator('localhost', 9199);
     }
   }
 
