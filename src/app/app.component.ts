@@ -24,8 +24,8 @@ export class AppComponent {
 
   ngOnInit(): void {
     // Chiamata alla funzione per collegarsi all'emulatore Firestore
-    // this.firestoreService.connectToFirestoreEmulator();
-    // this.storageService.connectToStorageEmulator();
+    this.firestoreService.connectToFirestoreEmulator();
+    this.storageService.connectToStorageEmulator();
 
     //TODO: capire cosa fare e pulire il resto
     Date.prototype.toJSON = function () {

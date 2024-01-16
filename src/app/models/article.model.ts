@@ -5,6 +5,7 @@ export interface Article {
   propicUrl?: string;
   genre?: string;
   articleTitle?: string;
+  articleDescription?: string;
   articleContent?: string;
   publishDate?: string;
 }
