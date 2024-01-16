@@ -40,6 +40,7 @@ import { ArticleListComponent } from './components/editor/article-list/article-l
 import { PodcastPage } from './components/pages/podcast/podcast.page';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { EditorModule } from './components/editor/editor.module';
 import { ArticleViewComponent } from './components/editor/article-view/article-view.component';
 import { UpdatesComponent } from './components/pages/updates/updates.component';
@@ -54,6 +55,8 @@ import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { WysiwygEditorComponent } from './components/editor/wysiwyg-editor/wysiwyg-editor.component';
 import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-cloud.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { FirebaseModule } from './firebase/firebase.module';
+import { IconModule } from './components/icon-component/icon.module';
 
 @NgModule({
   declarations: [
@@ -64,28 +67,18 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     CarouselComponent,
     ComingsoonPage,
     WhiteLogoComponent,
-    InstagramLinkComponent,
-    LinkedinLinkComponent,
-    HamButtonComponent,
-    TiktokLinkComponent,
-    YoutubeLinkComponent,
     GdprComponent,
     PrivacyPolicyPage,
-    ArticleEditorPage,
     WhoarePage,
     CarouselSectionComponent,
     AdminPage,
     BlogPage,
-    ArticlePreviewComponent,
-    ArticleListComponent,
     PodcastPage,
-    ArticleViewComponent,
     UpdatesComponent,
     DashboardWordpressComponent,
     MobileNavbarComponent,
     LoginPage,
     TutorialComponent,
-    WysiwygEditorComponent,
     TutorialCloudComponent,
     PageNotFoundComponent,
   ],
@@ -102,16 +95,9 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
   bootstrap: [AppComponent],
   imports: [
     BrowserModule,
-    // connet to firebase.
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    // auth firebase.
-    AngularFireAuthModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideFirestore(() => getFirestore()),
-    // realtime database:
-    // provideDatabase(() => getDatabase()),
-    AngularFirestoreModule,
+    FirebaseModule,
     EditorModule,
+    IconModule,
     NgbModule,
     HttpClientModule,
     AppRoutingModule,
