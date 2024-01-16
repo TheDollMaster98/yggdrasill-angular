@@ -40,7 +40,10 @@ export class FirestoreAPIService<T> {
       .valueChanges()
       .pipe(
         catchError((error) => {
-          console.error('Error fetching data:', error);
+          console.error(
+            `Error fetching data from collection ${collectionName}:`,
+            error
+          );
           return of([]);
         })
       );
