@@ -8,6 +8,7 @@ import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
+import { StorageService } from 'src/app/service/storage.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -24,7 +25,8 @@ export class ArticleEditorPage implements OnInit {
     public articleService: ArticleService,
     public firebaseDatabaseService: FirebaseDatabaseService,
     private authService: AuthService,
-    private db: FirestoreAPIService<Article>
+    private db: FirestoreAPIService<Article>,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -42,19 +44,6 @@ export class ArticleEditorPage implements OnInit {
 
     this.articleForm.get('author')?.setValue(this.editorName);
     this.articleForm.controls['author'].setValue(this.editorName);
-
-    // // Aggiorna nome utente
-    // this.authService.getCurrentUserName().subscribe({
-    //   next: (userName) => {
-    //     console.log("Nome utente nell'article editor:", userName);
-    //     if (userName) {
-    //       this.articleForm.get('author')?.setValue(userName);
-    //     }
-    //   },
-    //   error: (error) => {
-    //     console.error('Errore durante il recupero del nome utente:', error);
-    //   },
-    // });
   }
 
   get articleTitleControl() {
@@ -99,6 +88,22 @@ export class ArticleEditorPage implements OnInit {
       modalRef.componentInstance.articleContent =
         this.articleContentControl.value;
       modalRef.componentInstance.isTemporary = true;
+    }
+  }
+
+  uploadFile(event: any): void {
+    const file = event.target.files[0];
+    const path = 'articles-img'; // Sostituisci con il percorso desiderato
+
+    if (file) {
+      this.storageService.pushFileToStorage(file, path).subscribe({
+        next: (percentage) => {
+          console.log(`Upload progress: ${percentage}%`);
+        },
+        error: (error) => {
+          console.error('Upload failed', error);
+        },
+      });
     }
   }
 

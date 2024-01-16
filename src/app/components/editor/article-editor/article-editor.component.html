@@ -1,46 +1,35 @@
-<div>
-  <h2>Editor di Articoli</h2>
-
-  <!-- <div *ngIf="articleTitleControl.value">
-    <h3>Anteprima Articolo:</h3>
-    <app-article-preview
-      [isTemporary]="true"
-      [articleTitle]="articleTitleControl.value"
-      [publishDate]="publishDateControl.value"
-      [author]="authorControl.value"
-      [genre]="genreControl.value"
-      [articleContent]="articleContentControl.value"
-    ></app-article-preview>
-    <hr />
-  </div> -->
+<div class="container py-5">
+  <h2 class="mb-4">Editor di Articoli</h2>
 
   <form [formGroup]="articleForm" (submit)="publishArticle()">
-    <div class="form-group d-flex">
-      <div class="flex-fill">
-        <label for="articleTitle">Titolo Articolo:</label>
-        <input
-          type="text"
-          id="articleTitle"
-          class="form-control text-dark"
-          formControlName="articleTitle"
-        />
-        <div
-          *ngIf="
-            articleTitleControl.hasError('required') &&
-            articleTitleControl.touched
-          "
-          class="text-danger"
-        >
-          Il titolo è obbligatorio.
-        </div>
+    <div class="mb-3">
+      <label for="articleTitle" class="form-label">Titolo Articolo:</label>
+      <input
+        type="text"
+        id="articleTitle"
+        class="form-control"
+        formControlName="articleTitle"
+      />
+      <div
+        *ngIf="
+          articleTitleControl.hasError('required') &&
+          articleTitleControl.touched
+        "
+        class="text-danger"
+      >
+        Il titolo è obbligatorio.
       </div>
+    </div>
 
-      <div class="flex-fill ms-2">
-        <label for="publishDate">Data di Pubblicazione:</label>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="publishDate" class="form-label"
+          >Data di Pubblicazione:</label
+        >
         <input
           type="date"
           id="publishDate"
-          class="form-control text-dark"
+          class="form-control"
           formControlName="publishDate"
         />
         <div
@@ -53,25 +42,13 @@
           La data di pubblicazione è obbligatoria.
         </div>
       </div>
-    </div>
 
-    <div class="form-group d-flex mb-1">
-      <div class="flex-fill">
-        <label for="author">Autore:</label>
-        <input
-          type="text"
-          id="author"
-          class="form-control text-dark"
-          formControlName="author"
-        />
-      </div>
-
-      <div class="flex-fill ms-2">
-        <label for="genre">Genere:</label>
+      <div class="col">
+        <label for="genre" class="form-label">Genere:</label>
         <input
           type="text"
           id="genre"
-          class="form-control text-dark"
+          class="form-control"
           formControlName="genre"
         />
         <div
@@ -83,7 +60,30 @@
       </div>
     </div>
 
-    <div class="h-100">
+    <div class="mb-3">
+      <label for="author" class="form-label">Autore:</label>
+      <input
+        type="text"
+        id="author"
+        class="form-control"
+        formControlName="author"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="fileUpload" class="form-label">Carica Foto:</label>
+      <input
+        type="file"
+        id="fileUpload"
+        class="form-control"
+        (change)="uploadFile($event)"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="articleContent" class="form-label"
+        >Contenuto dell'Articolo:</label
+      >
       <quill-editor formControlName="articleContent"></quill-editor>
       <div
         *ngIf="
@@ -96,7 +96,7 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-2 mx-1">
+    <div class="d-flex justify-content-between align-items-center mt-2">
       <button class="btn btn-primary" type="button" (click)="resetArticle()">
         Reset Articolo
       </button>
@@ -109,7 +109,6 @@
         >
           Anteprima
         </button>
-
         <button
           class="btn btn-primary"
           type="button"
@@ -118,10 +117,6 @@
         >
           Pubblica
         </button>
-
-        <!-- <button class="btn btn-primary" type="button" (click)="saveArticle()">
-          Salva Articolo
-        </button> -->
       </div>
     </div>
   </form>
