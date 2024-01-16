@@ -90,7 +90,7 @@ export class ArticleEditorPage implements OnInit {
       modalRef.componentInstance.isTemporary = true;
     }
   }
-
+  // TODO: controllare qui
   uploadFile(event: any): void {
     const file = event.target.files[0];
     const path = 'articles-img'; // Sostituisci con il percorso desiderato

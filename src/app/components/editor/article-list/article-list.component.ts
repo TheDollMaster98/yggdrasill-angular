@@ -5,6 +5,7 @@ import { Article, ArticleList } from 'src/app/models/article.model';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { Observable } from 'rxjs';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-article-list',
@@ -19,7 +20,8 @@ export class ArticleListComponent implements OnInit {
   constructor(
     private articleService: ArticleService,
     private firebaseDatabaseService: FirebaseDatabaseService,
-    private firestoreAPIService: FirestoreAPIService<Article>
+    private firestoreAPIService: FirestoreAPIService<Article>,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -60,5 +62,18 @@ export class ArticleListComponent implements OnInit {
   setActiveArticle(article: Article, index: number): void {
     this.currentArticle = article;
     this.currentIndex = index;
+  }
+
+  sanitizeHtml(html: string | undefined): SafeHtml {
+    if (!html) {
+      return 'N/A';
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+  truncate(content: string, limit: number): string {
+    content = content.trim(); // Rimuove gli spazi iniziali e finali
+    return content.length > limit
+      ? content.substring(0, limit) + '...'
+      : content;
   }
 }

@@ -129,3 +129,9 @@
     }
   }
   
+    .truncate {
+      width: 250px; /* Definisci la larghezza del contenitore */
+      white-space: nowrap; /* Impedisce al testo di andare a capo */
+      overflow: hidden; /* Nasconde il contenuto che supera la larghezza del contenitore */
+      text-overflow: ellipsis; /* Aggiunge i puntini di sospensione alla fine del testo nascosto */
+    }

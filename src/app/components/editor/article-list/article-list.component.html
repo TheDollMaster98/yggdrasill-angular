@@ -11,13 +11,16 @@
   ></app-article-preview>
 </div>
 
-<!-- Nel file nome-componente.component.html -->
 <div class="container">
   <div class="custom-card" *ngFor="let article of articleList">
     <div class="img-box"><img [src]="article.articleTitle" /></div>
     <div class="custom-content">
       <h2>{{ article.articleTitle }}</h2>
-      <p>{{ article.articleContent }}</p>
+      <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
+      <div
+        class="truncate"
+        [innerHTML]="sanitizeHtml(truncate(article.articleContent!, 20))"
+      ></div>
       <a href="#">Read More</a>
     </div>
   </div>

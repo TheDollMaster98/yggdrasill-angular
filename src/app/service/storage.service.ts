@@ -14,6 +14,7 @@ export class StorageService {
     }
   }
 
+  //TODO: controllare qui, non va
   // Questo metodo carica un file nello storage di Firebase
   pushFileToStorage(file: File, path: string): Observable<number | undefined> {
     // filePath è il percorso completo del file nello storage di Firebase
