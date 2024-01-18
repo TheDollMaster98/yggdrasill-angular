@@ -25,7 +25,6 @@
     </div>
   </div>
 </div>
-
 <!--
 <div *ngIf="articles.length > 0; else noArticles">
   <div *ngFor="let article of articles; let i = index" class="article-item">
@@ -42,3 +41,7 @@
 </ng-template>
 
 -->
+
+<!-- TODO: togliere sto schfio -->
+<div>prova img:</div>
+<img [src]="imageUrl" alt="Immagine dell'articolo" *ngIf="imageUrl" />

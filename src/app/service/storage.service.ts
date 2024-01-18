@@ -14,7 +14,6 @@ export class StorageService {
     }
   }
 
-  //TODO: controllare qui, non va
   // Questo metodo carica un file nello storage di Firebase
   pushFileToStorage(file: File, path: string): Observable<number | undefined> {
     // filePath è il percorso completo del file nello storage di Firebase
@@ -41,5 +40,20 @@ export class StorageService {
 
     // Restituisce un Observable che emette il progresso del caricamento come percentuale
     return uploadTask.percentageChanges();
+  }
+
+  // Questo metodo ottiene un file specifico dallo storage di Firebase
+  getFileFromStorage(
+    path: string,
+    fileName: string
+  ): Observable<string | null> {
+    // filePath è il percorso completo del file nello storage di Firebase
+    const filePath = `${path}/${fileName}`;
+
+    // storageRef è un riferimento al file nello storage di Firebase
+    const storageRef = this.storage.ref(filePath);
+
+    // Questo blocco di codice ottiene l'URL di download del file
+    return storageRef.getDownloadURL();
   }
 }

@@ -93,7 +93,7 @@ export class ArticleEditorPage implements OnInit {
   // TODO: controllare qui
   uploadFile(event: any): void {
     const file = event.target.files[0];
-    const path = 'articles-img'; // Sostituisci con il percorso desiderato
+    const path = 'articles-img';
 
     if (file) {
       this.storageService.pushFileToStorage(file, path).subscribe({

@@ -6,6 +6,7 @@ import { FirebaseDatabaseService } from 'src/app/service/firebase-database.servi
 import { Observable } from 'rxjs';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { StorageService } from 'src/app/service/storage.service';
 
 @Component({
   selector: 'app-article-list',
@@ -13,6 +14,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
+  imageUrl: string | null = null; // Variabile per memorizzare l'URL di download dell'immagine
   articleList: Article[] = [];
   currentArticle?: Article;
   currentIndex = -1;
@@ -21,11 +23,13 @@ export class ArticleListComponent implements OnInit {
     private articleService: ArticleService,
     private firebaseDatabaseService: FirebaseDatabaseService,
     private firestoreAPIService: FirestoreAPIService<Article>,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
     this.loadArticles();
+    this.loadImg();
   }
 
   refreshList(): void {
@@ -70,10 +74,26 @@ export class ArticleListComponent implements OnInit {
     }
     return this.sanitizer.bypassSecurityTrustHtml(html);
   }
+
+  // TODO: gestire errori se manca qualcosa
   truncate(content: string, limit: number): string {
-    content = content.trim(); // Rimuove gli spazi iniziali e finali
-    return content.length > limit
-      ? content.substring(0, limit) + '...'
-      : content;
+    if (!content) {
+      content = content.trim(); // Rimuove gli spazi iniziali e finali
+      return content.length > limit
+        ? content.substring(0, limit) + '...'
+        : content;
+    }
+    return '';
+  }
+
+  //TODO: capire come prendere nome file dall'interfaccia
+  loadImg() {
+    let path = 'articles-img';
+    let file = 'propic_author1.jpg';
+
+    // Ottieni l'URL di download dell'immagine e assegnalo alla variabile imageUrl
+    this.storageService.getFileFromStorage(path, file).subscribe((url) => {
+      this.imageUrl = url;
+    });
   }
 }
