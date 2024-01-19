@@ -88,7 +88,6 @@ export class LoginPage implements OnInit {
                 switch (role) {
                   case 'admin':
                     this.db.getById(email, 'admin').subscribe((data) => {
-                      // Memorizza il nome ottenuto solo se data è definito
                       if (data) {
                         this.authService.setAuthName(data.name);
                         console.log('data.name: ' + data.name);
@@ -97,8 +96,8 @@ export class LoginPage implements OnInit {
                             this.authService.getAuthName()
                         );
                       }
-                      // Naviga alla pagina di modifica indipendentemente dal risultato
-                      this.router.navigate(['/edit']);
+                      // Utilizza la route con il parametro authorName
+                      this.router.navigate(['/edit', data.name]);
                     });
                     break;
                   case 'author':
@@ -111,7 +110,8 @@ export class LoginPage implements OnInit {
                             this.authService.getAuthName()
                         );
                       }
-                      this.router.navigate(['/edit']);
+                      // Utilizza la route con il parametro authorName
+                      this.router.navigate(['/edit', data.name]);
                     });
                     break;
                   case 'user':
@@ -124,6 +124,7 @@ export class LoginPage implements OnInit {
                             this.authService.getAuthName()
                         );
                       }
+                      // Naviga alla dashboard senza parametri
                       this.router.navigate(['/dashboard']);
                     });
                     break;

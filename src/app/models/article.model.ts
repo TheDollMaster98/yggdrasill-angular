@@ -2,7 +2,8 @@
 export interface Article {
   id?: string;
   author?: string;
-  propicUrl?: string;
+  propicUrl: string; // Questo dovrebbe contenere solo il nome del file
+  imageUrl?: string; // Aggiungi questa proprietà per memorizzare l'URL dell'immagine
   genre?: string;
   articleTitle?: string;
   articleDescription?: string;

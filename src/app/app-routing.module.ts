@@ -33,7 +33,7 @@ const routes: Routes = [
     component: DashboardWordpressComponent,
   },
   {
-    path: 'wpgg',
+    path: 'ggwp',
     component: BlogPage,
   },
   {
@@ -49,7 +49,7 @@ const routes: Routes = [
     component: GdprComponent,
   },
   {
-    path: 'edit',
+    path: 'edit/:author',
     component: ArticleEditorPage,
     canActivate: [AuthorGuard],
   },

@@ -12,6 +12,7 @@ export class FirebaseDatabaseService {
   private currentArticle: Article = {
     id: '',
     author: '',
+    propicUrl: '',
     genre: '',
     articleTitle: '',
     articleContent: '',

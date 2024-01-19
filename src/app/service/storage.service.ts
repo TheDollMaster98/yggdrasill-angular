@@ -56,4 +56,25 @@ export class StorageService {
     // Questo blocco di codice ottiene l'URL di download del file
     return storageRef.getDownloadURL();
   }
+
+  // Questo metodo carica TUTTI i file di un determinato percorso nello storage di Firebase
+  pushFilesToStorage(
+    files: File[],
+    path: string
+  ): Observable<number | undefined>[] {
+    // Creiamo un array per contenere gli Observable del progresso di caricamento di ciascun file
+    const uploadProgressObservables: Observable<number | undefined>[] = [];
+
+    // Iteriamo su ogni file nell'array di file
+    for (const file of files) {
+      // Carichiamo il file corrente nello storage di Firebase e otteniamo l'Observable del suo progresso di caricamento
+      const uploadProgress = this.pushFileToStorage(file, path);
+
+      // Aggiungiamo l'Observable del progresso di caricamento del file corrente all'array
+      uploadProgressObservables.push(uploadProgress);
+    }
+
+    // Restituiamo l'array di Observable
+    return uploadProgressObservables;
+  }
 }
