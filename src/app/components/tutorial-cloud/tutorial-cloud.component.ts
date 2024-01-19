@@ -13,6 +13,7 @@ export class TutorialCloudComponent implements OnInit {
   newArticle: Article = {
     author: '',
     genre: '',
+    propicUrl: '',
     articleTitle: '',
     articleContent: '',
     publishDate: '',
@@ -44,6 +45,7 @@ export class TutorialCloudComponent implements OnInit {
       // Popola newArticle con i valori dal form
       this.newArticle = {
         author: this.articleForm.value.author,
+        propicUrl: this.articleForm.value.propicUrl,
         genre: this.articleForm.value.genre,
         articleTitle: this.articleForm.value.articleTitle,
         articleContent: this.articleForm.value.articleContent,
@@ -67,6 +69,7 @@ export class TutorialCloudComponent implements OnInit {
     this.newArticle = {
       author: '',
       genre: '',
+      propicUrl: '',
       articleTitle: '',
       articleContent: '',
       publishDate: '',
