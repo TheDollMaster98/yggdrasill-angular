@@ -33,17 +33,26 @@ export class ArticleEditorPage implements OnInit {
     this.authService.getAuthName();
     this.editorName = this.authService.getAuthName();
 
+    this.initArticleForm();
+
+    this.articleForm.get('author')?.setValue(this.editorName);
+    this.articleForm.controls['author'].setValue(this.editorName);
+
+    // Aggiungi console.log per verificare il valore di editorName
+    console.log('Editor Name:', this.editorName);
+    console.log('Author Control Value:', this.authorControl.value);
+  }
+
+  private initArticleForm() {
     this.articleForm = this.formBuilder.group({
       articleTitle: ['', Validators.required],
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
       author: [{ value: this.editorName, disabled: true }, Validators.required],
-      // author: [this.editorName, Validators.required],
+      propicUrl: [''], // Imposta il valore iniziale a una stringa vuota
+      file: null,
       articleContent: ['', Validators.required],
     });
-
-    this.articleForm.get('author')?.setValue(this.editorName);
-    this.articleForm.controls['author'].setValue(this.editorName);
   }
 
   get articleTitleControl() {
@@ -66,11 +75,21 @@ export class ArticleEditorPage implements OnInit {
     return this.articleForm.get('articleContent')!;
   }
 
+  get propicUrlControl() {
+    return this.articleForm.get('propicUrl')!;
+  }
+
   resetArticle() {
-    this.articleForm.controls['articleTitle'].reset();
-    this.articleForm.controls['genre'].reset();
-    this.articleForm.controls['articleContent'].reset();
-    this.articleForm.controls['publishDate'].reset();
+    const controlsToReset = [
+      'articleTitle',
+      'genre',
+      'articleContent',
+      'publishDate',
+      'propicUrl',
+    ];
+    controlsToReset.forEach((control) =>
+      this.articleForm.get(control)!.reset()
+    );
   }
 
   previewArticle() {
@@ -91,20 +110,61 @@ export class ArticleEditorPage implements OnInit {
     }
   }
   // TODO: controllare qui
-  uploadFile(event: any): void {
+
+  getDownloadURL(filePath: string): Observable<string> {
+    return this.storageService.getDownloadURL(filePath);
+  }
+  getFile(event: any): void {
     const file = event.target.files[0];
-    const path = 'articles-img';
+    console.log('Selected File:', file);
 
     if (file) {
-      this.storageService.pushFileToStorage(file, path).subscribe({
-        next: (percentage) => {
-          console.log(`Upload progress: ${percentage}%`);
-        },
-        error: (error) => {
-          console.error('Upload failed', error);
-        },
-      });
+      this.articleForm.patchValue({ file });
+    } else {
+      console.error('File non valido o mancante.');
     }
+  }
+
+  // Modifica il metodo uploadFile() per chiamare getDownloadURL direttamente
+  uploadFile(): Observable<void> {
+    return new Observable((observer) => {
+      const file = this.articleForm.get('file')!.value;
+
+      if (file) {
+        const path = 'articles-img';
+
+        this.storageService.pushFileToStorage(file, path).subscribe({
+          next: (percentage) => {
+            console.log(`Upload progress: ${percentage}%`);
+          },
+          error: (error) => {
+            console.error('Upload failed', error);
+            observer.error(error);
+          },
+          complete: () => {
+            // Chiamiamo direttamente getDownloadURL
+            this.getDownloadURL(path).subscribe({
+              next: (downloadUrl) => {
+                console.log('Download URL:', downloadUrl);
+
+                // Modifica: Salvare l'URL direttamente in propicUrl
+                this.articleForm.patchValue({ propicUrl: downloadUrl });
+
+                observer.next();
+                observer.complete();
+              },
+              error: (urlError) => {
+                console.error('Error getting download URL', urlError);
+                observer.error(urlError);
+              },
+            });
+          },
+        });
+      } else {
+        console.error('File non valido o mancante.');
+        observer.error('File non valido o mancante.');
+      }
+    });
   }
 
   publishArticle() {
@@ -117,10 +177,47 @@ export class ArticleEditorPage implements OnInit {
       author: authorName,
     };
 
-    // Chiamata alla funzione add con newArticle popolato
-    this.db.add(articleData, 'articles').then(() => {
-      console.log('Articolo aggiunto con successo.');
-      this.resetArticle();
+    // Chiamiamo le funzioni in sequenza
+    this.uploadFile().subscribe({
+      next: () => {
+        console.log('File caricato con successo.');
+
+        // Dopo aver caricato il file, possiamo ottenere il link di download
+        this.storageService.getDownloadURL('articles-img').subscribe({
+          next: (downloadUrl) => {
+            console.log('Download URL ottenuto con successo:', downloadUrl);
+
+            // Modifica: Salvare l'URL direttamente in propicUrl
+            this.articleForm.patchValue({ propicUrl: downloadUrl });
+
+            // Ora possiamo pubblicare l'articolo nel database
+            this.db
+              .add(articleData, 'articles')
+              .then(() => {
+                console.log('Articolo aggiunto con successo.');
+                this.resetArticle();
+              })
+              .catch((addError) => {
+                console.error(
+                  "Errore durante l'aggiunta dell'articolo:",
+                  addError
+                );
+                // Gestisci l'errore in base alle tue esigenze
+              });
+          },
+          error: (urlError) => {
+            console.error(
+              "Errore durante l'ottenimento del Download URL:",
+              urlError
+            );
+            // Gestisci l'errore in base alle tue esigenze
+          },
+        });
+      },
+      error: (uploadError) => {
+        console.error("Errore durante l'upload del file:", uploadError);
+        // Gestisci l'errore in base alle tue esigenze
+      },
     });
   }
 

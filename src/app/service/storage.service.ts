@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -76,5 +76,13 @@ export class StorageService {
 
     // Restituiamo l'array di Observable
     return uploadProgressObservables;
+  }
+
+  getDownloadURL(filePath: string): Observable<string> {
+    // Ottieni l'URL di download per il file specificato nel percorso fornito
+    const storageRef = this.storage.ref(filePath);
+
+    // Converto la promise restituita da getDownloadURL in un Observable
+    return from(storageRef.getDownloadURL());
   }
 }

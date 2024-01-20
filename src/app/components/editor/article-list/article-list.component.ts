@@ -29,7 +29,6 @@ export class ArticleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticles();
-    this.loadImg();
   }
 
   refreshList(): void {
@@ -87,13 +86,15 @@ export class ArticleListComponent implements OnInit {
   }
 
   //TODO: capire come prendere nome file dall'interfaccia
-  loadImg() {
-    let path = 'articles-img';
+  loadArticlesImage() {
+    const path = 'articles-img';
     let file = 'propic_author1.jpg';
 
     // Ottieni l'URL di download dell'immagine e assegnalo alla variabile imageUrl
     this.storageService.getFileFromStorage(path, file).subscribe((url) => {
       this.imageUrl = url;
+
+      console.log(this.imageUrl);
     });
   }
 }

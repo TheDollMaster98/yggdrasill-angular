@@ -13,8 +13,10 @@ export interface Article {
 export class articleData {
   id?: string;
   author?: string;
+  propicUrl?: string;
   genre?: string;
   articleTitle?: string;
+  articleDescription?: string;
   articleContent?: string;
   publishDate?: string;
 }

@@ -13,19 +13,24 @@
 
 <div class="container">
   <div class="custom-card" *ngFor="let article of articleList">
-    <div class="img-box"><img [src]="article.articleTitle" /></div>
-    <div class="custom-content">
-      <h2>{{ article.articleTitle }}</h2>
-      <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
-      <div
-        class="truncate"
-        [innerHTML]="sanitizeHtml(truncate(article.articleContent!, 20))"
-      ></div>
-      <a href="#">Read More</a>
+    <div class="img-box">
+      <img
+        [src]="article.propicUrl"
+        alt="Immagine dell'articolo"
+        *ngIf="article.propicUrl"
+      />
+      <div class="custom-content">
+        <h2>{{ article.articleTitle }}</h2>
+        <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
+        <div
+          class="truncate"
+          [innerHTML]="sanitizeHtml(truncate(article.articleContent!, 20))"
+        ></div>
+        <a href="#">Read More</a>
+      </div>
     </div>
   </div>
-</div>
-<!--
+  <!--
 <div *ngIf="articles.length > 0; else noArticles">
   <div *ngFor="let article of articles; let i = index" class="article-item">
     <app-article-preview
@@ -42,6 +47,7 @@
 
 -->
 
-<!-- TODO: togliere sto schfio -->
-<div>prova img:</div>
-<img [src]="imageUrl" alt="Immagine dell'articolo" *ngIf="imageUrl" />
+  <!-- TODO: togliere sto schfio -->
+  <div>prova img:</div>
+  <img [src]="imageUrl" alt="Immagine dell'articolo" *ngIf="imageUrl" />
+</div>

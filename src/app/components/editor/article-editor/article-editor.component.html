@@ -71,13 +71,25 @@
     </div>
 
     <div class="mb-3">
-      <label for="fileUpload" class="form-label">Carica Foto:</label>
+      <label for="propicUrl" class="form-label">URL dell'immagine:</label>
       <input
         type="file"
-        id="fileUpload"
+        id="propicUrl"
         class="form-control"
-        (change)="uploadFile($event)"
+        formControlName="propicUrl"
+        (change)="getFile($event)"
       />
+      <p *ngIf="articleForm.get('file')!.value">
+        {{ articleForm.get("file")!.value.name }}
+      </p>
+      <div
+        *ngIf="
+          propicUrlControl.hasError('required') && propicUrlControl.touched
+        "
+        class="text-danger"
+      >
+        L'URL dell'immagine è obbligatorio.
+      </div>
     </div>
 
     <div class="mb-3">
