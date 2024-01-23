@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -78,11 +78,33 @@ export class StorageService {
     return uploadProgressObservables;
   }
 
-  getDownloadURL(filePath: string): Observable<string> {
+  // getDownloadURL(filePath: string): Observable<string> {
+  //   // Ottieni l'URL di download per il file specificato nel percorso fornito
+  //   const storageRef = this.storage.ref(filePath);
+
+  //   // Converto la promise restituita da getDownloadURL in un Observable
+  //   return from(storageRef.getDownloadURL());
+  // }
+
+  getDownloadURL(
+    filePath: string
+  ): Observable<{ url: string; fileName: string }> {
     // Ottieni l'URL di download per il file specificato nel percorso fornito
     const storageRef = this.storage.ref(filePath);
 
     // Converto la promise restituita da getDownloadURL in un Observable
-    return from(storageRef.getDownloadURL());
+    return from(storageRef.getDownloadURL()).pipe(
+      tap((url) => console.log('URL di download ottenuto:', url)),
+      map((url) => ({ url, fileName: this.getFileNameFromPath(filePath) })),
+      tap((result) => console.log('Risultato finale:', result))
+    );
+  }
+
+  private getFileNameFromPath(filePath: string): string {
+    // Estrarre il nome del file dal percorso completo del file
+    const parts = filePath.split('/');
+    const fileName = parts[parts.length - 1];
+    console.log('Nome del file ottenuto:', fileName);
+    return fileName;
   }
 }

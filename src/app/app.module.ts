@@ -47,6 +47,7 @@ import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-clo
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { FirebaseModule } from './firebase/firebase.module';
 import { IconModule } from './components/icon-component/icon.module';
+import { FileUploaderComponent } from './components/file-uploader/file-uploader.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { IconModule } from './components/icon-component/icon.module';
     TutorialComponent,
     TutorialCloudComponent,
     PageNotFoundComponent,
+    FileUploaderComponent,
   ],
   providers: [
     DashboardService,

@@ -122,10 +122,9 @@ export class FirestoreAPIService<T> {
       );
   }
 
-  // Verifica se un documento esiste in una collezione specifica.
-  // Restituisce un Observable booleano.
   /**
    * Verifica se un documento esiste in una collezione specifica.
+   * Restituisce un Observable booleano.
    * @param path Percorso del documento nella collezione.
    * @returns Observable che emette un booleano indicando se il documento esiste.
    */
@@ -151,8 +150,6 @@ export class FirestoreAPIService<T> {
         catchError(() => of(false))
       );
   }
-
-  //
 
   /**
    * Aggiunge un nuovo elemento alla collezione specificata.
