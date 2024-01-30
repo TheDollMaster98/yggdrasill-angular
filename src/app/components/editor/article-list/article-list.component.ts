@@ -30,7 +30,7 @@ export class ArticleListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadArticles();
-    this.loadImg();
+    // this.loadImg();
   }
 
   refreshList(): void {
@@ -58,10 +58,53 @@ export class ArticleListComponent implements OnInit {
   }
 
   loadArticles(): void {
-    this.firestoreAPIService.getAll('articles').subscribe((article) => {
-      console.log('Articoli dopo il caricamento:', article);
-      this.articleList = article;
+    console.log('Inizio caricamento degli articoli');
+
+    this.firestoreAPIService.getAll('articles').subscribe({
+      next: (articles) => {
+        console.log('Articoli dopo il caricamento:', articles);
+
+        // Assegna gli articoli alla proprietà articles
+        this.articleList = articles;
+
+        // Carica l'URL dell'immagine per ciascun articolo
+        this.loadImagesForArticles();
+      },
+      error: (error) => {
+        console.error('Errore durante il recupero degli articoli:', error);
+      },
     });
+  }
+
+  loadImagesForArticles(): void {
+    // TODO: mettere lo spinner
+    console.log('Inizio caricamento immagini per gli articoli');
+
+    this.articleList.forEach((article) => {
+      this.loadImgForArticle(article);
+    });
+  }
+
+  loadImgForArticle(article: Article): void {
+    if (article.propicUrl) {
+      console.log(`Caricamento immagine per l'articolo ${article.id}`);
+
+      this.storageService
+        .getFileFromStorage(this.path, article.propicUrl)
+        .subscribe({
+          next: (url) => {
+            console.log(`Immagine caricata per l'articolo ${article.id}:`, url);
+            article.propicUrl = url || 'not-found.svg';
+          },
+          error: (error) => {
+            console.error(
+              `Errore durante il recupero dell'immagine per l'articolo ${article.id}:`,
+              error
+            );
+            article.propicUrl = 'not-found.svg';
+          },
+        });
+    }
   }
 
   setActiveArticle(article: Article, index: number): void {

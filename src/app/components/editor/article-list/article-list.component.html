@@ -13,7 +13,7 @@
 
 <div class="container">
   <div class="custom-card" *ngFor="let article of articleList">
-    <div class="img-box"><img [src]="article.articleTitle" /></div>
+    <div class="img-box"><img [src]="article.propicUrl" /></div>
     <div class="custom-content">
       <h2>{{ article.articleTitle }}</h2>
       <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
@@ -25,22 +25,6 @@
     </div>
   </div>
 </div>
-<!--
-<div *ngIf="articles.length > 0; else noArticles">
-  <div *ngFor="let article of articles; let i = index" class="article-item">
-    <app-article-preview
-      [article]="article"
-      [isEditorPreview]="false"
-      (click)="setActiveArticle(article, i)"
-    ></app-article-preview>
-  </div>
-</div>
-
-<ng-template #noArticles>
-  <p>No articles available.</p>
-</ng-template>
-
--->
 
 <!-- TODO: togliere sto schfio -->
 <div>prova img:</div>
