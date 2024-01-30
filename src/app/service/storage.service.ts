@@ -107,4 +107,22 @@ export class StorageService {
     console.log('Nome del file ottenuto:', fileName);
     return fileName;
   }
+
+  // In storage.service.ts
+  // In storage.service.ts
+  getDownloadUrl(path: string, fileName: string): string {
+    const isLocalEmulator = window.location.hostname === 'localhost';
+
+    if (isLocalEmulator) {
+      // Local emulator URL
+      return `http://localhost:9199/v0/b/yggdrasill-project.appspot.com/o/${encodeURIComponent(
+        path + '/' + fileName
+      )}?alt=media`;
+    } else {
+      // Production URL
+      return `https://storage.googleapis.com/yggdrasill-project.appspot.com/${encodeURIComponent(
+        path + '/' + fileName
+      )}`;
+    }
+  }
 }

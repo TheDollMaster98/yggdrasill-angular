@@ -11,7 +11,7 @@ export interface Article {
 }
 
 export class articleData {
-  id?: string;
+  id!: string;
   author?: string;
   propicUrl?: string;
   genre?: string;
@@ -19,8 +19,23 @@ export class articleData {
   articleDescription?: string;
   articleContent?: string;
   publishDate?: string;
+  url?: string;
+  name!: string;
+  file: File;
+  static propicUrl: any;
+
+  constructor(file: File, article: Article) {
+    this.file = file;
+    this.author = article.author;
+    this.propicUrl = article.propicUrl;
+    this.genre = article.genre;
+    this.articleTitle = article.articleTitle;
+    this.articleDescription = article.articleDescription;
+    this.articleContent = article.articleContent;
+    this.publishDate = article.publishDate;
+  }
 }
 
 export interface ArticleList {
-  articols: Record<string, Article>;
+  articles: Record<string, Article>;
 }

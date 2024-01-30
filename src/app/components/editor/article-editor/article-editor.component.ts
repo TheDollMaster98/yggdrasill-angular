@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
-import { Article } from 'src/app/models/article.model';
+import { Article, articleData } from 'src/app/models/article.model';
 import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 import { StorageService } from 'src/app/service/storage.service';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-article-editor',
@@ -17,6 +18,7 @@ import { StorageService } from 'src/app/service/storage.service';
 })
 export class ArticleEditorPage implements OnInit {
   editorName = '';
+  selectedFile: File | null = null;
   articleForm!: FormGroup;
 
   constructor(
@@ -26,7 +28,9 @@ export class ArticleEditorPage implements OnInit {
     public firebaseDatabaseService: FirebaseDatabaseService,
     private authService: AuthService,
     private db: FirestoreAPIService<Article>,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private cd: ChangeDetectorRef,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
@@ -49,7 +53,7 @@ export class ArticleEditorPage implements OnInit {
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
       author: [{ value: this.editorName, disabled: true }, Validators.required],
-      propicUrl: [''], // Imposta il valore iniziale a una stringa vuota
+      propicUrl: [null], // Imposta il valore iniziale a una stringa vuota
       file: null,
       articleContent: ['', Validators.required],
     });
@@ -90,6 +94,8 @@ export class ArticleEditorPage implements OnInit {
     controlsToReset.forEach((control) =>
       this.articleForm.get(control)!.reset()
     );
+
+    this.selectedFile = null;
   }
 
   previewArticle() {
@@ -109,17 +115,20 @@ export class ArticleEditorPage implements OnInit {
       modalRef.componentInstance.isTemporary = true;
     }
   }
-  // TODO: controllare qui
 
-  getDownloadURL(filePath: string): Observable<string> {
-    return this.storageService.getDownloadURL(filePath);
-  }
+  // Metodo getFile aggiornato
   getFile(event: any): void {
-    const file = event.target.files[0];
-    console.log('Selected File:', file);
+    const files = event.target.files;
 
-    if (file) {
-      this.articleForm.patchValue({ file });
+    if (files && files.length > 0) {
+      this.selectedFile = files[0];
+      console.log('Selected File:', this.selectedFile);
+
+      // Imposta il valore direttamente sulla proprietà 'file' del form
+      this.articleForm.get('file')!.setValue(this.selectedFile);
+
+      // Triggera il change detection per assicurarti che il valore venga aggiornato nel template
+      this.cd.detectChanges();
     } else {
       console.error('File non valido o mancante.');
     }
@@ -142,32 +151,27 @@ export class ArticleEditorPage implements OnInit {
             observer.error(error);
           },
           complete: () => {
-            // Chiamiamo direttamente getDownloadURL
-            this.getDownloadURL(path).subscribe({
-              next: (downloadUrl) => {
-                console.log('Download URL:', downloadUrl);
+            const fileName = file.name;
+            this.articleForm.patchValue({ propicUrl: fileName });
 
-                // Modifica: Salvare l'URL direttamente in propicUrl
-                this.articleForm.patchValue({ propicUrl: downloadUrl });
+            console.log(
+              `File is available at ${this.storageService.getDownloadUrl(
+                path,
+                fileName
+              )}`
+            );
 
-                observer.next();
-                observer.complete();
-              },
-              error: (urlError) => {
-                console.error('Error getting download URL', urlError);
-                observer.error(urlError);
-              },
-            });
+            observer.next();
+            observer.complete();
           },
         });
       } else {
         console.error('File non valido o mancante.');
-        observer.error('File non valido o mancante.');
       }
     });
   }
-
-  publishArticle() {
+  // Metodo publishArticle aggiornato
+  publishArticle1() {
     // Ottieni il nome dell'autore
     const authorName = this.authService.getAuthName();
 
@@ -182,41 +186,57 @@ export class ArticleEditorPage implements OnInit {
       next: () => {
         console.log('File caricato con successo.');
 
-        // Dopo aver caricato il file, possiamo ottenere il link di download
-        this.storageService.getDownloadURL('articles-img').subscribe({
-          next: (downloadUrl) => {
-            console.log('Download URL ottenuto con successo:', downloadUrl);
+        // Modifica: Salvare l'URL direttamente in propicUrl
+        const fileName = this.selectedFile?.name || '';
+        this.articleForm.patchValue({ propicUrl: fileName });
 
-            // Modifica: Salvare l'URL direttamente in propicUrl
-            this.articleForm.patchValue({ propicUrl: downloadUrl });
-
-            // Ora possiamo pubblicare l'articolo nel database
-            this.db
-              .add(articleData, 'articles')
-              .then(() => {
-                console.log('Articolo aggiunto con successo.');
-                this.resetArticle();
-              })
-              .catch((addError) => {
-                console.error(
-                  "Errore durante l'aggiunta dell'articolo:",
-                  addError
-                );
-                // Gestisci l'errore in base alle tue esigenze
-              });
-          },
-          error: (urlError) => {
-            console.error(
-              "Errore durante l'ottenimento del Download URL:",
-              urlError
-            );
+        // Ora possiamo pubblicare l'articolo nel database
+        this.db
+          .add(articleData, 'articles')
+          .then(() => {
+            console.log('Articolo aggiunto con successo.');
+            this.resetArticle();
+          })
+          .catch((addError) => {
+            console.error("Errore durante l'aggiunta dell'articolo:", addError);
             // Gestisci l'errore in base alle tue esigenze
-          },
-        });
+          });
       },
       error: (uploadError) => {
         console.error("Errore durante l'upload del file:", uploadError);
         // Gestisci l'errore in base alle tue esigenze
+      },
+    });
+  }
+  publishArticle() {
+    const authorName = this.authService.getAuthName();
+    const articleData = {
+      ...this.articleForm.value,
+      author: authorName,
+    };
+
+    this.uploadFile().subscribe({
+      next: () => {
+        console.log('File caricato con successo.');
+
+        // Remove the file field before adding to Firestore
+        const { file, ...articleDataWithoutFile } = articleData;
+
+        // Now, we can publish the article to the database
+        this.db
+          .add(articleDataWithoutFile, 'articles')
+          .then(() => {
+            console.log('Articolo aggiunto con successo.');
+            this.resetArticle();
+          })
+          .catch((addError) => {
+            console.error("Errore durante l'aggiunta dell'articolo:", addError);
+            // Handle the error as needed
+          });
+      },
+      error: (uploadError) => {
+        console.error("Errore durante l'upload del file:", uploadError);
+        // Handle the error as needed
       },
     });
   }

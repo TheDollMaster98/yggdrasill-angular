@@ -72,15 +72,13 @@
 
     <div class="mb-3">
       <label for="propicUrl" class="form-label">URL dell'immagine:</label>
-      <input
-        type="file"
-        id="propicUrl"
-        class="form-control"
-        formControlName="propicUrl"
-        (change)="getFile($event)"
-      />
+      <input type="file" (change)="getFile($event)" />
+
+      <!-- Mostra il nome del file selezionato -->
+      <p *ngIf="selectedFile">Nome 1: {{ selectedFile.name }}</p>
+
       <p *ngIf="articleForm.get('file')!.value">
-        {{ articleForm.get("file")!.value.name }}
+        >Nome 2: {{ articleForm.get("file")!.value.name }}
       </p>
       <div
         *ngIf="

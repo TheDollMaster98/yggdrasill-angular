@@ -1,3 +1,4 @@
+//file.upload.ts
 export class FileUpload {
   key!: string;
   name!: string;
