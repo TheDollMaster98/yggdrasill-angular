@@ -171,43 +171,6 @@ export class ArticleEditorPage implements OnInit {
     });
   }
   // Metodo publishArticle aggiornato
-  publishArticle1() {
-    // Ottieni il nome dell'autore
-    const authorName = this.authService.getAuthName();
-
-    // Aggiungi il nome dell'autore ai dati
-    const articleData = {
-      ...this.articleForm.value,
-      author: authorName,
-    };
-
-    // Chiamiamo le funzioni in sequenza
-    this.uploadFile().subscribe({
-      next: () => {
-        console.log('File caricato con successo.');
-
-        // Modifica: Salvare l'URL direttamente in propicUrl
-        const fileName = this.selectedFile?.name || '';
-        this.articleForm.patchValue({ propicUrl: fileName });
-
-        // Ora possiamo pubblicare l'articolo nel database
-        this.db
-          .add(articleData, 'articles')
-          .then(() => {
-            console.log('Articolo aggiunto con successo.');
-            this.resetArticle();
-          })
-          .catch((addError) => {
-            console.error("Errore durante l'aggiunta dell'articolo:", addError);
-            // Gestisci l'errore in base alle tue esigenze
-          });
-      },
-      error: (uploadError) => {
-        console.error("Errore durante l'upload del file:", uploadError);
-        // Gestisci l'errore in base alle tue esigenze
-      },
-    });
-  }
   publishArticle() {
     const authorName = this.authService.getAuthName();
     const articleData = {
