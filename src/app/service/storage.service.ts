@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize, map, tap } from 'rxjs/operators';
+import { finalize, last, map, switchMap, tap } from 'rxjs/operators';
 import { Observable, from } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -40,6 +40,18 @@ export class StorageService {
 
     // Restituisce un Observable che emette il progresso del caricamento come percentuale
     return uploadTask.percentageChanges();
+  }
+
+  uploadFile(file: File, path: string): Observable<string> {
+    const filePath = `${path}/${file.name}`;
+    const uploadTask = this.storage.upload(filePath, file);
+
+    // Utilizziamo l'operatore switchMap per ottenere l'URL di download dopo che l'upload è completato
+    return uploadTask.snapshotChanges().pipe(
+      last(),
+      switchMap(() => this.storage.ref(filePath).getDownloadURL()),
+      map((downloadURL) => file.name) // Restituisci solo il nome del file
+    );
   }
 
   // Questo metodo ottiene un file specifico dallo storage di Firebase

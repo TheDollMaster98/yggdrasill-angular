@@ -14,6 +14,7 @@ import { StorageService } from 'src/app/service/storage.service';
   styleUrls: ['./article-list.component.scss'],
 })
 export class ArticleListComponent implements OnInit {
+  private path: string = 'articles-img';
   imageUrl: string | null = null; // Variabile per memorizzare l'URL di download dell'immagine
   articleList: Article[] = [];
   currentArticle?: Article;
@@ -88,11 +89,10 @@ export class ArticleListComponent implements OnInit {
 
   //TODO: capire come prendere nome file dall'interfaccia
   loadImg() {
-    let path = 'articles-img';
     let file = 'propic_author1.jpg';
 
     // Ottieni l'URL di download dell'immagine e assegnalo alla variabile imageUrl
-    this.storageService.getFileFromStorage(path, file).subscribe((url) => {
+    this.storageService.getFileFromStorage(this.path, file).subscribe((url) => {
       this.imageUrl = url;
     });
   }

@@ -127,6 +127,14 @@ export class ArticleEditorPage implements OnInit {
       // Imposta il valore direttamente sulla proprietà 'file' del form
       this.articleForm.get('file')!.setValue(this.selectedFile);
 
+      // Ottieni il nome del file o imposta un valore di default se 'this.selectedFile' è nullo
+      const fileName = this.selectedFile
+        ? this.selectedFile.name
+        : 'not-found.svg';
+
+      // Setta il nome del file direttamente sulla proprietà 'propicUrl' del form
+      this.articleForm.get('propicUrl')!.setValue(fileName);
+
       // Triggera il change detection per assicurarti che il valore venga aggiornato nel template
       this.cd.detectChanges();
     } else {
