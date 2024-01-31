@@ -2,15 +2,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
+import { SessionService } from 'src/app/service/session.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +21,7 @@ import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
   styleUrls: ['./login.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit, OnDestroy {
   @ViewChild('signUp') signUp!: ElementRef;
   @ViewChild('signIn') signIn!: ElementRef;
   @ViewChild('container') container!: ElementRef;
@@ -26,159 +29,153 @@ export class LoginPage implements OnInit {
   loginForm!: FormGroup;
   resetPasswordForm!: FormGroup;
   isRecoveringPassword = false;
-
+  private destroy$ = new Subject<void>();
   private isLoggedIn$: Observable<boolean> = this.authService.isLoggedIn();
 
   constructor(
+    private router: Router,
     private renderer: Renderer2,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private sessionService: SessionService,
     private authService: AuthService,
     private db: FirestoreAPIService<any>
   ) {}
 
   ngOnInit(): void {
+    // Inizializza i form al momento della creazione del componente
+    this.initializeForms();
+  }
+
+  ngAfterViewInit(): void {
+    // Configura gli eventi una volta che gli elementi sono inizializzati
+    this.setupEventListeners();
+  }
+
+  private initializeForms(): void {
+    // Inizializza i form per il login e il reset della password
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
 
-    // Inizializza il form per la reimpostazione della password
     this.resetPasswordForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
     });
   }
 
-  ngAfterViewInit(): void {
-    this.signUp.nativeElement.addEventListener('click', () => {
-      this.renderer.addClass(
-        this.container.nativeElement,
-        'right-panel-active'
-      );
-    });
-
-    this.signIn.nativeElement.addEventListener('click', () => {
-      this.renderer.removeClass(
-        this.container.nativeElement,
-        'right-panel-active'
-      );
-    });
+  private setupEventListeners(): void {
+    // Aggiunge gli eventi ai pulsanti di registrazione e accesso
+    this.signUp.nativeElement.addEventListener('click', () =>
+      this.showSignUpPanel()
+    );
+    this.signIn.nativeElement.addEventListener('click', () =>
+      this.showSignInPanel()
+    );
   }
 
-  // TODO: controllare QUI!
+  private showSignUpPanel(): void {
+    // Attiva la visualizzazione del pannello di registrazione
+    this.renderer.addClass(this.container.nativeElement, 'right-panel-active');
+  }
+
+  private showSignInPanel(): void {
+    // Disattiva la visualizzazione del pannello di registrazione
+    this.renderer.removeClass(
+      this.container.nativeElement,
+      'right-panel-active'
+    );
+  }
+
   login() {
-    let email = this.loginForm.value.email;
-    let psw = this.loginForm.value.password;
+    // Esegue il login utente utilizzando il servizio di autenticazione
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
 
     this.authService
-      .signIn({
-        email: email,
-        password: psw,
-      })
+      .signIn({ email, password })
+      .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => {
-          this.authService.getCurrentUserEmail().subscribe((userEmail) => {
-            if (userEmail) {
-              console.log("Email dell'utente:", userEmail);
-              // Ottieni il ruolo e il nome dell'utente
-              this.authService.getUserRole(userEmail).subscribe((role) => {
-                console.log("Ruolo dell'utente:", role);
-
-                // Usa switch per gestire diversi ruoli
-                switch (role) {
-                  case 'admin':
-                    this.db.getById(email, 'admin').subscribe((data) => {
-                      if (data) {
-                        this.authService.setAuthName(data.name);
-                        console.log('data.name: ' + data.name);
-                        console.log(
-                          'this.authService.getAuthName(): ' +
-                            this.authService.getAuthName()
-                        );
-                      }
-                      // Utilizza la route con il parametro authorName
-                      this.router.navigate(['/edit', data.name]);
-                    });
-                    break;
-                  case 'author':
-                    this.db.getById(email, 'authors').subscribe((data) => {
-                      if (data) {
-                        this.authService.setAuthName(data.name);
-                        console.log('data.name: ' + data.name);
-                        console.log(
-                          'this.authService.getAuthName(): ' +
-                            this.authService.getAuthName()
-                        );
-                      }
-                      // Utilizza la route con il parametro authorName
-                      this.router.navigate(['/edit', data.name]);
-                    });
-                    break;
-                  case 'user':
-                    this.db.getById(email, 'users').subscribe((data) => {
-                      if (data) {
-                        this.authService.setAuthName(data.name);
-                        console.log('data.name: ' + data.name);
-                        console.log(
-                          'this.authService.getAuthName(): ' +
-                            this.authService.getAuthName()
-                        );
-                      }
-                      // Naviga alla dashboard senza parametri
-                      this.router.navigate(['/dashboard']);
-                    });
-                    break;
-                  default:
-                    // Gestisci il caso in cui il ruolo non è admin, author o user
-                    break;
-                }
-              });
-            } else {
-              console.log("Impossibile ottenere l'email dell'utente.");
-              // Gestire il caso in cui l'email non può essere recuperata
-            }
-          });
-        },
-        error: (error) => {
-          console.log('Errore nel login:', error);
-          // Gestisci errori in modo più specifico per fornire un feedback utente
-          // Mostra un messaggio di errore o nascondi lo spinner di caricamento
-          // ...
-        },
+        next: () => this.handleSuccessfulLogin(email),
+        error: (error) => this.handleLoginError(error),
       });
   }
 
-  // Metodo pubblico che chiama isLoggedIn() del servizio
-  public isUserLoggedIn(): Observable<boolean> {
-    // console.log('loginpage isUserLoggedIn: ');
-    // console.log(this.isLoggedIn$);
-    return this.isLoggedIn$;
+  private handleSuccessfulLogin(email: string): void {
+    // Gestisce il login utente riuscito
+    this.sessionService.setAuthState(true);
+    this.authService
+      .getCurrentUserEmail()
+      .pipe(
+        switchMap((userEmail: string | null) => {
+          if (userEmail) {
+            return this.handleUserRole(email, userEmail);
+          } else {
+            console.log("Impossibile ottenere l'email dell'utente.");
+            this.router.navigate(['/dashboard']);
+            return of(false);
+          }
+        })
+      )
+      .subscribe();
   }
 
-  logout() {
-    this.authService.signOut().subscribe({
-      next: () => {
-        console.log('Utente disconnesso con successo!');
-        // Puoi aggiungere il reindirizzamento o altre azioni dopo il logout
-      },
-      error: (error) => {
-        console.log('Errore durante il logout:', error);
-        // Gestisci eventuali errori durante il logout
-      },
+  private handleUserRole(
+    email: string,
+    userEmail: string
+  ): Observable<boolean> {
+    // Gestisce il ruolo dell'utente dopo il login
+    return this.authService.getUserRole(userEmail).pipe(
+      map((role: string) => this.handleRoleSpecificNavigation(email, role)),
+      catchError(() => {
+        this.router.navigate(['/dashboard']);
+        this.sessionService.setAuthState(false);
+        return of(false);
+      })
+    );
+  }
+
+  private handleRoleSpecificNavigation(email: string, role: string): boolean {
+    // Naviga in base al ruolo specifico dell'utente
+    switch (role) {
+      case 'admin':
+        this.navigateBasedOnRole(email, 'admin');
+        return true;
+      case 'author':
+        this.navigateBasedOnRole(email, 'authors');
+        return true;
+      case 'user':
+        this.navigateBasedOnRole(email, 'users');
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  private navigateBasedOnRole(email: string, roleType: string): void {
+    // Ottiene i dettagli dell'utente e naviga in base al ruolo
+    this.db.getById(email, roleType).subscribe((data) => {
+      if (data) {
+        this.authService.setAuthName(data.name);
+        console.log('data.name: ' + data.name);
+        console.log(
+          'this.authService.getAuthName(): ' + this.authService.getAuthName()
+        );
+      }
+      this.router.navigate(['/edit', data.name]);
     });
   }
 
-  changeLoginForgot() {
-    this.isRecoveringPassword = !this.isRecoveringPassword;
-    // Imposta l'email nel form di reimpostazione password, se necessario
-    this.resetPasswordForm.get('email')?.setValue(this.loginForm.value.email);
+  private handleLoginError(error: any): void {
+    // Gestisce gli errori durante il login
+    this.sessionService.setAuthState(false);
+    console.error('Errore nel login:', error);
+    // Aggiungi qui la gestione specifica degli errori, ad esempio mostrando un messaggio all'utente
+    // ...
   }
 
-  forgotPassword() {
-    // Implementa la logica per il recupero della password
-  }
-
-  register() {
-    // Implementa la logica per la registrazione
+  ngOnDestroy(): void {
+    // Completa il subject per evitare memory leak
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
