@@ -1,46 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from './service/api.service';
 import { BackgroundColorClass } from './models/enum';
 import { FirestoreAPIService } from './service/firestore-api.service';
 import { StorageService } from './service/storage.service';
+import { SessionService } from './service/session.service';
 
 const mainBgRoutes = ['/dashboard'];
 const routesBgRoutes = ['/dashboard'];
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'yggdrasill-angular';
 
   constructor(
     private apiService: ApiService,
     private router: Router,
+    private sessionService: SessionService,
     private firestoreService: FirestoreAPIService<any>,
     private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
-    // Chiamata alla funzione per collegarsi all'emulatore Firestore
+    // Connessione agli emulatori Firestore e Storage
     this.firestoreService.connectToFirestoreEmulator();
     this.storageService.connectToStorageEmulator();
 
-    //TODO: capire cosa fare e pulire il resto
+    // Recupero dello stato di autenticazione
+    this.sessionService.getAuthState();
+
+    // Modifica del comportamento di toJSON per le date
     Date.prototype.toJSON = function () {
       const hoursDiff = this.getHours() - this.getTimezoneOffset() / 60;
       this.setHours(hoursDiff);
       return this.toISOString();
     };
-  }
-
-  getRouter(): Router {
-    return this.router;
-  }
-
-  getApiService(): ApiService {
-    return this.apiService;
   }
 
   getMainBackgroundColorClass() {
