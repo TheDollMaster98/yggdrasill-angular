@@ -9,12 +9,17 @@ import {
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
+import { SessionService } from '../service/session.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private sessionService: SessionService
+  ) {}
 
   // Metodo che viene chiamato per determinare se l'utente può attivare una determinata route
   canActivate(
@@ -35,9 +40,11 @@ export class AdminGuard implements CanActivate {
                   map((role: string) => {
                     if (role === 'admin') {
                       // Se l'utente è admin, permetti l'accesso
+                      this.sessionService.setAuthState(true);
                       return true;
                     } else {
                       // Altrimenti, reindirizza a /dashboard e nega l'accesso
+                      this.sessionService.setAuthState(false);
                       this.router.navigate(['/dashboard']);
                       return false;
                     }
@@ -46,6 +53,7 @@ export class AdminGuard implements CanActivate {
                   catchError(() => {
                     // In caso di errore, reindirizza a /dashboard e nega l'accesso
                     this.router.navigate(['/dashboard']);
+                    this.sessionService.setAuthState(false);
                     return of(false);
                   })
                 );
