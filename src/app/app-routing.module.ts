@@ -49,7 +49,7 @@ const routes: Routes = [
     component: GdprComponent,
   },
   {
-    path: 'edit/:author',
+    path: 'editor/:author',
     component: ArticleEditorPage,
     canActivate: [AuthorGuard],
   },

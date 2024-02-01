@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArticlePreviewComponent } from '../article-preview/article-preview.component';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article, articleData } from 'src/app/models/article.model';
-import { Observable, catchError, map, tap, throwError } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FirebaseDatabaseService } from 'src/app/service/firebase-database.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
@@ -16,10 +16,11 @@ import { DataService } from 'src/app/service/data.service';
   templateUrl: './article-editor.component.html',
   styleUrls: ['./article-editor.component.scss'],
 })
-export class ArticleEditorPage implements OnInit {
-  editorName = '';
+export class ArticleEditorPage implements OnInit, OnDestroy {
+  editorName: string | null = null;
   selectedFile: File | null = null;
   articleForm!: FormGroup;
+  private authNameSubscription: Subscription | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,24 +28,32 @@ export class ArticleEditorPage implements OnInit {
     public articleService: ArticleService,
     public firebaseDatabaseService: FirebaseDatabaseService,
     private authService: AuthService,
-    private db: FirestoreAPIService<Article>,
+    private firestoreApiService: FirestoreAPIService<Article>,
     private storageService: StorageService,
     private cd: ChangeDetectorRef,
     private dataService: DataService
   ) {}
 
   ngOnInit(): void {
-    this.authService.getAuthName();
-    this.editorName = this.authService.getAuthName();
+    // Recupero del nome di chi ha effettuato l'accesso
+    this.authNameSubscription = this.authService.getAuthName().subscribe({
+      next: (authName) => {
+        this.editorName = authName;
+        this.initArticleForm(); // Inizializza il form dopo aver ottenuto il nome dell'editore
+        console.log('Editor Name:', this.editorName);
+        console.log('Author Control Value:', this.authorControl.value);
+      },
+      error: (error) => {
+        console.error('Errore durante il recupero del nome utente:', error);
+      },
+    });
+  }
 
-    this.initArticleForm();
-
-    this.articleForm.get('author')?.setValue(this.editorName);
-    this.articleForm.controls['author'].setValue(this.editorName);
-
-    // Aggiungi console.log per verificare il valore di editorName
-    console.log('Editor Name:', this.editorName);
-    console.log('Author Control Value:', this.authorControl.value);
+  ngOnDestroy(): void {
+    // Unsubscribe per evitare memory leaks
+    if (this.authNameSubscription) {
+      this.authNameSubscription.unsubscribe();
+    }
   }
 
   private initArticleForm() {
@@ -53,10 +62,15 @@ export class ArticleEditorPage implements OnInit {
       publishDate: ['', Validators.required],
       genre: ['', Validators.required],
       author: [{ value: this.editorName, disabled: true }, Validators.required],
-      propicUrl: [null], // Imposta il valore iniziale a una stringa vuota
+      propicUrl: [null],
       file: null,
       articleContent: ['', Validators.required],
     });
+
+    // Aggiungi un controllo per assicurarti che articleForm sia definito
+    if (this.articleForm) {
+      this.articleForm.get('author')!.setValue(this.editorName);
+    }
   }
 
   get articleTitleControl() {
@@ -116,7 +130,6 @@ export class ArticleEditorPage implements OnInit {
     }
   }
 
-  // Metodo getFile aggiornato
   getFile(event: any): void {
     const files = event.target.files;
 
@@ -124,27 +137,22 @@ export class ArticleEditorPage implements OnInit {
       this.selectedFile = files[0];
       console.log('Selected File:', this.selectedFile);
 
-      // Imposta il valore direttamente sulla proprietà 'file' del form
       this.articleForm.get('file')!.setValue(this.selectedFile);
 
-      // Ottieni il nome del file o imposta un valore di default se 'this.selectedFile' è nullo
       const fileName = this.selectedFile
         ? this.selectedFile.name
         : 'not-found.svg';
 
-      // Setta il nome del file direttamente sulla proprietà 'propicUrl' del form
       this.articleForm.get('propicUrl')!.setValue(fileName);
 
-      // Triggera il change detection per assicurarti che il valore venga aggiornato nel template
       this.cd.detectChanges();
     } else {
       console.error('File non valido o mancante.');
     }
   }
 
-  // Modifica il metodo uploadFile() per chiamare getDownloadURL direttamente
-  uploadFile(): Observable<void> {
-    return new Observable((observer) => {
+  async uploadFile(): Promise<void> {
+    return new Promise((resolve, reject) => {
       const file = this.articleForm.get('file')!.value;
 
       if (file) {
@@ -156,7 +164,7 @@ export class ArticleEditorPage implements OnInit {
           },
           error: (error) => {
             console.error('Upload failed', error);
-            observer.error(error);
+            reject(error);
           },
           complete: () => {
             const fileName = file.name;
@@ -169,47 +177,35 @@ export class ArticleEditorPage implements OnInit {
               )}`
             );
 
-            observer.next();
-            observer.complete();
+            resolve();
           },
         });
       } else {
         console.error('File non valido o mancante.');
+        reject('File non valido o mancante.');
       }
     });
   }
-  // Metodo publishArticle aggiornato
-  publishArticle() {
-    const authorName = this.authService.getAuthName();
-    const articleData = {
-      ...this.articleForm.value,
-      author: authorName,
-    };
 
-    this.uploadFile().subscribe({
-      next: () => {
-        console.log('File caricato con successo.');
+  async publishArticle() {
+    try {
+      const authorName = await this.authService.getAuthName().toPromise();
+      const articleData = {
+        ...this.articleForm.value,
+        author: authorName,
+      };
 
-        // Remove the file field before adding to Firestore
-        const { file, ...articleDataWithoutFile } = articleData;
+      await this.uploadFile();
 
-        // Now, we can publish the article to the database
-        this.db
-          .add(articleDataWithoutFile, 'articles')
-          .then(() => {
-            console.log('Articolo aggiunto con successo.');
-            this.resetArticle();
-          })
-          .catch((addError) => {
-            console.error("Errore durante l'aggiunta dell'articolo:", addError);
-            // Handle the error as needed
-          });
-      },
-      error: (uploadError) => {
-        console.error("Errore durante l'upload del file:", uploadError);
-        // Handle the error as needed
-      },
-    });
+      const { file, ...articleDataWithoutFile } = articleData;
+
+      await this.firestoreApiService.add(articleDataWithoutFile, 'articles');
+
+      console.log('Articolo aggiunto con successo.');
+      this.resetArticle();
+    } catch (error) {
+      console.error("Errore durante la pubblicazione dell'articolo:", error);
+    }
   }
 
   generateUniqueId(): string {

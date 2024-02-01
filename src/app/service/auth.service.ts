@@ -14,6 +14,7 @@ import {
 import { SignIn, SignUp, FirebaseError } from '../models/auth.model';
 import { UserDetails } from '../models/user.model';
 import { FirestoreAPIService } from './firestore-api.service';
+import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,9 @@ import { FirestoreAPIService } from './firestore-api.service';
 export class AuthService {
   private userRoleSubject: BehaviorSubject<string> =
     new BehaviorSubject<string>('unknown');
+  private currentUser$: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
 
   authName: string = '';
 
@@ -36,12 +40,21 @@ export class AuthService {
     private firestoreAPIService: FirestoreAPIService<UserDetails>
   ) {}
 
-  setAuthName(newName: string) {
-    this.authName = newName;
+  // setAuthName(newName: string) {
+  //   this.authName = newName;
+  // }
+
+  // getAuthName() {
+  //   return this.authName;
+  // }
+
+  getAuthName(): Observable<string | null> {
+    return this.currentUser$.asObservable();
   }
 
-  getAuthName() {
-    return this.authName;
+  setAuthName(newName: string) {
+    this.authName = newName;
+    this.currentUser$.next(newName);
   }
 
   signIn(params: SignIn): Observable<any> {

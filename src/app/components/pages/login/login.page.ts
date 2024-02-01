@@ -161,7 +161,7 @@ export class LoginPage implements OnInit, OnDestroy {
           'this.authService.getAuthName(): ' + this.authService.getAuthName()
         );
       }
-      this.router.navigate(['/edit', data.name]);
+      this.router.navigate(['/editor', data.name]);
     });
   }
 
@@ -171,6 +171,40 @@ export class LoginPage implements OnInit, OnDestroy {
     console.error('Errore nel login:', error);
     // Aggiungi qui la gestione specifica degli errori, ad esempio mostrando un messaggio all'utente
     // ...
+  }
+
+  logout() {
+    this.authService.signOut().subscribe({
+      next: () => {
+        console.log('Utente disconnesso con successo!');
+        // Puoi aggiungere il reindirizzamento o altre azioni dopo il logout
+      },
+      error: (error) => {
+        console.log('Errore durante il logout:', error);
+        // Gestisci eventuali errori durante il logout
+      },
+    });
+  }
+
+  changeLoginForgot() {
+    this.isRecoveringPassword = !this.isRecoveringPassword;
+    // Imposta l'email nel form di reimpostazione password, se necessario
+    this.resetPasswordForm.get('email')?.setValue(this.loginForm.value.email);
+  }
+
+  forgotPassword() {
+    // Implementa la logica per il recupero della password
+  }
+
+  register() {
+    // Implementa la logica per la registrazione
+  }
+
+  // Metodo pubblico che chiama isLoggedIn() del servizio
+  public isUserLoggedIn(): Observable<boolean> {
+    // console.log('loginpage isUserLoggedIn: ');
+    // console.log(this.isLoggedIn$);
+    return this.isLoggedIn$;
   }
 
   ngOnDestroy(): void {

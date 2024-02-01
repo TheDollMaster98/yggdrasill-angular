@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from './service/api.service';
+
 import { BackgroundColorClass } from './models/enum';
 import { FirestoreAPIService } from './service/firestore-api.service';
 import { StorageService } from './service/storage.service';
 import { SessionService } from './service/session.service';
+import { AuthService } from './service/auth.service';
 
 const mainBgRoutes = ['/dashboard'];
 const routesBgRoutes = ['/dashboard'];
@@ -16,13 +17,14 @@ const routesBgRoutes = ['/dashboard'];
 })
 export class AppComponent implements OnInit {
   title = 'yggdrasill-angular';
+  authenticatedUserName: string | null = null;
 
   constructor(
-    private apiService: ApiService,
     private router: Router,
     private sessionService: SessionService,
     private firestoreService: FirestoreAPIService<any>,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +34,16 @@ export class AppComponent implements OnInit {
 
     // Recupero dello stato di autenticazione
     this.sessionService.getAuthState();
+
+    // Recupero del nome di chi ha effettuato l'accesso
+    this.authService.getAuthName().subscribe({
+      next: (authName) => {
+        this.authenticatedUserName = authName;
+      },
+      error: (error) => {
+        console.error('Errore durante il recupero del nome utente:', error);
+      },
+    });
 
     // Modifica del comportamento di toJSON per le date
     Date.prototype.toJSON = function () {

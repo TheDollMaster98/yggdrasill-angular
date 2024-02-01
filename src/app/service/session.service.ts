@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SessionService {
-  private readonly AUTH_KEY = 'auth';
+  private readonly AUTH_KEY = 'authenticationState';
 
   setAuthState(authState: boolean): void {
     localStorage.setItem(this.AUTH_KEY, JSON.stringify(authState));
