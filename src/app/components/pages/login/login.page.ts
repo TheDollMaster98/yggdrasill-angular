@@ -161,7 +161,7 @@ export class LoginPage implements OnInit, OnDestroy {
           'this.authService.getAuthName(): ' + this.authService.getAuthName()
         );
       }
-      this.router.navigate(['/editor', data.name]);
+      this.router.navigate(['/editor']);
     });
   }
 
