@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'src/app/service/cookie.service';
 
 @Component({
   selector: 'app-gdpr',
@@ -9,11 +10,13 @@ export class GdprComponent implements OnInit {
   public showNotification = false;
   public accepted = false;
 
-  constructor() {}
+  constructor(private cookieService: CookieService) {}
 
   ngOnInit(): void {
     // Controlla se l'utente ha già accettato i cookie
-    const userAcceptedCookies = localStorage.getItem('userAcceptedCookies');
+    const userAcceptedCookies = this.cookieService.getCookie(
+      'userAcceptedCookies'
+    );
     if (userAcceptedCookies === 'true') {
       this.accepted = true;
       this.showNotification = false;
@@ -23,8 +26,8 @@ export class GdprComponent implements OnInit {
   }
 
   acceptCookies() {
-    // Memorizza il consenso dell'utente
-    localStorage.setItem('userAcceptedCookies', 'true');
+    // Memorizza il consenso dell'utente utilizzando il servizio CookieService
+    this.cookieService.setCookie('userAcceptedCookies', 'true');
     this.accepted = true;
     this.showNotification = false;
   }

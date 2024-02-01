@@ -15,6 +15,7 @@ import { SignIn, SignUp, FirebaseError } from '../models/auth.model';
 import { UserDetails } from '../models/user.model';
 import { FirestoreAPIService } from './firestore-api.service';
 import { AbstractControl, FormGroup } from '@angular/forms';
+import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,6 +38,7 @@ export class AuthService {
 
   constructor(
     private auth: AngularFireAuth,
+    private cookieService: CookieService,
     private firestoreAPIService: FirestoreAPIService<UserDetails>
   ) {}
 
@@ -47,14 +49,19 @@ export class AuthService {
   // getAuthName() {
   //   return this.authName;
   // }
-
   getAuthName(): Observable<string | null> {
+    const storedAuthName = this.cookieService.getCookie('authName');
+    if (storedAuthName) {
+      this.authName = storedAuthName;
+      this.currentUser$.next(storedAuthName);
+    }
     return this.currentUser$.asObservable();
   }
 
   setAuthName(newName: string) {
     this.authName = newName;
     this.currentUser$.next(newName);
+    this.cookieService.setCookie('authName', newName);
   }
 
   signIn(params: SignIn): Observable<any> {
