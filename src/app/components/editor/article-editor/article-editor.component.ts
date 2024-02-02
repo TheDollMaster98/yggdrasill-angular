@@ -197,7 +197,7 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
   publishArticle() {
     const articleData = {
       ...this.articleForm.value,
-      // author: authName, // Assicurati di estrarre il valore da authName
+      author: this.editorName,
     };
 
     this.uploadFile().subscribe({
