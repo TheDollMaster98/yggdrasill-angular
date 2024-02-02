@@ -11,18 +11,23 @@
   ></app-article-preview>
 </div>
 
+<h2>Articoli:</h2>
 <div class="container">
   <div class="custom-card" *ngFor="let article of articleList">
-    <div class="img-box"><img [src]="article.propicUrl" /></div>
+    <div class="img-box">
+      <img [src]="article.propicUrl" alt="Immagine dell'articolo" />
+    </div>
     <div class="custom-content">
-      <h2>{{ article.articleTitle }}</h2>
-      <h6>{{ article.author }} | {{ article.genre }}</h6>
+      <h2>{{ article.articleTitle ?? "N/A" }}</h2>
+      <h6>{{ article.author ?? "N/A" }} | {{ article.genre ?? "N/A" }}</h6>
       <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
       <div
         class="truncate"
         [innerHTML]="sanitizeHtml(article.articleContent!)"
       ></div>
-      <a href="#">Read More</a>
+      <p>
+        <a href="#">{{ "Leggi di più" }}</a>
+      </p>
     </div>
   </div>
 </div>
