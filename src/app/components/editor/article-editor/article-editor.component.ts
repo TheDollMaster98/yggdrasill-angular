@@ -28,7 +28,7 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
     public articleService: ArticleService,
     public firebaseDatabaseService: FirebaseDatabaseService,
     private authService: AuthService,
-    private firestoreApiService: FirestoreAPIService<Article>,
+    private db: FirestoreAPIService<Article>,
     private storageService: StorageService,
     private cd: ChangeDetectorRef,
     private dataService: DataService
@@ -151,8 +151,8 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
     }
   }
 
-  async uploadFile(): Promise<void> {
-    return new Promise((resolve, reject) => {
+  uploadFile(): Observable<void> {
+    return new Observable((observer) => {
       const file = this.articleForm.get('file')!.value;
 
       if (file) {
@@ -164,7 +164,7 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
           },
           error: (error) => {
             console.error('Upload failed', error);
-            reject(error);
+            observer.error(error);
           },
           complete: () => {
             const fileName = file.name;
@@ -177,35 +177,47 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
               )}`
             );
 
-            resolve();
+            observer.next();
+            observer.complete();
           },
         });
       } else {
         console.error('File non valido o mancante.');
-        reject('File non valido o mancante.');
       }
     });
   }
 
-  async publishArticle() {
-    try {
-      const authorName = await this.authService.getAuthName().toPromise();
-      const articleData = {
-        ...this.articleForm.value,
-        author: authorName,
-      };
+  publishArticle() {
+    const authorName = this.authService.getAuthName();
+    const articleData = {
+      ...this.articleForm.value,
+      author: authorName,
+    };
 
-      await this.uploadFile();
+    this.uploadFile().subscribe({
+      next: () => {
+        console.log('File caricato con successo.');
 
-      const { file, ...articleDataWithoutFile } = articleData;
+        // Remove the file field before adding to Firestore
+        const { file, ...articleDataWithoutFile } = articleData;
 
-      await this.firestoreApiService.add(articleDataWithoutFile, 'articles');
-
-      console.log('Articolo aggiunto con successo.');
-      this.resetArticle();
-    } catch (error) {
-      console.error("Errore durante la pubblicazione dell'articolo:", error);
-    }
+        // Now, we can publish the article to the database
+        this.db
+          .add(articleDataWithoutFile, 'articles')
+          .then(() => {
+            console.log('Articolo aggiunto con successo.');
+            this.resetArticle();
+          })
+          .catch((addError) => {
+            console.error("Errore durante l'aggiunta dell'articolo:", addError);
+            // Handle the error as needed
+          });
+      },
+      error: (uploadError) => {
+        console.error("Errore durante l'upload del file:", uploadError);
+        // Handle the error as needed
+      },
+    });
   }
 
   generateUniqueId(): string {
