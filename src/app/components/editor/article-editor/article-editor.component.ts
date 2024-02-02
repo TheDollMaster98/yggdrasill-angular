@@ -131,6 +131,7 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
   }
 
   getFile(event: any): void {
+    console.log('getFile() è stato chiamato');
     const files = event.target.files;
 
     if (files && files.length > 0) {
@@ -138,6 +139,10 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
       console.log('Selected File:', this.selectedFile);
 
       this.articleForm.get('file')!.setValue(this.selectedFile);
+      console.log(
+        'Valore del campo file:',
+        this.articleForm.get('file')!.value
+      );
 
       const fileName = this.selectedFile
         ? this.selectedFile.name
@@ -153,7 +158,9 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
 
   uploadFile(): Observable<void> {
     return new Observable((observer) => {
-      const file = this.articleForm.get('file')!.value;
+      console.log('uploadFile() è stato chiamato');
+      const file = this.selectedFile;
+      console.log('Valore del campo file:', file);
 
       if (file) {
         const path = 'articles-img';
@@ -188,20 +195,19 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
   }
 
   publishArticle() {
-    const authorName = this.authService.getAuthName();
     const articleData = {
       ...this.articleForm.value,
-      author: authorName,
+      // author: authName, // Assicurati di estrarre il valore da authName
     };
 
     this.uploadFile().subscribe({
       next: () => {
         console.log('File caricato con successo.');
 
-        // Remove the file field before adding to Firestore
+        // Rimuovi il campo file prima di aggiungerlo a Firestore
         const { file, ...articleDataWithoutFile } = articleData;
 
-        // Now, we can publish the article to the database
+        // Ora, puoi pubblicare l'articolo nel database
         this.db
           .add(articleDataWithoutFile, 'articles')
           .then(() => {
@@ -210,12 +216,12 @@ export class ArticleEditorPage implements OnInit, OnDestroy {
           })
           .catch((addError) => {
             console.error("Errore durante l'aggiunta dell'articolo:", addError);
-            // Handle the error as needed
+            // Gestisci l'errore come necessario
           });
       },
       error: (uploadError) => {
         console.error("Errore durante l'upload del file:", uploadError);
-        // Handle the error as needed
+        // Gestisci l'errore come necessario
       },
     });
   }
