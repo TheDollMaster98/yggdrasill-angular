@@ -11,6 +11,7 @@
   ></app-article-preview>
 </div>
 
+<!-- article-list.component.html -->
 <h2>Articoli:</h2>
 <div class="container">
   <div class="custom-card" *ngFor="let article of articleList">
@@ -20,14 +21,22 @@
     <div class="custom-content">
       <h2>{{ article.articleTitle ?? "N/A" }}</h2>
       <h6>{{ article.author ?? "N/A" }} | {{ article.genre ?? "N/A" }}</h6>
-      <!-- Utilizzo di [innerHTML] per visualizzare HTML -->
       <div
         class="truncate"
         [innerHTML]="sanitizeHtml(article.articleContent!)"
       ></div>
-      <p>
-        <a href="#">{{ "Leggi di più" }}</a>
-      </p>
+      <div class="d-flex align-items-center justify-content-center">
+        <!-- <a href="#">{{ "Leggi di più" }}</a> -->
+        <!-- Aggiunto il link "Leggi di più" con il routerLink -->
+        <!-- <a [routerLink]="['/articoli', article.articleTitle]">Leggi di più</a> -->
+        <button
+          class="nav-link d-flex align-items-center justify-content-center"
+          *ngIf="article.articleTitle"
+          (click)="navigateToArticle(article.articleTitle)"
+        >
+          Leggi di più
+        </button>
+      </div>
     </div>
   </div>
 </div>

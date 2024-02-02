@@ -36,6 +36,7 @@ import { TutorialCloudComponent } from './components/tutorial-cloud/tutorial-clo
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { FirebaseModule } from './firebase/firebase.module';
 import { IconModule } from './components/icon-component/icon.module';
+import { ArticleDetailComponent } from './components/pages/article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { IconModule } from './components/icon-component/icon.module';
     TutorialComponent,
     TutorialCloudComponent,
     PageNotFoundComponent,
+    ArticleDetailComponent,
   ],
   providers: [
     DashboardService,

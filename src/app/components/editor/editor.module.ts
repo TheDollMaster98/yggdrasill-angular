@@ -9,6 +9,7 @@ import { ArticleViewComponent } from './article-view/article-view.component';
 import { QuillModule } from 'ngx-quill';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconModule } from '../icon-component/icon.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { IconModule } from '../icon-component/icon.module';
     WysiwygEditorComponent,
   ],
   imports: [
+    RouterModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

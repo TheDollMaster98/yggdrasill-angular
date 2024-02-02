@@ -1,0 +1,22 @@
+<!-- article-detail.component.html -->
+<nav aria-label="breadcrumb" class="ms-2 mb-4">
+  <ol class="breadcrumb d-flex align-items-center">
+    <li class="breadcrumb-item">
+      <a routerLink="/" class="breadcrumb-link">Home</a>
+    </li>
+    <li class="breadcrumb-item ms-1">
+      <a routerLink="/articoli" class="breadcrumb-link">Articoli</a>
+    </li>
+    <li class="breadcrumb-item ms-1 active">{{ article?.articleTitle }}</li>
+  </ol>
+</nav>
+<div class="container">
+  <app-article-preview
+    [isTemporary]="false"
+    [articleTitle]="article?.articleTitle ?? 'Non disponibile'"
+    [publishDate]="article?.publishDate ?? '2024-02-02'"
+    [author]="article?.author ?? 'Non disponibile'"
+    [genre]="article?.genre ?? 'Non disponibile'"
+    [articleContent]="article?.articleContent ?? 'Articolo non disponibile.'"
+  ></app-article-preview>
+</div>

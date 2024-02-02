@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { FirestoreAPIService } from 'src/app/service/firestore-api.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { StorageService } from 'src/app/service/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-list',
@@ -25,7 +26,8 @@ export class ArticleListComponent implements OnInit {
     private firebaseDatabaseService: FirebaseDatabaseService,
     private firestoreAPIService: FirestoreAPIService<Article>,
     private sanitizer: DomSanitizer,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +78,23 @@ export class ArticleListComponent implements OnInit {
     });
   }
 
+  navigateToArticle(articleTitle: string): void {
+    const articleSlug = this.slugify(articleTitle); // Funzione per generare uno slug dal titolo
+    this.router.navigate(['/articoli', articleSlug]);
+  }
+
+  // Funzione per generare uno slug dal titolo (puoi usarla o implementarne una tua)
+  slugify(text: string): string {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, ''); // Trim - from end of text
+  }
   loadImagesForArticles(): void {
     // TODO: mettere lo spinner
     console.log('Inizio caricamento immagini per gli articoli');

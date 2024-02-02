@@ -1,0 +1,12 @@
+/* Aggiungi queste classi per mantenere gli stili desiderati */
+.breadcrumb-link {
+    text-decoration: underline;
+    color: #007bff;
+  
+    &:hover {
+      text-decoration: none;
+      color: #0056b3;
+      cursor: pointer;
+    }
+  }
+  

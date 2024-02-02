@@ -17,6 +17,7 @@ import { LoginPage } from './components/pages/login/login.page';
 import { AdminGuard } from './guards/admin.guard';
 import { AuthorGuard } from './guards/author.guard';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { ArticleDetailComponent } from './components/pages/article-detail/article-detail.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,13 @@ const routes: Routes = [
   {
     path: 'blog',
     component: DashboardWordpressComponent,
+  },
+  {
+    path: 'articoli',
+    children: [
+      { path: '', component: BlogPage },
+      { path: ':title', component: ArticleDetailComponent },
+    ],
   },
   {
     path: 'ggwp',
