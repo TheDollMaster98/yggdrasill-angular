@@ -77,7 +77,8 @@ export class ArticleListComponent implements OnInit {
       },
     });
   }
-
+  // slug: una porzione dell’URL che è leggibile
+  // e che identifica in modo specifico il contenuto di una pagina web.
   navigateToArticle(articleTitle: string): void {
     const articleSlug = this.slugify(articleTitle); // Funzione per generare uno slug dal titolo
     this.router.navigate(['/articoli', articleSlug]);
