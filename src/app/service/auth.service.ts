@@ -16,6 +16,7 @@ import { UserDetails } from '../models/user.model';
 import { FirestoreAPIService } from './firestore-api.service';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { CookieService } from './cookie.service';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root',
@@ -40,7 +41,10 @@ export class AuthService {
     private auth: AngularFireAuth,
     private cookieService: CookieService,
     private firestoreAPIService: FirestoreAPIService<UserDetails>
-  ) {}
+  ) {
+    // Imposta la persistenza della sessione
+    this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+  }
 
   // setAuthName(newName: string) {
   //   this.authName = newName;
